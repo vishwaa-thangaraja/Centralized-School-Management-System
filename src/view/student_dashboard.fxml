@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+
+<StackPane fx:id="rootStack" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentDashboardController">
+    
+    <ScrollPane fx:id="mainContentScroll" fitToWidth="true" styleClass="main-scroll">
+        <VBox spacing="30.0" styleClass="dashboard-container">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+            
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="top-nav">
+                <Button onAction="#toggleSidebar" text="☰" styleClass="hamburger-btn" />
+                <Label styleClass="brand-text" text="CSMS STUDENT PORTAL" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="userNameLabel" styleClass="user-name" text="Welcome, Student" />
+            </HBox>
+
+            <VBox fx:id="insightCard" styleClass="insight-card">
+                <Label fx:id="insightMessage" text="Analyzing your academic standing..." />
+            </VBox>
+
+            <FlowPane hgap="20.0" vgap="20.0">
+                <VBox styleClass="stat-box"><Label text="Attendance"/><Label fx:id="attendanceVal" text="--%"/></VBox>
+                <VBox styleClass="stat-box"><Label text="Avg Marks"/><Label fx:id="marksVal" text="--%"/></VBox>
+                <VBox styleClass="stat-box"><Label text="Assignments"/><Label fx:id="pendingTasks" text="0 Pending"/></VBox>
+            </FlowPane>
+            
+            <VBox prefHeight="400" styleClass="chart-container">
+                <Label styleClass="section-header" text="Academic Progress Trend" />
+                <LineChart fx:id="performanceChart" createSymbols="true">
+                    <xAxis>
+                        <CategoryAxis side="BOTTOM" label="Examination" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis side="LEFT" label="Marks Obtained" lowerBound="0" upperBound="100" />
+                    </yAxis>
+                </LineChart>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+
+    <Pane fx:id="overlayPane" onMouseClicked="#toggleSidebar" visible="false" styleClass="overlay-dim" />
+
+    <VBox fx:id="sidebar" maxWidth="300.0" prefWidth="300.0" translateX="-300.0" styleClass="sidebar" StackPane.alignment="CENTER_LEFT">
+        <Label styleClass="sidebar-header" text="MENU" />
+        <Separator opacity="0.2" />
+        <Button onAction="#scrollToTop" styleClass="side-btn" text="Dashboard" />
+        <Button styleClass="side-btn" text="My Performance" />
+        <Button styleClass="side-btn" text="Attendance" />
+        <Button styleClass="side-btn" text="Assignments" />
+        <Button styleClass="side-btn" text="Exams" />
+        <Region VBox.vgrow="ALWAYS" />
+        <Button onAction="#handleLogout" styleClass="logout-btn" text="Logout" maxWidth="Infinity" />
+    </VBox>
+
+</StackPane>

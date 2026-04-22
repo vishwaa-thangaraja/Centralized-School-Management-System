@@ -1,0 +1,81 @@
+javac --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/ojdbc8.jar;lib/angus-mail-2.0.5.jar;lib/jakarta.mail-api-2.1.2.jar;lib/jakarta.activation-api-2.1.2.jar;lib/angus-activation-2.0.2.jar" -d out src/model/*.java src/dao/*.java src/service/*.java src/controller/*.java src/main/Main.java
+
+
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/ojdbc8.jar;lib/angus-mail-2.0.5.jar;lib/jakarta.mail-api-2.1.2.jar;lib/jakarta.activation-api-2.1.2.jar;lib/angus-activation-2.0.2.jar" main.Main
+
+
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/*" main.Main
+
+
+
+javac --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*" -d out src/model/*.java src/dao/*.java src/service/*.java src/controller/*.java src/main/Main.java
+
+
+
+javac --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*" -d out src/main/Main.java src/model/User.java src/model/Role.java src/model/Student.java src/dao/DBConnection.java src/dao/UserDAO.java src/service/AuthService.java src/service/EmailSender.java src/service/OTPGenerator.java src/controller/LoginController.java
+
+
+
+=======================================================================================================================================
+
+javac --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*" -d out src/model/User.java src/model/Role.java src/model/Student.java src/dao/DBConnection.java src/dao/UserDAO.java src/service/AuthService.java src/service/EmailSender.java src/service/OTPGenerator.java src/controller/LoginController.java src/main/Main.java
+
+
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/*" main.Main
+
+
+======================================================================================================================================
+
+javac --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*" -d out src/model/*.java src/dao/*.java src/service/*.java src/controller/*.java src/main/Main.java
+
+======================================================================================================================================
+-- 1. Create Subjects
+INSERT INTO SUBJECTS (subject_id, subject_name) VALUES (1, 'Mathematics');
+INSERT INTO SUBJECTS (subject_id, subject_name) VALUES (2, 'Computer Science');
+
+-- 2. Create Exams (Question Papers)
+INSERT INTO QUESTION_PAPERS (qp_id, class_id, subject_id, exam_type, exam_date, max_marks)
+VALUES (10, 1, 1, 'Midterm', SYSDATE-15, 100);
+
+INSERT INTO QUESTION_PAPERS (qp_id, class_id, subject_id, exam_type, exam_date, max_marks)
+VALUES (11, 1, 2, 'Midterm', SYSDATE-14, 100);
+
+-- 3. Insert Marks (85 in Math, 92 in CS)
+INSERT INTO MARKS (mark_id, student_id, qp_id, marks_obtained)
+VALUES (1, 501, 10, 85);
+
+INSERT INTO MARKS (mark_id, student_id, qp_id, marks_obtained)
+VALUES (2, 501, 11, 92);
+
+
+
+-- 1. Create Assignments
+INSERT INTO ASSIGNMENTS (assignment_id, class_id, subject_id, title, description, due_date)
+VALUES (20, 1, 2, 'JavaFX UI Design', 'Create a sliding sidebar layout.', SYSDATE+5);
+
+INSERT INTO ASSIGNMENTS (assignment_id, class_id, subject_id, title, description, due_date)
+VALUES (21, 1, 1, 'Calculus Worksheet', 'Solve exercises 1-10.', SYSDATE-1);
+
+-- 2. Create one Submission (Math is submitted, CS is still pending)
+INSERT INTO SUBMISSIONS (submission_id, assignment_id, student_id, submitted_on, marks)
+VALUES (1, 21, 501, SYSDATE-2, 10);
+
+
+
+INSERT INTO ATTENDANCE (attendance_id, user_id, class_id, attendance_date, session_type, status)
+VALUES (2, 101, 1, SYSDATE-3, 'FN', 'Present');
+
+INSERT INTO ATTENDANCE (attendance_id, user_id, class_id, attendance_date, session_type, status)
+VALUES (3, 101, 1, SYSDATE-4, 'FN', 'Absent');
+
+COMMIT;
+
+
+======================================================================================================================================
+xcopy /y /s /i src\view out\view && xcopy /y /s /i src\css out\css
+
+javac -encoding UTF-8 --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*;out" -d out src/model/*.java src/dao/*.java src/service/*.java src/controller/*.java src/main/Main.java
+
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/*" main.Main
+======================================================================================================================================
+

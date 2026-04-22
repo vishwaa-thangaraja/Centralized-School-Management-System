@@ -1,0 +1,28 @@
+# Compiled files
+out/
+
+# Java class files
+*.class
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Database / sensitive
+*.db
+*.sqlite
+*.ora
+*.log
+
+# Environment / secrets
+.env
+
+# Temporary files
+*.tmp

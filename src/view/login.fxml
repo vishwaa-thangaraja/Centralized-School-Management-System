@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+    
+    <VBox fx:id="imagePanel" alignment="CENTER" prefWidth="640.0" styleClass="image-section" HBox.hgrow="ALWAYS">
+        </VBox>
+
+    <VBox alignment="CENTER" prefWidth="640.0" spacing="30.0" styleClass="login-section" HBox.hgrow="ALWAYS">
+        <padding>
+            <Insets bottom="50.0" left="100.0" right="100.0" top="50.0" />
+        </padding>
+
+        <VBox spacing="10.0" alignment="CENTER_LEFT">
+            <Label styleClass="header-text" text="CSMS Login" />
+            <Label styleClass="subtext" text="Welcome back! Please enter your details." />
+        </VBox>
+
+        <VBox spacing="15.0">
+            <TextField fx:id="emailField" promptText="Email Address" styleClass="input-field" />
+            <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field" />
+            <Hyperlink onAction="#handleForgotPassword" text="Forgot Password?" styleClass="forgot-link" />
+        </VBox>
+
+        <Button fx:id="loginButton" maxWidth="Infinity" onAction="#handleLogin" prefHeight="45.0" styleClass="login-button" text="Login" />
+        
+        <Label fx:id="errorLabel" styleClass="error-text" text="" />
+    </VBox>
+</HBox>

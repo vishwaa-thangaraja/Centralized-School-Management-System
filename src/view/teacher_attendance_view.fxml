@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="main-scroll" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TeacherAttendanceController">
+    <VBox spacing="25.0" style="-fx-background-color: #f4f7f9;">
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+        </padding>
+
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Button onAction="#backToDashboard" prefWidth="95.0" text="Back" styleClass="hamburger-btn" />
+            <Label styleClass="brand-text" text="Teacher Attendance Portal" />
+        </HBox>
+
+        <HBox spacing="30.0">
+            <VBox spacing="20.0" prefWidth="400.0">
+                <VBox styleClass="stat-box" spacing="12.0">
+                    <Label text="Teacher Information" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #2c3e50;" />
+                    <GridPane vgap="10.0" hgap="15.0">
+                        <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-text-fill: #7f8c8d;" />
+                        <Label fx:id="nameLbl" text="Loading..." GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
+
+                        <Label text="Teacher ID:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-text-fill: #7f8c8d;" />
+                        <Label fx:id="idLbl" text="Loading..." GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
+
+                        <Label text="Profile:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-text-fill: #7f8c8d;" />
+                        <Label fx:id="qualificationLbl" wrapText="true" text="Loading..." GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
+                    </GridPane>
+                </VBox>
+
+                <VBox styleClass="stat-box" spacing="15.0" style="-fx-border-color: #3498db; -fx-border-width: 0 0 0 5px;">
+                    <Label text="Attendance Summary" style="-fx-font-weight: bold;" />
+                    <GridPane vgap="10.0" hgap="20.0">
+                        <Label text="Total Sessions:" style="-fx-text-fill: #7f8c8d;" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <Label fx:id="totalDaysLbl" text="0" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                        <Label text="Sessions Present:" style="-fx-text-fill: #7f8c8d;" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                        <Label fx:id="presentDaysLbl" text="0" style="-fx-font-weight: bold; -fx-text-fill: #2ecc71;" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    </GridPane>
+                    <Separator />
+                    <Label fx:id="percentageLbl" text="0.00%" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #3498db;" />
+                </VBox>
+
+                <VBox styleClass="stat-box" prefHeight="300.0">
+                    <BarChart fx:id="leaveChart" title="Attendance Exceptions" legendVisible="false">
+                        <xAxis>
+                            <CategoryAxis label="Type" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Sessions" />
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+            </VBox>
+
+            <VBox HBox.hgrow="ALWAYS" spacing="15.0">
+                <Label text="Daily Attendance Log" styleClass="section-header" />
+                <TableView fx:id="attendanceTable" prefHeight="700.0" styleClass="modern-table">
+                    <columns>
+                        <TableColumn fx:id="dateCol" text="Date" prefWidth="150.0" />
+                        <TableColumn fx:id="fnCol" text="Forenoon (FN)" prefWidth="120.0" style="-fx-alignment: CENTER;" />
+                        <TableColumn fx:id="anCol" text="Afternoon (AN)" prefWidth="120.0" style="-fx-alignment: CENTER;" />
+                        <TableColumn fx:id="remarkCol" text="Remarks" prefWidth="200.0" />
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
+        </HBox>
+    </VBox>
+</ScrollPane>

@@ -26,7 +26,16 @@ git clone https://github.com/VishwaaT27/Centralized-School-Management-System.git
 Run:
 @database/setup.sql
 
-### 3. Compile & Run
+### 3. Configure Environment Variables
+Set these before running the app:
+
+CSMS_DB_URL=jdbc:oracle:thin:@localhost:1521/XEPDB1
+CSMS_DB_USER=CSMS
+CSMS_DB_PASSWORD=your_database_password
+CSMS_EMAIL=your_email@gmail.com
+CSMS_EMAIL_PASSWORD=your_gmail_app_password
+
+### 4. Compile & Run
 Use your existing commands from terminal
 
 ---

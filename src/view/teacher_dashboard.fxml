@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -15,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 
-<StackPane fx:id="rootStack" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentDashboardController">
+<StackPane fx:id="rootStack" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TeacherDashboardController">
 
     <ScrollPane fx:id="mainContentScroll" fitToWidth="true" styleClass="main-scroll">
         <VBox fx:id="dashboardContent" spacing="30.0" styleClass="dashboard-container">
@@ -25,41 +22,30 @@
 
             <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="top-nav">
                 <Button onAction="#toggleSidebar" prefWidth="95.0" text="Menu" styleClass="hamburger-btn" />
-                <Label styleClass="brand-text" text="CSMS STUDENT PORTAL" />
+                <Label styleClass="brand-text" text="CSMS TEACHER PORTAL" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Label fx:id="userNameLabel" styleClass="user-name" text="Welcome, Student" />
+                <Label fx:id="teacherNameLabel" styleClass="user-name" text="Welcome, Teacher" />
             </HBox>
 
-            <VBox fx:id="insightCard" styleClass="insight-card">
-                <Label fx:id="insightMessage" text="Analyzing your academic standing..." />
+            <VBox styleClass="insight-card">
+                <Label fx:id="teacherMetaLabel" text="Qualification: - | Experience: 0 years" />
+                <Label fx:id="teacherInsightLabel" wrapText="true" text="Review your classes and manage student records from one place." />
             </VBox>
 
             <FlowPane hgap="20.0" vgap="20.0">
                 <VBox styleClass="stat-box">
-                    <Label text="Attendance" />
-                    <Label fx:id="attendanceVal" text="--%" />
+                    <Label text="Students" />
+                    <Label fx:id="studentCountLabel" text="0" />
                 </VBox>
                 <VBox styleClass="stat-box">
-                    <Label text="Avg Marks" />
-                    <Label fx:id="marksVal" text="--%" />
+                    <Label text="Assigned Sections" />
+                    <Label fx:id="classCountLabel" text="0" />
                 </VBox>
                 <VBox styleClass="stat-box">
                     <Label text="Assignments" />
-                    <Label fx:id="pendingTasks" text="0 Pending" />
+                    <Label fx:id="assignmentCountLabel" text="0" />
                 </VBox>
             </FlowPane>
-
-            <VBox prefHeight="400.0" styleClass="chart-container">
-                <Label styleClass="section-header" text="Academic Progress Trend" />
-                <LineChart fx:id="performanceChart" createSymbols="true">
-                    <xAxis>
-                        <CategoryAxis side="BOTTOM" label="Examination" />
-                    </xAxis>
-                    <yAxis>
-                        <NumberAxis side="LEFT" label="Marks Obtained" lowerBound="0" upperBound="100" />
-                    </yAxis>
-                </LineChart>
-            </VBox>
         </VBox>
     </ScrollPane>
 
@@ -70,13 +56,10 @@
         <Separator opacity="0.2" />
 
         <Button onAction="#scrollToTop" styleClass="side-btn" text="Dashboard" />
-        <Button onAction="#openPerformanceView" styleClass="side-btn" text="My Performance" />
         <Button onAction="#openAttendanceView" styleClass="side-btn" text="Attendance" />
-        <HBox alignment="CENTER_LEFT" spacing="8.0">
-            <Button onAction="#openAssignmentsView" styleClass="side-btn" text="Assignments" />
-            <Label fx:id="assignmentBadgeLabel" managed="false" styleClass="sidebar-badge" text="0" visible="false" />
-        </HBox>
-        <Button styleClass="side-btn" text="Exams" />
+        <Button onAction="#openStudentManagement" styleClass="side-btn" text="Student Management" />
+        <Button onAction="#openStudentPerformance" styleClass="side-btn" text="Student Performance" />
+        <Button onAction="#openAssignmentsView" styleClass="side-btn" text="Assignments" />
 
         <Region VBox.vgrow="ALWAYS" />
         <Button onAction="#handleLogout" styleClass="logout-btn" text="Logout" maxWidth="Infinity" />

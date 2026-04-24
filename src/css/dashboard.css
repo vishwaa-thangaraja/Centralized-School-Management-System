@@ -1,80 +1,39 @@
-.main-scroll { -fx-background-color: #f8f9fa; }
-.dashboard-container { -fx-padding: 40px; }
-
-.sidebar {
-    -fx-background-color: #2c3e50;
-    -fx-padding: 30px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 0);
+.root {
+    -fx-font-family: "Segoe UI";
 }
 
-.side-btn {
+.main-scroll {
     -fx-background-color: transparent;
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-cursor: hand;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 10 0 10 0;
+    -fx-background: #f4f7f6;
 }
 
-.overlay-dim {
-    -fx-background-color: rgba(0,0,0,0.3);
+.dashboard-container {
+    -fx-padding: 40px;
 }
 
-.insight-card {
-    -fx-background-color: white;
-    -fx-padding: 20px;
-    -fx-background-radius: 15px;
-    -fx-border-color: #3498db;
-    -fx-border-width: 0 0 0 5px;
+.brand-text {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
 }
 
-.stat-box {
-    -fx-background-color: white;
-    -fx-padding: 20px;
-    -fx-pref-width: 200px;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+.user-name {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
 }
 
-.hamburger-btn {
-    -fx-background-color: #3498db; /* Your blue strip */
-    -fx-text-fill: white;
+.section-header {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-background-radius: 5px;
-    -fx-cursor: hand;
-    -fx-padding: 5 12 5 12;
+    -fx-text-fill: #2c3e50;
 }
-
-.sidebar {
-    -fx-background-color: #2c3e50;
-    -fx-padding: 30px;
-    /* Use a shadow so you can see it against the blurred background */
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 0);
-}
-
-
-.root { -fx-font-family: "Segoe UI"; }
-
-.main-scroll { -fx-background-color: transparent; -fx-background: #f4f7f6; }
-
-.hamburger-btn {
-    -fx-background-color: #3498db;
-    -fx-text-fill: white;
-    -fx-font-size: 18px;
-    -fx-cursor: hand;
-    -fx-background-radius: 4px;
-    -fx-padding: 5 12 5 12;
-}
-
-.hamburger-btn:hover { -fx-background-color: #2980b9; }
-
-.overlay-dim { -fx-background-color: rgba(0, 0, 0, 0.4); }
 
 .sidebar {
     -fx-background-color: #2c3e50;
     -fx-padding: 40px 20px 20px 20px;
     -fx-spacing: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 0);
 }
 
 .sidebar-header {
@@ -92,19 +51,40 @@
     -fx-pref-width: 260px;
 }
 
-.side-btn:hover { -fx-background-color: #34495e; -fx-background-radius: 5px; }
+.side-btn:hover {
+    -fx-background-color: #34495e;
+    -fx-background-radius: 5px;
+}
 
-.logout-btn {
+.sidebar-badge {
     -fx-background-color: #e74c3c;
     -fx-text-fill: white;
+    -fx-font-size: 11px;
     -fx-font-weight: bold;
-    -fx-padding: 10px;
+    -fx-padding: 3 7 3 7;
+    -fx-background-radius: 20px;
+    -fx-min-width: 24px;
+    -fx-alignment: center;
+}
+
+.overlay-dim {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+}
+
+.insight-card {
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-background-radius: 15px;
+    -fx-border-color: #3498db;
+    -fx-border-width: 0 0 0 5px;
 }
 
 .stat-box {
     -fx-background-color: white;
     -fx-padding: 25px;
     -fx-pref-width: 250px;
+    -fx-spacing: 10px;
     -fx-background-radius: 10px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);
 }
@@ -116,5 +96,51 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);
 }
 
-.chart-series-line { -fx-stroke: #3498db; -fx-stroke-width: 3px; }
-.chart-line-symbol { -fx-background-color: #2980b9, white; -fx-background-radius: 5px; }
+.hamburger-btn {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 4px;
+    -fx-padding: 8 14 8 14;
+}
+
+.hamburger-btn:hover {
+    -fx-background-color: #2980b9;
+}
+
+.login-button {
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-padding: 10 16 10 16;
+}
+
+.login-button:hover {
+    -fx-background-color: #34495e;
+}
+
+.logout-btn {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+.error-text {
+    -fx-text-fill: #c0392b;
+    -fx-font-weight: bold;
+}
+
+.chart-series-line {
+    -fx-stroke: #3498db;
+    -fx-stroke-width: 3px;
+}
+
+.chart-line-symbol {
+    -fx-background-color: #2980b9, white;
+    -fx-background-radius: 5px;
+}

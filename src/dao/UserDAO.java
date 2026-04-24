@@ -35,7 +35,9 @@ public class UserDAO {
 
     public Map<String, String> getStudentProfile(int userId) {
         Map<String, String> profile = new HashMap<>();
-        String query = "SELECT s.student_id, c.class_name, c.section " +
+        String query = "SELECT s.student_id, TO_CHAR(s.dob, 'DD/MM/YYYY') AS dob, NVL(s.gender, '-') AS gender, " +
+                       "c.class_name, c.section, " +
+                       "NVL(c.class_name || '-' || c.section || ' (' || c.academic_year || ')', 'N/A') AS class_display " +
                        "FROM STUDENTS s " +
                        "LEFT JOIN STUDENT_CLASS sc ON s.student_id = sc.student_id " +
                        "LEFT JOIN CLASSES c ON sc.class_id = c.class_id " +
@@ -48,6 +50,9 @@ public class UserDAO {
                 profile.put("student_id", rs.getString("student_id"));
                 profile.put("standard", rs.getString("class_name") != null ? rs.getString("class_name") : "N/A");
                 profile.put("section", rs.getString("section") != null ? rs.getString("section") : "-");
+                profile.put("dob", rs.getString("dob") != null ? rs.getString("dob") : "-");
+                profile.put("gender", rs.getString("gender") != null ? rs.getString("gender") : "-");
+                profile.put("class_display", rs.getString("class_display"));
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return profile;

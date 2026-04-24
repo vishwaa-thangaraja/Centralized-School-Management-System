@@ -22,6 +22,7 @@ import model.User;
 import service.AuthService;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class StudentDashboardController {
 
@@ -39,6 +40,12 @@ public class StudentDashboardController {
     @FXML private Label assignmentBadgeLabel;
     @FXML private Label insightMessage;
     @FXML private VBox insightCard;
+    @FXML private Label studentProfileNameLabel;
+    @FXML private Label studentEmailLabel;
+    @FXML private Label studentGenderLabel;
+    @FXML private Label studentDobLabel;
+    @FXML private Label studentIdLabel;
+    @FXML private Label studentClassLabel;
     @FXML private LineChart<String, Number> performanceChart;
 
     private boolean isSidebarOpen = false;
@@ -71,7 +78,14 @@ public class StudentDashboardController {
         double att = dao.getAttendancePercentage(currentUser.getUserId());
         double avg = dao.getAverageMarks(currentUser.getUserId());
         int pending = dao.getPendingAssignments(currentUser.getUserId());
+        Map<String, String> profile = dao.getStudentProfile(currentUser.getUserId());
 
+        studentProfileNameLabel.setText(currentUser.getName());
+        studentEmailLabel.setText(currentUser.getEmail());
+        studentGenderLabel.setText(profile.getOrDefault("gender", "-"));
+        studentDobLabel.setText(profile.getOrDefault("dob", "-"));
+        studentIdLabel.setText(profile.getOrDefault("student_id", "-"));
+        studentClassLabel.setText(profile.getOrDefault("class_display", "N/A"));
         attendanceVal.setText(String.format("%.1f%%", att));
         marksVal.setText(String.format("%.1f/100", avg));
         pendingTasks.setText(pending + " Pending");
@@ -88,10 +102,10 @@ public class StudentDashboardController {
 
         if (att < 75) {
             insightMessage.setText("Critical: Your attendance is low (" + String.format("%.1f%%", att) + ")");
-            insightCard.setStyle("-fx-border-color: #e74c3c; -fx-background-color: #fdedec; -fx-border-width: 0 0 0 5px;");
+            insightCard.setStyle("-fx-border-color: #e74c3c; -fx-background-color: #ffffff; -fx-border-width: 0 0 0 5px;");
         } else {
             insightMessage.setText("You are in good academic standing.");
-            insightCard.setStyle("-fx-border-color: #2ecc71; -fx-background-color: #eafaf1; -fx-border-width: 0 0 0 5px;");
+            insightCard.setStyle("-fx-border-color: #2ecc71; -fx-background-color: #ffffff; -fx-border-width: 0 0 0 5px;");
         }
     }
 

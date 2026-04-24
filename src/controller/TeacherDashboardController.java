@@ -32,11 +32,14 @@ public class TeacherDashboardController {
     @FXML private VBox dashboardContent;
     @FXML private StackPane rootStack;
     @FXML private Label teacherNameLabel;
-    @FXML private Label teacherMetaLabel;
     @FXML private Label studentCountLabel;
     @FXML private Label classCountLabel;
     @FXML private Label assignmentCountLabel;
-    @FXML private Label teacherInsightLabel;
+    @FXML private Label teacherProfileNameLabel;
+    @FXML private Label teacherEmailLabel;
+    @FXML private Label teacherQualificationLabel;
+    @FXML private Label teacherExperienceLabel;
+    @FXML private Label teacherScopeLabel;
 
     private boolean isSidebarOpen = false;
     private static final double SIDEBAR_WIDTH = 300;
@@ -77,16 +80,14 @@ public class TeacherDashboardController {
         String qualification = profile.getOrDefault("qualification", "Not Provided");
         String experience = profile.getOrDefault("experience", "0");
 
-        teacherMetaLabel.setText("Qualification: " + qualification + " | Experience: " + experience + " years");
+        teacherProfileNameLabel.setText(currentUser.getName());
+        teacherEmailLabel.setText(currentUser.getEmail());
+        teacherQualificationLabel.setText(qualification);
+        teacherExperienceLabel.setText(experience + " years");
+        teacherScopeLabel.setText(studentCount + " student(s) from " + classCount + " assigned section(s)");
         studentCountLabel.setText(String.valueOf(studentCount));
         classCountLabel.setText(String.valueOf(classCount));
         assignmentCountLabel.setText(String.valueOf(assignmentCount));
-
-        if (studentCount == 0) {
-            teacherInsightLabel.setText("No students are available under your assigned sections yet. Once students are mapped, you can manage profiles, performance, and assignments here.");
-        } else {
-            teacherInsightLabel.setText("You currently oversee " + studentCount + " student(s) from " + classCount + " assigned section(s). Use the modules below to manage profiles, performance, and assignments.");
-        }
     }
 
     private void loadView(String fxmlPath) {

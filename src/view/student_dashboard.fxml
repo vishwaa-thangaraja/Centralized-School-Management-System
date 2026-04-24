@@ -9,6 +9,8 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
@@ -30,8 +32,42 @@
                 <Label fx:id="userNameLabel" styleClass="user-name" text="Welcome, Student" />
             </HBox>
 
-            <VBox fx:id="insightCard" styleClass="insight-card">
-                <Label fx:id="insightMessage" text="Analyzing your academic standing..." />
+            <VBox fx:id="insightCard" styleClass="profile-card">
+                <GridPane hgap="18.0" vgap="10.0" styleClass="profile-grid">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="130.0" prefWidth="160.0" />
+                        <ColumnConstraints minWidth="10.0" prefWidth="14.0" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+
+                    <Label styleClass="profile-label" text="Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Label fx:id="studentProfileNameLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                    <Label styleClass="profile-label" text="Email" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Label fx:id="studentEmailLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                    <Label styleClass="profile-label" text="Gender" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <Label fx:id="studentGenderLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
+                    <Label styleClass="profile-label" text="Date of Birth" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <Label fx:id="studentDobLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+
+                    <Label styleClass="profile-label" text="Student ID" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    <Label fx:id="studentIdLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+
+                    <Label styleClass="profile-label" text="Class" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    <Label fx:id="studentClassLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+
+                    <Label styleClass="profile-label" text="Academic Status" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                    <Label fx:id="insightMessage" styleClass="profile-value" text="Analyzing your academic standing..." wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                </GridPane>
             </VBox>
 
             <FlowPane hgap="20.0" vgap="20.0">

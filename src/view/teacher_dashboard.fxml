@@ -6,6 +6,8 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
@@ -27,9 +29,34 @@
                 <Label fx:id="teacherNameLabel" styleClass="user-name" text="Welcome, Teacher" />
             </HBox>
 
-            <VBox styleClass="insight-card">
-                <Label fx:id="teacherMetaLabel" text="Qualification: - | Experience: 0 years" />
-                <Label fx:id="teacherInsightLabel" wrapText="true" text="Review your classes and manage student records from one place." />
+            <VBox styleClass="profile-card">
+                <GridPane hgap="18.0" vgap="10.0" styleClass="profile-grid">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="130.0" prefWidth="160.0" />
+                        <ColumnConstraints minWidth="10.0" prefWidth="14.0" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+
+                    <Label styleClass="profile-label" text="Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Label fx:id="teacherProfileNameLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                    <Label styleClass="profile-label" text="Email" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Label fx:id="teacherEmailLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                    <Label styleClass="profile-label" text="Qualification" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <Label fx:id="teacherQualificationLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
+                    <Label styleClass="profile-label" text="Teaching Exp." GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <Label fx:id="teacherExperienceLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+
+                    <Label styleClass="profile-label" text="Assigned Scope" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    <Label fx:id="teacherScopeLabel" styleClass="profile-value" text="-" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                </GridPane>
             </VBox>
 
             <FlowPane hgap="20.0" vgap="20.0">

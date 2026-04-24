@@ -26,17 +26,14 @@ git clone https://github.com/VishwaaT27/Centralized-School-Management-System.git
 Run:
 @database/setup.sql
 
-### 3. Configure Environment Variables
-Set these before running the app:
+### 3. Configure Local Database Settings
+Copy `config.example.bat` to `config.local.bat`, then update your local Oracle username, password, and URL.
 
-CSMS_DB_URL=jdbc:oracle:thin:@localhost:1521/XEPDB1
-CSMS_DB_USER=CSMS
-CSMS_DB_PASSWORD=your_database_password
-CSMS_EMAIL=your_email@gmail.com
-CSMS_EMAIL_PASSWORD=your_gmail_app_password
+`config.local.bat` is ignored by Git so local credentials are not pushed.
 
 ### 4. Compile & Run
-Use your existing commands from terminal
+Run:
+run.bat
 
 ---
 

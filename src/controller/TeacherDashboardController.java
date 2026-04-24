@@ -84,7 +84,7 @@ public class TeacherDashboardController {
         teacherEmailLabel.setText(currentUser.getEmail());
         teacherQualificationLabel.setText(qualification);
         teacherExperienceLabel.setText(experience + " years");
-        teacherScopeLabel.setText(studentCount + " student(s) from " + classCount + " assigned section(s)");
+        teacherScopeLabel.setText(studentCount + " student(s) from " + classCount + " assigned class(s)");
         studentCountLabel.setText(String.valueOf(studentCount));
         classCountLabel.setText(String.valueOf(classCount));
         assignmentCountLabel.setText(String.valueOf(assignmentCount));

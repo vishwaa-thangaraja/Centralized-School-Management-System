@@ -65,7 +65,7 @@
                     <Label fx:id="studentCountLabel" text="0" />
                 </VBox>
                 <VBox styleClass="stat-box">
-                    <Label text="Assigned Sections" />
+                    <Label text="Assigned Classes" />
                     <Label fx:id="classCountLabel" text="0" />
                 </VBox>
                 <VBox styleClass="stat-box">

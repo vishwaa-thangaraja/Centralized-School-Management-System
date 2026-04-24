@@ -22,6 +22,7 @@ Thumbs.db
 
 # Environment / secrets
 .env
+config.local.bat
 users.txt
 
 # Temporary files

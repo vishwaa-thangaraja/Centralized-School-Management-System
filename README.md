@@ -26,8 +26,14 @@ git clone https://github.com/VishwaaT27/Centralized-School-Management-System.git
 Run:
 @database/setup.sql
 
-### 3. Compile & Run
-Use your existing commands from terminal
+### 3. Configure Local Database Settings
+Copy `config.example.bat` to `config.local.bat`, then update your local Oracle username, password, and URL.
+
+`config.local.bat` is ignored by Git so local credentials are not pushed.
+
+### 4. Compile & Run
+Run:
+run.bat
 
 ---
 

@@ -35,12 +35,15 @@ public class LoginController {
         User user = userDAO.validateUser(email, hashedPassword);
 
         if (user != null) {
+            AuthService.setCurrentUser(user);
+
             try {
                 if (user.getRoleName().equalsIgnoreCase("Student")) {
-                    // Pass the user object during the switch
                     switchToDashboard(event, "/view/student_dashboard.fxml", user);
+                } else if (user.getRoleName().equalsIgnoreCase("Teacher")) {
+                    switchToDashboard(event, "/view/teacher_dashboard.fxml", user);
                 } else {
-                    errorLabel.setText("Admin/Teacher dashboard not implemented yet.");
+                    errorLabel.setText("This role does not have a dashboard yet.");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -64,10 +67,13 @@ public class LoginController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent root = loader.load();
         
-        // DATA HANDSHAKE: If loading Student Dashboard, initialize data
-        if (user != null && fxmlPath.contains("student_dashboard")) {
-            StudentDashboardController controller = loader.getController();
-            controller.initData(user);
+        if (user != null) {
+            Object controller = loader.getController();
+            if (controller instanceof StudentDashboardController) {
+                ((StudentDashboardController) controller).initData(user);
+            } else if (controller instanceof TeacherDashboardController) {
+                ((TeacherDashboardController) controller).initData(user);
+            }
         }
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

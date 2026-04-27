@@ -1,57 +1,98 @@
 package controller;
 
 import dao.UserDAO;
-import model.User;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.Node;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.scene.chart.*;
-import javafx.util.Duration;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
+import javafx.util.Duration;
+import model.User;
+import service.AuthService;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class StudentDashboardController {
+
+    private static StudentDashboardController instance;
 
     @FXML private VBox sidebar;
     @FXML private Pane overlayPane;
     @FXML private ScrollPane mainContentScroll;
+    @FXML private VBox dashboardContent;
     @FXML private StackPane rootStack;
     @FXML private Label userNameLabel;
-    @FXML private Label attendanceVal, marksVal, pendingTasks, insightMessage;
+    @FXML private Label attendanceVal;
+    @FXML private Label marksVal;
+    @FXML private Label pendingTasks;
+    @FXML private Label assignmentBadgeLabel;
+    @FXML private Label insightMessage;
     @FXML private VBox insightCard;
+    @FXML private Label studentProfileNameLabel;
+    @FXML private Label studentEmailLabel;
+    @FXML private Label studentGenderLabel;
+    @FXML private Label studentDobLabel;
+    @FXML private Label studentIdLabel;
+    @FXML private Label studentClassLabel;
     @FXML private LineChart<String, Number> performanceChart;
 
     private boolean isSidebarOpen = false;
-    private final double SIDEBAR_WIDTH = 300;
+    private static final double SIDEBAR_WIDTH = 300;
+    private User currentUser;
+
+    public StudentDashboardController() {
+        instance = this;
+    }
+
+    public static StudentDashboardController getInstance() {
+        return instance;
+    }
 
     @FXML
     public void initialize() {
+        instance = this;
         sidebar.setTranslateX(-SIDEBAR_WIDTH);
         overlayPane.setVisible(false);
     }
 
     public void initData(User user) {
+        this.currentUser = user;
         userNameLabel.setText("Welcome, " + user.getName());
-        
-        UserDAO dao = new UserDAO();
-        
-        // Fetch data from DAO
-        double att = dao.getAttendancePercentage(user.getUserId());
-        double avg = dao.getAverageMarks(user.getUserId());
-        int pending = dao.getPendingAssignments(user.getUserId());
+        refreshDashboardStats();
+    }
 
-        // Update UI Labels
+    public void refreshDashboardStats() {
+        UserDAO dao = new UserDAO();
+        double att = dao.getAttendancePercentage(currentUser.getUserId());
+        double avg = dao.getAverageMarks(currentUser.getUserId());
+        int pending = dao.getPendingAssignments(currentUser.getUserId());
+        Map<String, String> profile = dao.getStudentProfile(currentUser.getUserId());
+
+        studentProfileNameLabel.setText(currentUser.getName());
+        studentEmailLabel.setText(currentUser.getEmail());
+        studentGenderLabel.setText(profile.getOrDefault("gender", "-"));
+        studentDobLabel.setText(profile.getOrDefault("dob", "-"));
+        studentIdLabel.setText(profile.getOrDefault("student_id", "-"));
+        studentClassLabel.setText(profile.getOrDefault("class_display", "N/A"));
         attendanceVal.setText(String.format("%.1f%%", att));
         marksVal.setText(String.format("%.1f/100", avg));
         pendingTasks.setText(pending + " Pending");
+        assignmentBadgeLabel.setText(String.valueOf(pending));
+        assignmentBadgeLabel.setVisible(pending > 0);
+        assignmentBadgeLabel.setManaged(pending > 0);
 
-        // Populate Chart with Sample Data (You can replace this with a DAO call later)
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Marks Trend");
         series.getData().add(new XYChart.Data<>("Midterm Math", 85));
@@ -59,26 +100,62 @@ public class StudentDashboardController {
         performanceChart.getData().clear();
         performanceChart.getData().add(series);
 
-        // State Engine UI Logic (Using Unicode for emojis to avoid encoding errors)
         if (att < 75) {
-            insightMessage.setText("\u26A0\uFE0F Critical: Your attendance is " + String.format("%.1f%%", att) + ". Contact your coordinator.");
-            insightCard.setStyle("-fx-border-color: #e74c3c; -fx-background-color: #fdedec; -fx-border-width: 0 0 0 5px;");
+            insightMessage.setText("Critical: Your attendance is low (" + String.format("%.1f%%", att) + ")");
+            insightCard.setStyle("-fx-border-color: #e74c3c; -fx-background-color: #ffffff; -fx-border-width: 0 0 0 5px;");
         } else {
-            insightMessage.setText("\u2705 You are in good academic standing.");
-            insightCard.setStyle("-fx-border-color: #2ecc71; -fx-background-color: #eafaf1; -fx-border-width: 0 0 0 5px;");
+            insightMessage.setText("You are in good academic standing.");
+            insightCard.setStyle("-fx-border-color: #2ecc71; -fx-background-color: #ffffff; -fx-border-width: 0 0 0 5px;");
+        }
+    }
+
+    private void loadView(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent newContent = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof AttendanceController) {
+                ((AttendanceController) controller).initData(currentUser);
+            } else if (controller instanceof StudentAssignmentsController) {
+                ((StudentAssignmentsController) controller).initData(currentUser);
+            }
+
+            mainContentScroll.setContent(newContent);
+
+            if (isSidebarOpen) {
+                toggleSidebar();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @FXML
-    private void toggleSidebar() {
+    private void openAttendanceView(ActionEvent event) {
+        loadView("/view/attendance_view.fxml");
+    }
+
+    @FXML
+    private void openPerformanceView(ActionEvent event) {
+        loadView("/view/performance_view.fxml");
+    }
+
+    @FXML
+    private void openAssignmentsView(ActionEvent event) {
+        loadView("/view/student_assignments_view.fxml");
+    }
+
+    @FXML
+    public void toggleSidebar() {
         TranslateTransition transition = new TranslateTransition(Duration.millis(300), sidebar);
         if (!isSidebarOpen) {
             overlayPane.setVisible(true);
-            transition.setToX(0); 
+            transition.setToX(0);
             mainContentScroll.setEffect(new GaussianBlur(15));
             isSidebarOpen = true;
         } else {
-            transition.setToX(-SIDEBAR_WIDTH); 
+            transition.setToX(-SIDEBAR_WIDTH);
             transition.setOnFinished(e -> {
                 overlayPane.setVisible(false);
                 mainContentScroll.setEffect(null);
@@ -89,8 +166,19 @@ public class StudentDashboardController {
     }
 
     @FXML
+    public void scrollToTop() {
+        mainContentScroll.setContent(dashboardContent);
+        mainContentScroll.setVvalue(0);
+        refreshDashboardStats();
+        if (isSidebarOpen) {
+            toggleSidebar();
+        }
+    }
+
+    @FXML
     private void handleLogout(ActionEvent event) {
         try {
+            AuthService.clearCurrentUser();
             Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -98,11 +186,5 @@ public class StudentDashboardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML 
-    private void scrollToTop() {
-        mainContentScroll.setVvalue(0);
-        if (isSidebarOpen) toggleSidebar();
     }
 }

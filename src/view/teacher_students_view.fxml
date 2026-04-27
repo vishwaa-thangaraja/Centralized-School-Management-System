@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="20.0" style="-fx-background-color: #f4f7f9;" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TeacherStudentManagementController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="chart-container">
+        <Button onAction="#backToDashboard" styleClass="hamburger-btn" text="Back to Dashboard" />
+        <Separator orientation="VERTICAL" />
+        <VBox spacing="6.0">
+            <Label styleClass="section-header" text="Student Management" />
+            <Label fx:id="teacherInfoLabel" wrapText="true" text="Teacher: -" />
+        </VBox>
+        <Region HBox.hgrow="ALWAYS" />
+        <VBox alignment="CENTER_RIGHT">
+            <Label text="Mapped Students" />
+            <Label fx:id="studentCountLabel" text="0" />
+        </VBox>
+    </HBox>
+
+    <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+        <VBox spacing="12.0" prefWidth="470.0" styleClass="stat-box">
+            <Label styleClass="section-header" text="Students in Your Scope" />
+            <TableView fx:id="studentsTable" prefHeight="560.0">
+                <columns>
+                    <TableColumn fx:id="studentIdCol" prefWidth="90.0" text="Student ID" />
+                    <TableColumn fx:id="nameCol" prefWidth="180.0" text="Name" />
+                    <TableColumn fx:id="classCol" prefWidth="130.0" text="Class" />
+                    <TableColumn fx:id="conductCol" prefWidth="120.0" text="Conduct" />
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox spacing="16.0" HBox.hgrow="ALWAYS" styleClass="stat-box">
+            <Label styleClass="section-header" text="Edit Student Details" />
+
+            <GridPane hgap="14.0" vgap="12.0">
+                <Label text="Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label text="Phone" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Label text="DOB" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="dobField" promptText="YYYY-MM-DD" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                <Label text="Class" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <ComboBox fx:id="classCombo" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                <Label text="Gender" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <ComboBox fx:id="genderCombo" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                <Label text="Conduct" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <ComboBox fx:id="conductCombo" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                <Label text="Remarks" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                <TextArea fx:id="remarksArea" prefRowCount="4" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            </GridPane>
+
+            <HBox spacing="12.0">
+                <Button fx:id="saveButton" onAction="#handleSaveChanges" styleClass="login-button" text="Save Changes" />
+                <Button onAction="#handleRefresh" styleClass="hamburger-btn" text="Refresh" />
+            </HBox>
+
+            <Label fx:id="statusLabel" styleClass="error-text" wrapText="true" text="" />
+        </VBox>
+    </HBox>
+</VBox>

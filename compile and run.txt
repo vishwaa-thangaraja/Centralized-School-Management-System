@@ -1,3 +1,135 @@
+:: Quick run
+:: Copy config.example.bat to config.local.bat once, edit local DB credentials, then run:
+run.bat
+
+================================================================================================================================================================================================================================================================================================
+
+
+
+rd /s /q out
+mkdir out
+mkdir out\view
+mkdir out\css
+xcopy /y /s /i src\view out\view
+xcopy /y /s /i src\css out\css
+
+javac -encoding UTF-8 --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*;out" -d out src\model\*.java src\dao\*.java src\service\*.java src\controller\*.java src\main\Main.java
+
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/*" main.Main
+
+
+================================================================================================================================================================================================================================================================================================
+
+
+:: Sync
+rd /s /q out
+mkdir out
+mkdir out\view
+mkdir out\css
+xcopy /y /s /i src\view out\view
+xcopy /y /s /i src\css out\css
+
+:: Compile
+javac -encoding UTF-8 --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*;out" -d out src\model\*.java src\dao\*.java src\service\*.java src\controller\*.java src\main\Main.java
+
+:: Run
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/*" main.Main
+
+
+
+================================================================================================================================================================================================================================================================================================
+
+
+:: Sync
+rd /s /q out
+mkdir out\view
+mkdir out\css
+xcopy /y /s /i src\view out\view
+xcopy /y /s /i src\css out\css
+
+:: Compile
+javac -encoding UTF-8 --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*;out" -d out "src\model\*.java" "src\dao\*.java" "src\service\*.java" "src\controller\*.java" "src\main\Main.java"
+
+:: Run
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/*" main.Main
+
+
+================================================================================================================================================================================================================================================================================================
+
+:: 1. Sync resources (You've done this, but keep it clean)
+rd /s /q out
+mkdir out\view
+mkdir out\css
+xcopy /y /s /i src\view out\view
+xcopy /y /s /i src\css out\css
+
+:: 2. Compile - listing your 'dao' folder specifically
+javac -encoding UTF-8 --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*;out" -d out src\model\*.java src\dao\*.java src\service\*.java src\controller\*.java src\main\Main.java
+
+:: 3. Run
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/*" main.Main
+
+
+================================================================================================================================================
+================================================================================================================================================
+
+
+:: Delete the old build folders
+rd /s /q out\view
+rd /s /q out\css
+
+:: Recreate and Sync fresh resources
+mkdir out\view
+mkdir out\css
+xcopy /y /s /i src\view out\view
+xcopy /y /s /i src\css out\css
+
+
+javac -encoding UTF-8 --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*;out" -d out src/model/*.java src/dao/UserDAO.java src/service/*.java src/controller/*.java src/main/Main.java
+
+
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/*" main.Main
+
+================================================================================================================================================
+================================================================================================================================================
+
+
+:: Delete the old build folders
+rd /s /q out\view
+rd /s /q out\css
+
+:: Recreate and Sync fresh resources
+mkdir out\view
+mkdir out\css
+xcopy /y /s /i src\view out\view
+xcopy /y /s /i src\css out\css
+
+
+javac -encoding UTF-8 --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*;out" -d out src/model/*.java src/dao/UserDAO.java src/service/*.java src/controller/*.java src/main/Main.java
+
+
+
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/*" main.Main
+
+
+================================================================================================================================================
+================================================================================================================================================
+
+javac -encoding UTF-8 --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*;out" -d out src/model/*.java src/dao/*.java src/service/*.java src/controller/*.java src/main/Main.java
+
+rd /s /q out\view
+
+xcopy /y /s /i src\view out\view
+
+xcopy /y /s /i src\css out\css
+
+java --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "out;lib/*" main.Main
+
+
+================================================================================================================================================
+================================================================================================================================================
+
+
 javac --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/ojdbc8.jar;lib/angus-mail-2.0.5.jar;lib/jakarta.mail-api-2.1.2.jar;lib/jakarta.activation-api-2.1.2.jar;lib/angus-activation-2.0.2.jar" -d out src/model/*.java src/dao/*.java src/service/*.java src/controller/*.java src/main/Main.java
 
 
@@ -13,7 +145,6 @@ javac --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.cont
 
 
 javac --module-path "E:\JavaFX\javafx-sdk-17.0.18\lib" --add-modules javafx.controls,javafx.fxml -cp "lib/*" -d out src/main/Main.java src/model/User.java src/model/Role.java src/model/Student.java src/dao/DBConnection.java src/dao/UserDAO.java src/service/AuthService.java src/service/EmailSender.java src/service/OTPGenerator.java src/controller/LoginController.java
-
 
 
 =======================================================================================================================================

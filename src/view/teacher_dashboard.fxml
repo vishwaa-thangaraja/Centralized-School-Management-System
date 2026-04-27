@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<StackPane fx:id="rootStack" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TeacherDashboardController">
+
+    <ScrollPane fx:id="mainContentScroll" fitToWidth="true" styleClass="main-scroll">
+        <VBox fx:id="dashboardContent" spacing="30.0" styleClass="dashboard-container">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="top-nav">
+                <Button onAction="#toggleSidebar" prefWidth="95.0" text="Menu" styleClass="hamburger-btn" />
+                <Label styleClass="brand-text" text="CSMS TEACHER PORTAL" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="teacherNameLabel" styleClass="user-name" text="Welcome, Teacher" />
+            </HBox>
+
+            <VBox styleClass="profile-card">
+                <GridPane hgap="18.0" vgap="10.0" styleClass="profile-grid">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="130.0" prefWidth="160.0" />
+                        <ColumnConstraints minWidth="10.0" prefWidth="14.0" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+
+                    <Label styleClass="profile-label" text="Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Label fx:id="teacherProfileNameLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                    <Label styleClass="profile-label" text="Email" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Label fx:id="teacherEmailLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                    <Label styleClass="profile-label" text="Qualification" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <Label fx:id="teacherQualificationLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
+                    <Label styleClass="profile-label" text="Teaching Exp." GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <Label fx:id="teacherExperienceLabel" styleClass="profile-value" text="-" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+
+                    <Label styleClass="profile-label" text="Assigned Scope" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Label styleClass="profile-separator" text=":" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    <Label fx:id="teacherScopeLabel" styleClass="profile-value" text="-" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                </GridPane>
+            </VBox>
+
+            <FlowPane hgap="20.0" vgap="20.0">
+                <VBox styleClass="stat-box">
+                    <Label text="Students" />
+                    <Label fx:id="studentCountLabel" text="0" />
+                </VBox>
+                <VBox styleClass="stat-box">
+                    <Label text="Assigned Classes" />
+                    <Label fx:id="classCountLabel" text="0" />
+                </VBox>
+                <VBox styleClass="stat-box">
+                    <Label text="Assignments" />
+                    <Label fx:id="assignmentCountLabel" text="0" />
+                </VBox>
+            </FlowPane>
+        </VBox>
+    </ScrollPane>
+
+    <Pane fx:id="overlayPane" onMouseClicked="#toggleSidebar" visible="false" styleClass="overlay-dim" />
+
+    <VBox fx:id="sidebar" maxWidth="300.0" prefWidth="300.0" translateX="-300.0" styleClass="sidebar" StackPane.alignment="CENTER_LEFT">
+        <Label styleClass="sidebar-header" text="MENU" />
+        <Separator opacity="0.2" />
+
+        <Button onAction="#scrollToTop" styleClass="side-btn" text="Dashboard" />
+        <Button onAction="#openAttendanceView" styleClass="side-btn" text="Attendance" />
+        <Button onAction="#openStudentManagement" styleClass="side-btn" text="Student Management" />
+        <Button onAction="#openStudentPerformance" styleClass="side-btn" text="Student Performance" />
+        <Button onAction="#openAssignmentsView" styleClass="side-btn" text="Assignments" />
+
+        <Region VBox.vgrow="ALWAYS" />
+        <Button onAction="#handleLogout" styleClass="logout-btn" text="Logout" maxWidth="Infinity" />
+    </VBox>
+</StackPane>

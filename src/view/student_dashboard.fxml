@@ -27,7 +27,7 @@
 
             <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="top-nav">
                 <Button onAction="#toggleSidebar" prefWidth="95.0" text="Menu" styleClass="hamburger-btn" />
-                <Label styleClass="brand-text" text="CSMS STUDENT PORTAL" />
+                <Label fx:id="brandTitleLabel" styleClass="brand-text" text="CSMS STUDENT PORTAL" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Label fx:id="userNameLabel" styleClass="user-name" text="Welcome, Student" />
             </HBox>
@@ -85,6 +85,16 @@
                 </VBox>
             </FlowPane>
 
+            <VBox spacing="10.0" styleClass="chart-container">
+                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                    <Label styleClass="section-header" text="Upcoming Exam" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="upcomingExamCounterLabel" text="0 / 0" />
+                </HBox>
+                <Label fx:id="upcomingExamTitleLabel" styleClass="profile-value" text="No upcoming exams" />
+                <Label fx:id="upcomingExamMetaLabel" text="-" />
+            </VBox>
+
             <VBox prefHeight="400.0" styleClass="chart-container">
                 <Label styleClass="section-header" text="Academic Progress Trend" />
                 <LineChart fx:id="performanceChart" createSymbols="true">
@@ -112,7 +122,12 @@
             <Button onAction="#openAssignmentsView" styleClass="side-btn" text="Assignments" />
             <Label fx:id="assignmentBadgeLabel" managed="false" styleClass="sidebar-badge" text="0" visible="false" />
         </HBox>
-        <Button styleClass="side-btn" text="Exams" />
+        <Button onAction="#openQuestionBankView" styleClass="side-btn" text="Question Bank" />
+        <HBox alignment="CENTER_LEFT" spacing="8.0">
+            <Button onAction="#openCounsellorConnectView" styleClass="side-btn" text="Counsellor Connect" />
+            <Label fx:id="counsellorBadgeLabel" managed="false" styleClass="sidebar-badge" text="0" visible="false" />
+        </HBox>
+        <Button onAction="#openCounsellingRequestView" styleClass="side-btn" text="Request Counselling" />
 
         <Region VBox.vgrow="ALWAYS" />
         <Button onAction="#handleLogout" styleClass="logout-btn" text="Logout" maxWidth="Infinity" />

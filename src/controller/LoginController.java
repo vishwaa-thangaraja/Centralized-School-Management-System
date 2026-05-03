@@ -3,6 +3,7 @@ package controller;
 import dao.UserDAO;
 import model.User;
 import service.AuthService;
+import service.SchoolSettingsService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,8 +19,14 @@ public class LoginController {
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
+    @FXML private Label loginTitleLabel;
 
     private UserDAO userDAO = new UserDAO();
+
+    @FXML
+    public void initialize() {
+        loginTitleLabel.setText(SchoolSettingsService.getLoginTitle());
+    }
 
     @FXML
     private void handleLogin(ActionEvent event) {
@@ -42,6 +49,12 @@ public class LoginController {
                     switchToDashboard(event, "/view/student_dashboard.fxml", user);
                 } else if (user.getRoleName().equalsIgnoreCase("Teacher")) {
                     switchToDashboard(event, "/view/teacher_dashboard.fxml", user);
+                } else if (user.getRoleName().equalsIgnoreCase("Parent")) {
+                    switchToDashboard(event, "/view/parent_dashboard.fxml", user);
+                } else if (user.getRoleName().equalsIgnoreCase("Counsellor")) {
+                    switchToDashboard(event, "/view/counsellor_dashboard.fxml", user);
+                } else if (user.getRoleName().equalsIgnoreCase("Admin")) {
+                    switchToDashboard(event, "/view/admin_dashboard.fxml", user);
                 } else {
                     errorLabel.setText("This role does not have a dashboard yet.");
                 }
@@ -73,10 +86,17 @@ public class LoginController {
                 ((StudentDashboardController) controller).initData(user);
             } else if (controller instanceof TeacherDashboardController) {
                 ((TeacherDashboardController) controller).initData(user);
+            } else if (controller instanceof ParentDashboardController) {
+                ((ParentDashboardController) controller).initData(user);
+            } else if (controller instanceof CounsellorDashboardController) {
+                ((CounsellorDashboardController) controller).initData(user);
+            } else if (controller instanceof AdminDashboardController) {
+                ((AdminDashboardController) controller).initData(user);
             }
         }
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        SchoolSettingsService.applyStageTitle(stage);
         stage.setScene(new Scene(root));
         stage.setFullScreen(true);
         stage.show();

@@ -5,5 +5,6 @@ set "CSMS_DB_URL=jdbc:oracle:thin:@localhost:1521/XEPDB1"
 set "CSMS_JAVAFX_LIB=E:\JavaFX\javafx-sdk-17.0.18\lib"
 
 rem Optional: only needed for forgot-password OTP email.
+rem IMPORTANT: remove 'rem' from the next 2 lines to enable OTP email.
 rem set "CSMS_EMAIL=your_email@gmail.com"
-rem set "CSMS_EMAIL_PASSWORD=your_gmail_app_password"
+rem set "CSMS_EMAIL_PASSWORD=your_16_char_gmail_app_password"

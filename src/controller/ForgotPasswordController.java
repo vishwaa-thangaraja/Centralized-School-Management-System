@@ -64,7 +64,9 @@ public class ForgotPasswordController {
         sendOtpBtn.setDisable(true);
         emailField.setEditable(false);
     } else {
-        statusLabel.setText("Failed to send email. Check connection.");
+        statusLabel.setStyle("-fx-text-fill: red;");
+        String error = emailSender.getLastErrorMessage();
+        statusLabel.setText(error == null || error.isBlank() ? "Failed to send email. Check connection." : error);
     }
 }
 

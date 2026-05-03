@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="20.0" style="-fx-background-color: #f4f7f9;" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminAcademicMappingController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="chart-container">
+        <Button onAction="#backToDashboard" styleClass="hamburger-btn" text="Back to Dashboard" />
+        <Separator orientation="VERTICAL" />
+        <Label styleClass="section-header" text="Academic Setup" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button onAction="#handleRefresh" styleClass="hamburger-btn" text="Refresh" />
+        <Label fx:id="adminContextLabel" text="Admin: -" />
+    </HBox>
+
+    <HBox spacing="20.0">
+        <VBox spacing="12.0" prefWidth="430.0" styleClass="chart-container">
+            <Label styleClass="section-header" text="Create Class" />
+            <TextField fx:id="classNameField" promptText="Class name" />
+            <TextField fx:id="sectionField" promptText="Section" />
+            <TextField fx:id="academicYearField" promptText="Academic year" />
+            <Button onAction="#handleCreateClass" styleClass="login-button" text="Create Class" />
+        </VBox>
+        <Region HBox.hgrow="ALWAYS" />
+    </HBox>
+
+    <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+        <VBox spacing="14.0" prefWidth="430.0" styleClass="chart-container">
+            <Label styleClass="section-header" text="Teacher Assignment" />
+            <ComboBox fx:id="teacherCombo" maxWidth="Infinity" promptText="Teacher" />
+            <ComboBox fx:id="classCombo" maxWidth="Infinity" promptText="Class" />
+            <ComboBox fx:id="subjectCombo" maxWidth="Infinity" promptText="Subject" />
+            <Button onAction="#handleAddTeacherMapping" styleClass="login-button" text="Assign Teacher" />
+
+            <TableView fx:id="teacherMappingsTable" prefHeight="250.0">
+                <columns>
+                    <TableColumn fx:id="tmTeacherCol" prefWidth="160.0" text="Teacher" />
+                    <TableColumn fx:id="tmClassCol" prefWidth="130.0" text="Class" />
+                    <TableColumn fx:id="tmSubjectCol" prefWidth="140.0" text="Subject" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+
+        <VBox spacing="14.0" prefWidth="430.0" styleClass="chart-container">
+            <Label styleClass="section-header" text="Student Class" />
+            <ComboBox fx:id="studentCombo" maxWidth="Infinity" promptText="Search/select student" />
+            <ComboBox fx:id="moveClassCombo" maxWidth="Infinity" promptText="Target class" />
+            <Button onAction="#handleMoveStudent" styleClass="login-button" text="Move Student" />
+
+            <TableView fx:id="studentClassTable" prefHeight="250.0">
+                <columns>
+                    <TableColumn fx:id="scStudentCol" prefWidth="220.0" text="Student" />
+                    <TableColumn fx:id="scClassCol" prefWidth="180.0" text="Class" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+
+        <VBox spacing="14.0" HBox.hgrow="ALWAYS" styleClass="chart-container">
+            <Label styleClass="section-header" text="Parent Assignment" />
+            <ComboBox fx:id="parentCombo" maxWidth="Infinity" promptText="Search/select parent" />
+            <ComboBox fx:id="linkStudentCombo" maxWidth="Infinity" promptText="Search/select student" />
+            <TextField fx:id="relationField" promptText="Relation" />
+            <Button onAction="#handleLinkParent" styleClass="login-button" text="Save Parent" />
+
+            <TableView fx:id="parentLinksTable" prefHeight="250.0">
+                <columns>
+                    <TableColumn fx:id="plParentCol" prefWidth="180.0" text="Parent" />
+                    <TableColumn fx:id="plStudentCol" prefWidth="180.0" text="Student" />
+                    <TableColumn fx:id="plRelationCol" prefWidth="120.0" text="Relation" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+    </HBox>
+
+    <Label fx:id="statusLabel" styleClass="error-text" text="" wrapText="true" />
+</VBox>

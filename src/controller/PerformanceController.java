@@ -3,6 +3,7 @@ package controller;
 import dao.UserDAO;
 import model.PerformanceRecord;
 import service.AuthService;
+import service.SchoolSettingsService;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -81,7 +82,10 @@ public class PerformanceController {
                 PdfDocument pdf = new PdfDocument(writer);
                 Document document = new Document(pdf);
 
-                document.add(new Paragraph("CENTRALISED SCHOOL MANAGEMENT SYSTEM").setFontSize(20));
+                document.add(new Paragraph(SchoolSettingsService.getSchoolName()).setFontSize(20));
+                for (String line : SchoolSettingsService.getContactLines()) {
+                    document.add(new Paragraph(line).setFontSize(9));
+                }
                 document.add(new Paragraph("Academic Performance Report").setFontSize(14));
                 document.add(new Paragraph("------------------------------------------------------------------"));
                 document.add(new Paragraph("Student Name: " + AuthService.getCurrentUser().getName()));

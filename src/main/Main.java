@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import service.AuthService;
+import service.SchoolSettingsService;
 
 public class Main extends Application {
 
@@ -13,7 +15,7 @@ public class Main extends Application {
         // Path adjusted to your 'view' folder relative to this class
         Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
         
-        primaryStage.setTitle("CSMS - Centralized School Management System");
+        SchoolSettingsService.applyStageTitle(primaryStage);
         
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -21,6 +23,7 @@ public class Main extends Application {
         // Desktop full screen mode
         primaryStage.setFullScreen(true);
         primaryStage.setFullScreenExitHint(""); 
+        primaryStage.setOnCloseRequest(event -> AuthService.clearCurrentUser());
 
         primaryStage.show();
     }

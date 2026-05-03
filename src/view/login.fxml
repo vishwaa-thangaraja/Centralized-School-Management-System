@@ -16,7 +16,7 @@
         </padding>
 
         <VBox spacing="10.0" alignment="CENTER_LEFT">
-            <Label styleClass="header-text" text="CSMS Login" />
+            <Label fx:id="loginTitleLabel" styleClass="header-text" text="CSMS Login" />
             <Label styleClass="subtext" text="Welcome back! Please enter your details." />
         </VBox>
 

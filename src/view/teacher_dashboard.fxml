@@ -24,7 +24,7 @@
 
             <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="top-nav">
                 <Button onAction="#toggleSidebar" prefWidth="95.0" text="Menu" styleClass="hamburger-btn" />
-                <Label styleClass="brand-text" text="CSMS TEACHER PORTAL" />
+                <Label fx:id="brandTitleLabel" styleClass="brand-text" text="CSMS TEACHER PORTAL" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Label fx:id="teacherNameLabel" styleClass="user-name" text="Welcome, Teacher" />
             </HBox>
@@ -73,6 +73,16 @@
                     <Label fx:id="assignmentCountLabel" text="0" />
                 </VBox>
             </FlowPane>
+
+            <VBox spacing="10.0" styleClass="chart-container">
+                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                    <Label styleClass="section-header" text="Upcoming Exam" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="upcomingExamCounterLabel" text="0 / 0" />
+                </HBox>
+                <Label fx:id="upcomingExamTitleLabel" styleClass="profile-value" text="No upcoming exams" />
+                <Label fx:id="upcomingExamMetaLabel" text="-" />
+            </VBox>
         </VBox>
     </ScrollPane>
 
@@ -87,6 +97,11 @@
         <Button onAction="#openStudentManagement" styleClass="side-btn" text="Student Management" />
         <Button onAction="#openStudentPerformance" styleClass="side-btn" text="Student Performance" />
         <Button onAction="#openAssignmentsView" styleClass="side-btn" text="Assignments" />
+        <Button onAction="#openQuestionBankView" styleClass="side-btn" text="Question Bank" />
+        <HBox alignment="CENTER_LEFT" spacing="8.0">
+            <Button fx:id="teacherConnectInboxButton" onAction="#openTeacherConnectInbox" styleClass="side-btn" text="Parent Chat" />
+            <Label fx:id="teacherConnectInboxBadgeLabel" styleClass="sidebar-badge" text="0" visible="false" managed="false" />
+        </HBox>
 
         <Region VBox.vgrow="ALWAYS" />
         <Button onAction="#handleLogout" styleClass="logout-btn" text="Logout" maxWidth="Infinity" />

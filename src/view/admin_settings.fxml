@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="20.0" style="-fx-background-color: #f4f7f9;" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminSettingsController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="chart-container">
+        <Button onAction="#backToDashboard" styleClass="hamburger-btn" text="Back to Dashboard" />
+        <Separator orientation="VERTICAL" />
+        <Label styleClass="section-header" text="Settings" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Label fx:id="adminContextLabel" text="Admin: -" />
+    </HBox>
+
+    <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+        <VBox spacing="16.0" prefWidth="620.0" styleClass="chart-container">
+            <Label styleClass="section-header" text="School Details" />
+
+            <GridPane hgap="14.0" vgap="12.0">
+                <Label text="School Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="schoolNameField" prefWidth="390.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <Label text="Address" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextArea fx:id="addressArea" prefRowCount="3" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label text="Phone" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            </GridPane>
+
+            <HBox spacing="12.0">
+                <Button onAction="#handleSaveSettings" styleClass="login-button" text="Save Settings" />
+                <Button onAction="#handleThemeButton" styleClass="hamburger-btn" text="Theme" />
+            </HBox>
+
+            <Label fx:id="statusLabel" styleClass="error-text" text="" wrapText="true" />
+        </VBox>
+        <Region HBox.hgrow="ALWAYS" />
+    </HBox>
+</VBox>

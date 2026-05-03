@@ -10,6 +10,14 @@ if not exist "config.local.bat" (
 
 call "config.local.bat"
 
+if "%CSMS_EMAIL%"=="" (
+    echo [WARN] OTP email is not configured.
+    echo [WARN] Set CSMS_EMAIL and CSMS_EMAIL_PASSWORD in config.local.bat to enable forgot-password OTP.
+) else if "%CSMS_EMAIL_PASSWORD%"=="" (
+    echo [WARN] OTP email password is not configured.
+    echo [WARN] Set CSMS_EMAIL_PASSWORD in config.local.bat to enable forgot-password OTP.
+)
+
 if exist out rd /s /q out
 mkdir out
 mkdir out\view

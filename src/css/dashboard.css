@@ -169,3 +169,114 @@
     -fx-background-color: #2980b9, white;
     -fx-background-radius: 5px;
 }
+
+.admin-shell {
+    -fx-background-color: #f1f2f0;
+}
+
+.admin-fixed-sidebar {
+    -fx-background-color: #222322;
+    -fx-padding: 28px 20px 20px 20px;
+    -fx-spacing: 18px;
+}
+
+.admin-school-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.admin-nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #c9ccca;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+    -fx-pref-width: 220px;
+    -fx-padding: 12px 12px 12px 12px;
+}
+
+.admin-nav-btn:hover {
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: white;
+    -fx-background-radius: 4px;
+}
+
+.admin-logout-btn {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4px;
+    -fx-padding: 10px;
+    -fx-cursor: hand;
+}
+
+.admin-topbar {
+    -fx-background-color: white;
+    -fx-border-color: #d8d8d8;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 0 32px 0 26px;
+}
+
+.admin-page-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6d747b;
+}
+
+.admin-account-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222322;
+}
+
+.admin-main-scroll {
+    -fx-background-color: transparent;
+    -fx-background: #f1f2f0;
+}
+
+.admin-content {
+    -fx-background-color: #f1f2f0;
+}
+
+.admin-welcome-bar {
+    -fx-background-color: #8ce9b9;
+    -fx-padding: 11px 16px 11px 16px;
+}
+
+.admin-welcome-text {
+    -fx-text-fill: #0f4a3b;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.admin-stat-grid {
+    -fx-padding: 0;
+}
+
+.admin-stat-card {
+    -fx-background-color: white;
+    -fx-padding: 20px 16px 15px 16px;
+    -fx-spacing: 12px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.12), 8, 0, 0, 2);
+}
+
+.admin-card-icon {
+    -fx-text-fill: #f2b438;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.admin-card-title {
+    -fx-text-fill: #17202a;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.admin-card-count {
+    -fx-text-fill: #07162f;
+    -fx-font-size: 26px;
+    -fx-alignment: CENTER_RIGHT;
+}

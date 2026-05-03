@@ -1,5 +1,7 @@
 package service;
 
+import dao.LoginAuditDAO;
+import java.net.InetAddress;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import model.User;
@@ -11,6 +13,9 @@ public class AuthService {
     // Method to set the user after successful login
     public static void setCurrentUser(User user) {
         currentUser = user;
+        if (user != null) {
+            new LoginAuditDAO().logSuccessfulLogin(user.getUserId(), getLocalIpAddress());
+        }
     }
 
     // Method to get the logged-in user's data
@@ -19,7 +24,18 @@ public class AuthService {
     }
 
     public static void clearCurrentUser() {
+        if (currentUser != null) {
+            new LoginAuditDAO().logLogout(currentUser.getUserId());
+        }
         currentUser = null;
+    }
+
+    private static String getLocalIpAddress() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (Exception e) {
+            return "LOCAL";
+        }
     }
 
     public static String hashPassword(String password) {

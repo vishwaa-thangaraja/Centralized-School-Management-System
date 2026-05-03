@@ -2,6 +2,8 @@ package controller;
 
 import dao.UserDAO;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -15,6 +17,7 @@ import model.User;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class AdminAcademicMappingController {
 
@@ -42,6 +45,7 @@ public class AdminAcademicMappingController {
     @FXML private TableColumn<AdminParentLinkRecord, String> plParentCol;
     @FXML private TableColumn<AdminParentLinkRecord, String> plStudentCol;
     @FXML private TableColumn<AdminParentLinkRecord, String> plRelationCol;
+    @FXML private ComboBox<String> deleteUserCombo;
 
     private final UserDAO userDAO = new UserDAO();
     private User currentAdmin;
@@ -50,6 +54,7 @@ public class AdminAcademicMappingController {
     private final LinkedHashMap<Integer, String> subjectOptions = new LinkedHashMap<>();
     private final LinkedHashMap<Integer, String> parentOptions = new LinkedHashMap<>();
     private final LinkedHashMap<Integer, String> studentOptions = new LinkedHashMap<>();
+    private final LinkedHashMap<Integer, String> deleteUserOptions = new LinkedHashMap<>();
 
     @FXML
     public void initialize() {
@@ -104,6 +109,12 @@ public class AdminAcademicMappingController {
         linkStudentCombo.setEditable(true);
         selectFirst(studentCombo);
         selectFirst(linkStudentCombo);
+
+        deleteUserOptions.clear();
+        deleteUserOptions.putAll(userDAO.getAdminDeletableUserOptions(currentAdmin.getUserId()));
+        deleteUserCombo.getItems().setAll(deleteUserOptions.values());
+        deleteUserCombo.setEditable(true);
+        selectFirst(deleteUserCombo);
     }
 
     private void loadTables() {
@@ -176,6 +187,34 @@ public class AdminAcademicMappingController {
         boolean linked = userDAO.linkParentToStudent(currentAdmin.getUserId(), parentUserId, studentId, relation);
         loadTables();
         statusLabel.setText(linked ? "Parent saved." : "Could not save parent.");
+    }
+
+    @FXML
+    private void handleDeleteUser() {
+        int targetUserId = selectedId(deleteUserOptions, value(deleteUserCombo));
+        if (targetUserId <= 0) {
+            statusLabel.setText("Select a user to delete.");
+            return;
+        }
+
+        String selectedUser = value(deleteUserCombo);
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Delete User");
+        confirm.setHeaderText("Delete selected user?");
+        confirm.setContentText(selectedUser);
+        Optional<ButtonType> response = confirm.showAndWait();
+        if (response.isEmpty() || response.get() != ButtonType.OK) {
+            return;
+        }
+
+        boolean deleted = userDAO.deleteUserAsAdmin(currentAdmin.getUserId(), targetUserId);
+        if (!deleted) {
+            statusLabel.setText("Delete blocked. Admin users cannot be deleted here.");
+            return;
+        }
+        loadOptions();
+        loadTables();
+        statusLabel.setText("User deleted.");
     }
 
     @FXML

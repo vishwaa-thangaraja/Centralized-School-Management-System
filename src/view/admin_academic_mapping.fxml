@@ -34,6 +34,11 @@
             <TextField fx:id="academicYearField" promptText="Academic year" />
             <Button onAction="#handleCreateClass" styleClass="login-button" text="Create Class" />
         </VBox>
+        <VBox spacing="12.0" prefWidth="430.0" styleClass="chart-container">
+            <Label styleClass="section-header" text="Delete User" />
+            <ComboBox fx:id="deleteUserCombo" maxWidth="Infinity" promptText="Select user" />
+            <Button onAction="#handleDeleteUser" styleClass="logout-btn" text="Delete Selected User" />
+        </VBox>
         <Region HBox.hgrow="ALWAYS" />
     </HBox>
 

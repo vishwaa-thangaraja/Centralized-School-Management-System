@@ -2676,6 +2676,33 @@ public class UserDAO {
         return users;
     }
 
+    public LinkedHashMap<Integer, String> getAdminDeletableUserOptions(int adminUserId) {
+        LinkedHashMap<Integer, String> options = new LinkedHashMap<>();
+        try (Connection conn = DBConnection.getConnection()) {
+            if (!isAdminUser(conn, adminUserId)) {
+                return options;
+            }
+            boolean hasActiveColumn = columnExists(conn, "USERS", "IS_ACTIVE");
+            String displaySelect = hasActiveColumn
+                ? "r.role_name || ': ' || u.name || ' (' || u.email || ') - ' || CASE u.is_active WHEN 1 THEN 'Active' ELSE 'Inactive' END AS display_name "
+                : "r.role_name || ': ' || u.name || ' (' || u.email || ')' AS display_name ";
+            String query = "SELECT u.user_id, " + displaySelect +
+                           "FROM USERS u JOIN ROLES r ON u.role_id = r.role_id " +
+                           "WHERE u.user_id <> ? AND UPPER(r.role_name) <> 'ADMIN' " +
+                           "ORDER BY r.role_name, u.name";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setInt(1, adminUserId);
+                ResultSet rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    options.put(rs.getInt("user_id"), rs.getString("display_name"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return options;
+    }
+
     public LinkedHashMap<Integer, String> getAdminRoleOptions() {
         return getIdNameOptions("SELECT role_id, role_name FROM ROLES ORDER BY role_id", "role_id", "role_name");
     }
@@ -2753,6 +2780,35 @@ public class UserDAO {
             e.printStackTrace();
         }
         return options;
+    }
+
+    private boolean userExists(Connection conn, int userId) throws SQLException {
+        String query = "SELECT COUNT(*) AS user_count FROM USERS WHERE user_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next() && rs.getInt("user_count") > 0;
+        }
+    }
+
+    private int getOptionalId(Connection conn, String query, int id) throws SQLException {
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return -1;
+    }
+
+    private int executeUpdate(Connection conn, String query, Object... params) throws SQLException {
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            for (int index = 0; index < params.length; index++) {
+                pstmt.setObject(index + 1, params[index]);
+            }
+            return pstmt.executeUpdate();
+        }
     }
 
     private int getRoleIdByName(Connection conn, String roleName) throws SQLException {
@@ -2997,6 +3053,79 @@ public class UserDAO {
                 pstmt.setInt(1, active ? 1 : 0);
                 pstmt.setInt(2, targetUserId);
                 return pstmt.executeUpdate() > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteUserAsAdmin(int adminUserId, int targetUserId) {
+        try (Connection conn = DBConnection.getConnection()) {
+            if (!isAdminUser(conn, adminUserId) || adminUserId == targetUserId || isAdminUser(conn, targetUserId)) {
+                return false;
+            }
+            if (!userExists(conn, targetUserId)) {
+                return false;
+            }
+
+            boolean previousAutoCommit = conn.getAutoCommit();
+            conn.setAutoCommit(false);
+            try {
+                int studentId = getOptionalId(conn, "SELECT student_id FROM STUDENTS WHERE user_id = ?", targetUserId);
+                int teacherId = getOptionalId(conn, "SELECT teacher_id FROM TEACHERS WHERE user_id = ?", targetUserId);
+
+                if (tableExists(conn, "COMMUNICATION_READ_STATE")) {
+                    if (studentId > 0) {
+                        executeUpdate(conn, "DELETE FROM COMMUNICATION_READ_STATE WHERE student_id = ?", studentId);
+                    }
+                    executeUpdate(conn, "DELETE FROM COMMUNICATION_READ_STATE WHERE viewer_id = ? OR partner_id = ?", targetUserId, targetUserId);
+                }
+
+                if (tableExists(conn, "COMMUNICATION")) {
+                    if (studentId > 0) {
+                        executeUpdate(conn, "DELETE FROM COMMUNICATION WHERE student_id = ?", studentId);
+                    }
+                    executeUpdate(conn, "DELETE FROM COMMUNICATION WHERE sender_id = ? OR receiver_id = ?", targetUserId, targetUserId);
+                }
+
+                if (studentId > 0) {
+                    executeUpdate(conn, "DELETE FROM COUNSELLING WHERE student_id = ?", studentId);
+                    executeUpdate(conn, "DELETE FROM MARKS WHERE student_id = ?", studentId);
+                    executeUpdate(conn, "DELETE FROM SUBMISSIONS WHERE student_id = ?", studentId);
+                    executeUpdate(conn, "DELETE FROM PARENT_STUDENT WHERE student_id = ?", studentId);
+                    executeUpdate(conn, "DELETE FROM STUDENT_CLASS WHERE student_id = ?", studentId);
+                }
+
+                executeUpdate(conn, "UPDATE COUNSELLING SET counsellor_id = NULL WHERE counsellor_id = ?", targetUserId);
+                executeUpdate(conn, "DELETE FROM PARENT_STUDENT WHERE parent_id = ?", targetUserId);
+                executeUpdate(conn, "UPDATE ATTENDANCE SET approved_by = NULL WHERE approved_by = ?", targetUserId);
+                executeUpdate(conn, "DELETE FROM ATTENDANCE WHERE user_id = ?", targetUserId);
+                executeUpdate(conn, "DELETE FROM LOGIN_AUDIT WHERE user_id = ?", targetUserId);
+
+                if (teacherId > 0) {
+                    if (tableExists(conn, "QUESTION_BANK")) {
+                        executeUpdate(conn, "UPDATE QUESTION_BANK SET teacher_id = NULL WHERE teacher_id = ?", teacherId);
+                    }
+                    if (columnExists(conn, "QUESTION_PAPERS", "CREATED_BY_TEACHER_ID")) {
+                        executeUpdate(conn, "UPDATE QUESTION_PAPERS SET created_by_teacher_id = NULL WHERE created_by_teacher_id = ?", teacherId);
+                    }
+                    executeUpdate(conn, "DELETE FROM CLASS_SUBJECT_TEACHER WHERE teacher_id = ?", teacherId);
+                    executeUpdate(conn, "DELETE FROM TEACHERS WHERE teacher_id = ?", teacherId);
+                }
+
+                if (studentId > 0) {
+                    executeUpdate(conn, "DELETE FROM STUDENTS WHERE student_id = ?", studentId);
+                }
+
+                int deleted = executeUpdate(conn, "DELETE FROM USERS WHERE user_id = ?", targetUserId);
+                conn.commit();
+                return deleted > 0;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(previousAutoCommit);
             }
         } catch (SQLException e) {
             e.printStackTrace();

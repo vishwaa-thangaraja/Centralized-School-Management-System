@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="20.0" style="-fx-background-color: #f4f7f9;" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TeacherStudentPerformanceController">
+<VBox spacing="20.0" styleClass="subview-root" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TeacherStudentPerformanceController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>

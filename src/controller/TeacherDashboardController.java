@@ -25,6 +25,7 @@ import model.User;
 import service.AuthService;
 import service.ExamService;
 import service.SchoolSettingsService;
+import service.ThemeService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +43,9 @@ public class TeacherDashboardController {
     @FXML private StackPane rootStack;
     @FXML private Label brandTitleLabel;
     @FXML private Label teacherNameLabel;
+    @FXML private Button profilePictureButton;
+    @FXML private Button schoolProfileButton;
+    @FXML private Button themeToggleButton;
     @FXML private Label studentCountLabel;
     @FXML private Label classCountLabel;
     @FXML private Label assignmentCountLabel;
@@ -84,7 +88,11 @@ public class TeacherDashboardController {
     public void initData(User user) {
         this.currentUser = user;
         brandTitleLabel.setText(SchoolSettingsService.getPortalTitle("Teacher"));
+        ThemeService.applyCurrentTheme(rootStack);
+        ThemeService.updateThemeButton(themeToggleButton);
         teacherNameLabel.setText("Welcome, " + user.getName());
+        ProfileImageSupport.configureUserProfileButton(profilePictureButton, user);
+        ProfileImageSupport.configureSchoolProfileButton(schoolProfileButton, user);
         refreshDashboard();
         refreshTeacherChatNotification();
     }
@@ -194,10 +202,24 @@ public class TeacherDashboardController {
     public void scrollToTop() {
         mainContentScroll.setContent(dashboardContent);
         mainContentScroll.setVvalue(0);
+        if (currentUser != null) {
+            ProfileImageSupport.refreshUserProfileButton(profilePictureButton, currentUser);
+            ProfileImageSupport.refreshSchoolProfileButton(schoolProfileButton);
+        }
+        ThemeService.applyCurrentTheme(rootStack);
+        ThemeService.updateThemeButton(themeToggleButton);
         refreshDashboard();
         refreshTeacherChatNotification();
         if (isSidebarOpen) {
             toggleSidebar();
+        }
+    }
+
+    @FXML
+    private void handleToggleTheme() {
+        if (ThemeService.saveTheme(ThemeService.toggleTheme())) {
+            ThemeService.applyCurrentTheme(rootStack);
+            ThemeService.updateThemeButton(themeToggleButton);
         }
     }
 

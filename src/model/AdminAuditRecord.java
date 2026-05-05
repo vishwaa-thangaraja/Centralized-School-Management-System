@@ -12,14 +12,20 @@ public class AdminAuditRecord {
     private final StringProperty loginTime;
     private final StringProperty logoutTime;
     private final StringProperty ipAddress;
+    private final byte[] profileImageData;
 
     public AdminAuditRecord(int logId, String userName, String roleName, String loginTime, String logoutTime, String ipAddress) {
+        this(logId, userName, roleName, loginTime, logoutTime, ipAddress, null);
+    }
+
+    public AdminAuditRecord(int logId, String userName, String roleName, String loginTime, String logoutTime, String ipAddress, byte[] profileImageData) {
         this.logId = new SimpleIntegerProperty(logId);
         this.userName = new SimpleStringProperty(userName);
         this.roleName = new SimpleStringProperty(roleName);
         this.loginTime = new SimpleStringProperty(loginTime);
         this.logoutTime = new SimpleStringProperty(logoutTime);
         this.ipAddress = new SimpleStringProperty(ipAddress);
+        this.profileImageData = profileImageData;
     }
 
     public int getLogId() { return logId.get(); }
@@ -39,4 +45,15 @@ public class AdminAuditRecord {
 
     public String getIpAddress() { return ipAddress.get(); }
     public StringProperty ipAddressProperty() { return ipAddress; }
+
+    public byte[] getProfileImageData() { return profileImageData; }
+
+    public String getFallbackInitial() {
+        String role = getRoleName();
+        if (role != null && role.equalsIgnoreCase("Admin")) {
+            return "S";
+        }
+        String name = getUserName();
+        return name == null || name.isBlank() ? "U" : name.substring(0, 1).toUpperCase();
+    }
 }

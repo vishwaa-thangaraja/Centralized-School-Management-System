@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.GaussianBlur;
@@ -19,6 +20,7 @@ import javafx.util.Duration;
 import model.User;
 import service.AuthService;
 import service.SchoolSettingsService;
+import service.ThemeService;
 
 import java.io.IOException;
 
@@ -33,6 +35,9 @@ public class CounsellorDashboardController {
     @FXML private StackPane rootStack;
     @FXML private Label brandTitleLabel;
     @FXML private Label counsellorNameLabel;
+    @FXML private Button profilePictureButton;
+    @FXML private Button schoolProfileButton;
+    @FXML private Button themeToggleButton;
     @FXML private Label profileNameLabel;
     @FXML private Label profileEmailLabel;
     @FXML private Label activeCasesLabel;
@@ -64,7 +69,11 @@ public class CounsellorDashboardController {
     public void initData(User user) {
         this.currentUser = user;
         brandTitleLabel.setText(SchoolSettingsService.getPortalTitle("Counsellor"));
+        ThemeService.applyCurrentTheme(rootStack);
+        ThemeService.updateThemeButton(themeToggleButton);
         counsellorNameLabel.setText("Welcome, " + user.getName());
+        ProfileImageSupport.configureUserProfileButton(profilePictureButton, user);
+        ProfileImageSupport.configureSchoolProfileButton(schoolProfileButton, user);
         profileNameLabel.setText(user.getName());
         profileEmailLabel.setText(user.getEmail());
         refreshDashboard();
@@ -120,9 +129,23 @@ public class CounsellorDashboardController {
     public void scrollToTop() {
         mainContentScroll.setContent(dashboardContent);
         mainContentScroll.setVvalue(0);
+        if (currentUser != null) {
+            ProfileImageSupport.refreshUserProfileButton(profilePictureButton, currentUser);
+            ProfileImageSupport.refreshSchoolProfileButton(schoolProfileButton);
+        }
+        ThemeService.applyCurrentTheme(rootStack);
+        ThemeService.updateThemeButton(themeToggleButton);
         refreshDashboard();
         if (isSidebarOpen) {
             toggleSidebar();
+        }
+    }
+
+    @FXML
+    private void handleToggleTheme() {
+        if (ThemeService.saveTheme(ThemeService.toggleTheme())) {
+            ThemeService.applyCurrentTheme(rootStack);
+            ThemeService.updateThemeButton(themeToggleButton);
         }
     }
 

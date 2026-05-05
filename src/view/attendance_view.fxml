@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <ScrollPane fitToWidth="true" styleClass="main-scroll" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AttendanceController">
-    <VBox spacing="25.0" style="-fx-background-color: #f4f7f9;">
+    <VBox spacing="25.0" styleClass="subview-root">
         <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
         </padding>

@@ -43,6 +43,11 @@ public final class SchoolSettingsService {
         return normalize(getSettings().get("SCHOOL_EMAIL"));
     }
 
+    public static String getThemeName() {
+        String theme = normalize(getSettings().get("THEME"));
+        return "Dark".equalsIgnoreCase(theme) ? "Dark" : "Light";
+    }
+
     public static String getPortalTitle(String roleName) {
         String role = roleName == null || roleName.isBlank() ? "" : " " + roleName.trim().toUpperCase() + " PORTAL";
         return getSchoolName() + role;

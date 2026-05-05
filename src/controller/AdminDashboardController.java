@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.GaussianBlur;
@@ -19,6 +20,7 @@ import javafx.util.Duration;
 import model.User;
 import service.AuthService;
 import service.SchoolSettingsService;
+import service.ThemeService;
 
 import java.io.IOException;
 import java.util.Map;
@@ -34,6 +36,7 @@ public class AdminDashboardController {
     @FXML private StackPane rootStack;
     @FXML private Label brandTitleLabel;
     @FXML private Label adminNameLabel;
+    @FXML private Button schoolProfileButton;
     @FXML private Label studentsCountLabel;
     @FXML private Label teachersCountLabel;
     @FXML private Label counsellorsCountLabel;
@@ -64,12 +67,15 @@ public class AdminDashboardController {
             overlayPane.setVisible(false);
         }
         applySchoolSettings();
+        ThemeService.applyCurrentTheme(rootStack);
     }
 
     public void initData(User user) {
         this.currentUser = user;
         applySchoolSettings();
+        ThemeService.applyCurrentTheme(rootStack);
         adminNameLabel.setText("Welcome, " + user.getName());
+        ProfileImageSupport.configureSchoolProfileButton(schoolProfileButton, user);
         refreshDashboard();
     }
 
@@ -119,6 +125,10 @@ public class AdminDashboardController {
         mainContentScroll.setContent(dashboardContent);
         mainContentScroll.setVvalue(0);
         applySchoolSettings();
+        ThemeService.applyCurrentTheme(rootStack);
+        if (currentUser != null) {
+            ProfileImageSupport.refreshSchoolProfileButton(schoolProfileButton);
+        }
         refreshDashboard();
         if (isSidebarOpen) {
             toggleSidebar();

@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
@@ -26,6 +27,7 @@ import model.User;
 import service.AuthService;
 import service.ExamService;
 import service.SchoolSettingsService;
+import service.ThemeService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +45,9 @@ public class StudentDashboardController {
     @FXML private StackPane rootStack;
     @FXML private Label brandTitleLabel;
     @FXML private Label userNameLabel;
+    @FXML private Button profilePictureButton;
+    @FXML private Button schoolProfileButton;
+    @FXML private Button themeToggleButton;
     @FXML private Label attendanceVal;
     @FXML private Label marksVal;
     @FXML private Label pendingTasks;
@@ -88,7 +93,11 @@ public class StudentDashboardController {
     public void initData(User user) {
         this.currentUser = user;
         brandTitleLabel.setText(SchoolSettingsService.getPortalTitle("Student"));
+        ThemeService.applyCurrentTheme(rootStack);
+        ThemeService.updateThemeButton(themeToggleButton);
         userNameLabel.setText("Welcome, " + user.getName());
+        ProfileImageSupport.configureUserProfileButton(profilePictureButton, user);
+        ProfileImageSupport.configureSchoolProfileButton(schoolProfileButton, user);
         refreshDashboardStats();
     }
 
@@ -277,9 +286,23 @@ public class StudentDashboardController {
     public void scrollToTop() {
         mainContentScroll.setContent(dashboardContent);
         mainContentScroll.setVvalue(0);
+        if (currentUser != null) {
+            ProfileImageSupport.refreshUserProfileButton(profilePictureButton, currentUser);
+            ProfileImageSupport.refreshSchoolProfileButton(schoolProfileButton);
+        }
+        ThemeService.applyCurrentTheme(rootStack);
+        ThemeService.updateThemeButton(themeToggleButton);
         refreshDashboardStats();
         if (isSidebarOpen) {
             toggleSidebar();
+        }
+    }
+
+    @FXML
+    private void handleToggleTheme() {
+        if (ThemeService.saveTheme(ThemeService.toggleTheme())) {
+            ThemeService.applyCurrentTheme(rootStack);
+            ThemeService.updateThemeButton(themeToggleButton);
         }
     }
 

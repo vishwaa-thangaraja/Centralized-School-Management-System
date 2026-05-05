@@ -22,9 +22,10 @@
 
             <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="top-nav">
                 <Button onAction="#toggleSidebar" prefWidth="95.0" styleClass="hamburger-btn" text="Menu" />
-                <Label fx:id="brandTitleLabel" styleClass="brand-text" text="CSMS ADMIN PORTAL" />
-                <Region HBox.hgrow="ALWAYS" />
                 <Label fx:id="adminNameLabel" styleClass="user-name" text="Welcome, Admin" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="brandTitleLabel" styleClass="brand-text" text="CSMS ADMIN PORTAL" />
+                <Button fx:id="schoolProfileButton" styleClass="avatar-button" text="S" />
             </HBox>
 
             <HBox alignment="CENTER_LEFT" styleClass="admin-welcome-bar">

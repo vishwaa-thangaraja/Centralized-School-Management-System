@@ -26,9 +26,12 @@
 
             <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="top-nav">
                 <Button onAction="#toggleSidebar" prefWidth="95.0" styleClass="hamburger-btn" text="Menu" />
-                <Label fx:id="brandTitleLabel" styleClass="brand-text" text="CSMS PARENT PORTAL" />
-                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="profilePictureButton" styleClass="avatar-button" text="U" />
                 <Label fx:id="parentNameLabel" styleClass="user-name" text="Welcome, Parent" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="brandTitleLabel" styleClass="brand-text" text="CSMS PARENT PORTAL" />
+                <Button fx:id="themeToggleButton" onAction="#handleToggleTheme" styleClass="theme-toggle-btn" text="◐ Dark" />
+                <Button fx:id="schoolProfileButton" styleClass="avatar-button" text="S" />
                 <Button onAction="#handleLogout" styleClass="logout-btn" text="Logout" />
             </HBox>
 

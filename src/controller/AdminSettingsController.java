@@ -3,11 +3,13 @@ package controller;
 import dao.AppSettingsDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.User;
 import service.SchoolSettingsService;
+import service.ThemeService;
 
 import java.util.Map;
 
@@ -19,6 +21,7 @@ public class AdminSettingsController {
     @FXML private TextArea addressArea;
     @FXML private TextField phoneField;
     @FXML private TextField emailField;
+    @FXML private MenuButton themeMenuButton;
 
     private final AppSettingsDAO settingsDAO = new AppSettingsDAO();
     private User currentAdmin;
@@ -35,6 +38,7 @@ public class AdminSettingsController {
         addressArea.setText(settings.getOrDefault("SCHOOL_ADDRESS", ""));
         phoneField.setText(settings.getOrDefault("SCHOOL_PHONE", ""));
         emailField.setText(settings.getOrDefault("SCHOOL_EMAIL", ""));
+        refreshThemeMenuText();
     }
 
     @FXML
@@ -69,7 +73,17 @@ public class AdminSettingsController {
 
     @FXML
     private void handleThemeButton() {
-        statusLabel.setText("");
+        applyTheme(ThemeService.toggleTheme());
+    }
+
+    @FXML
+    private void handleLightTheme() {
+        applyTheme(ThemeService.LIGHT);
+    }
+
+    @FXML
+    private void handleDarkTheme() {
+        applyTheme(ThemeService.DARK);
     }
 
     @FXML
@@ -85,5 +99,21 @@ public class AdminSettingsController {
 
     private String text(TextArea area) {
         return area.getText() == null ? "" : area.getText().trim();
+    }
+
+    private void applyTheme(String themeName) {
+        if (ThemeService.saveTheme(themeName)) {
+            ThemeService.applyCurrentTheme(schoolNameField.getScene().getRoot());
+            refreshThemeMenuText();
+            statusLabel.setText("Theme set to " + ThemeService.currentTheme() + ".");
+        } else {
+            statusLabel.setText("Theme could not be changed.");
+        }
+    }
+
+    private void refreshThemeMenuText() {
+        if (themeMenuButton != null) {
+            themeMenuButton.setText("Theme: " + ThemeService.currentTheme());
+        }
     }
 }

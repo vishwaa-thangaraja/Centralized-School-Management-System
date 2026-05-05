@@ -1,33 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<HBox prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
-    
-    <VBox fx:id="imagePanel" alignment="CENTER" prefWidth="640.0" styleClass="image-section" HBox.hgrow="ALWAYS">
+<StackPane prefHeight="720.0" prefWidth="1280.0" styleClass="login-root" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+    <HBox alignment="CENTER" maxHeight="620.0" maxWidth="1120.0" spacing="0.0" styleClass="login-shell">
+        <VBox fx:id="imagePanel" alignment="CENTER_LEFT" prefWidth="560.0" spacing="28.0" styleClass="image-section" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets bottom="54.0" left="54.0" right="54.0" top="54.0" />
+            </padding>
+            <HBox alignment="CENTER_LEFT" spacing="16.0">
+                <Label styleClass="brand-icon" text="CS" />
+                <Label styleClass="brand-wordmark" text="CSMS" />
+            </HBox>
+            <Region VBox.vgrow="ALWAYS" />
+            <VBox spacing="14.0">
+                <Label styleClass="hero-title" text="Good morning, learner!" wrapText="true" />
+                <Label styleClass="hero-subtitle" text="A bright school space for classes, care, messages, marks, and every little win." wrapText="true" />
+            </VBox>
+            <Region VBox.vgrow="ALWAYS" />
+            <HBox spacing="10.0">
+                <Label styleClass="hero-pill" text="Students" />
+                <Label styleClass="hero-pill" text="Parents" />
+                <Label styleClass="hero-pill" text="Teachers" />
+            </HBox>
         </VBox>
 
-    <VBox alignment="CENTER" prefWidth="640.0" spacing="30.0" styleClass="login-section" HBox.hgrow="ALWAYS">
-        <padding>
-            <Insets bottom="50.0" left="100.0" right="100.0" top="50.0" />
-        </padding>
+        <VBox alignment="CENTER_LEFT" prefWidth="560.0" spacing="24.0" styleClass="login-section" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets bottom="70.0" left="76.0" right="76.0" top="70.0" />
+            </padding>
 
-        <VBox spacing="10.0" alignment="CENTER_LEFT">
-            <Label fx:id="loginTitleLabel" styleClass="header-text" text="CSMS Login" />
-            <Label styleClass="subtext" text="Welcome back! Please enter your details." />
+            <VBox spacing="8.0" alignment="CENTER_LEFT">
+                <Label styleClass="eyebrow-text" text="WELCOME BACK" />
+                <Label fx:id="loginTitleLabel" styleClass="header-text" text="CSMS Login" />
+                <Label styleClass="subtext" text="Sign in to continue your school day." />
+            </VBox>
+
+            <VBox spacing="15.0">
+                <TextField fx:id="emailField" promptText="Email Address" styleClass="input-field" />
+                <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field" />
+                <Hyperlink onAction="#handleForgotPassword" text="Forgot Password?" styleClass="forgot-link" />
+            </VBox>
+
+            <Button fx:id="loginButton" maxWidth="Infinity" onAction="#handleLogin" prefHeight="48.0" styleClass="login-button" text="Login" />
+
+            <Label fx:id="errorLabel" styleClass="error-text" text="" wrapText="true" />
         </VBox>
-
-        <VBox spacing="15.0">
-            <TextField fx:id="emailField" promptText="Email Address" styleClass="input-field" />
-            <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field" />
-            <Hyperlink onAction="#handleForgotPassword" text="Forgot Password?" styleClass="forgot-link" />
-        </VBox>
-
-        <Button fx:id="loginButton" maxWidth="Infinity" onAction="#handleLogin" prefHeight="45.0" styleClass="login-button" text="Login" />
-        
-        <Label fx:id="errorLabel" styleClass="error-text" text="" />
-    </VBox>
-</HBox>
+    </HBox>
+</StackPane>

@@ -35,6 +35,7 @@ import model.Student;
 import model.User;
 import service.AuthService;
 import service.SchoolSettingsService;
+import service.ThemeService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,6 +53,9 @@ public class ParentDashboardController {
     @FXML private StackPane rootStack;
     @FXML private Label brandTitleLabel;
     @FXML private Label parentNameLabel;
+    @FXML private Button profilePictureButton;
+    @FXML private Button schoolProfileButton;
+    @FXML private Button themeToggleButton;
     @FXML private ComboBox<Student> wardSelector;
     @FXML private Label wardNameLabel;
     @FXML private Label wardClassLabel;
@@ -150,7 +154,11 @@ public class ParentDashboardController {
     public void initData(User parent) {
         this.currentParent = parent;
         brandTitleLabel.setText(SchoolSettingsService.getPortalTitle("Parent"));
+        ThemeService.applyCurrentTheme(rootStack);
+        ThemeService.updateThemeButton(themeToggleButton);
         parentNameLabel.setText("Welcome, " + parent.getName());
+        ProfileImageSupport.configureUserProfileButton(profilePictureButton, parent);
+        ProfileImageSupport.configureSchoolProfileButton(schoolProfileButton, parent);
         loadParentWards();
         refreshTeacherConnectNotification();
         refreshCounsellorConnectNotification();
@@ -386,11 +394,25 @@ public class ParentDashboardController {
         activeSubviewController = null;
         mainContentScroll.setContent(dashboardContent);
         mainContentScroll.setVvalue(0);
+        if (currentParent != null) {
+            ProfileImageSupport.refreshUserProfileButton(profilePictureButton, currentParent);
+            ProfileImageSupport.refreshSchoolProfileButton(schoolProfileButton);
+        }
+        ThemeService.applyCurrentTheme(rootStack);
+        ThemeService.updateThemeButton(themeToggleButton);
         refreshHomeView();
         refreshTeacherConnectNotification();
         refreshCounsellorConnectNotification();
         if (isSidebarOpen) {
             toggleSidebar();
+        }
+    }
+
+    @FXML
+    private void handleToggleTheme() {
+        if (ThemeService.saveTheme(ThemeService.toggleTheme())) {
+            ThemeService.applyCurrentTheme(rootStack);
+            ThemeService.updateThemeButton(themeToggleButton);
         }
     }
 

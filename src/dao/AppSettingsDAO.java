@@ -43,6 +43,20 @@ public class AppSettingsDAO {
         return false;
     }
 
+    public boolean saveTheme(String themeName) {
+        String normalizedTheme = "Dark".equalsIgnoreCase(themeName) ? "Dark" : "Light";
+        try (Connection conn = DBConnection.getConnection()) {
+            if (!ensureInfrastructure(conn)) {
+                return false;
+            }
+            upsertSetting(conn, "THEME", normalizedTheme);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private boolean ensureInfrastructure(Connection conn) {
         try {
             if (!tableExists(conn, "APP_SETTINGS")) {
@@ -71,7 +85,7 @@ public class AppSettingsDAO {
         settings.put("SCHOOL_ADDRESS", "");
         settings.put("SCHOOL_PHONE", "");
         settings.put("SCHOOL_EMAIL", "");
-        settings.put("THEME", "Default");
+        settings.put("THEME", "Light");
         return settings;
     }
 

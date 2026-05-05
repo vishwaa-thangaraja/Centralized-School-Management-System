@@ -13,22 +13,21 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="20.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PerformanceController">
+<VBox spacing="20.0" styleClass="subview-root" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PerformanceController">
     <padding>
         <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
     </padding>
 
-    <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
+    <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="chart-container">
         <Button text="Back" prefWidth="95.0" styleClass="hamburger-btn" onAction="#handleBackToDashboard" />
         <Separator orientation="VERTICAL" />
         <Label text="Academic Performance" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
         <Region HBox.hgrow="ALWAYS" />
-        <Button text="Download PDF Report" onAction="#handleDownloadPDF"
-                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 18; -fx-background-radius: 5;" />
+        <Button text="Download PDF Report" onAction="#handleDownloadPDF" styleClass="hamburger-btn" />
     </HBox>
 
     <HBox spacing="20.0" VBox.vgrow="ALWAYS">
-        <TableView fx:id="performanceTable" prefWidth="400.0" style="-fx-background-radius: 5;">
+        <TableView fx:id="performanceTable" prefWidth="400.0">
             <columns>
                 <TableColumn fx:id="colSubject" text="Subject" prefWidth="150.0" />
                 <TableColumn fx:id="colExam" text="Exam Type" prefWidth="120.0" />
@@ -36,7 +35,7 @@
             </columns>
         </TableView>
 
-        <VBox spacing="10.0" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+        <VBox spacing="10.0" HBox.hgrow="ALWAYS" styleClass="chart-container">
             <Label text="Performance Trend" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
             <LineChart fx:id="performanceChart" animated="true">
                 <xAxis>

@@ -1,5 +1,6 @@
 # Compiled output
 out/
+build_verify/
 
 # Java class files
 *.class
@@ -27,6 +28,7 @@ users.txt
 
 # Temporary files
 *.tmp
+recovery/
 
 # BlueJ files (optional)
 *.ctxt

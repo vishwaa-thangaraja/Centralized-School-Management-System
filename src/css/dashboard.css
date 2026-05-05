@@ -319,6 +319,16 @@
     -fx-effect: dropshadow(gaussian, rgba(126, 221, 203, 0.28), 12, 0.18, 0, 4);
 }
 
+.readonly-field {
+    -fx-background-color: #FFF8EE;
+    -fx-text-fill: #5B3B1C;
+}
+
+.readonly-field:focused {
+    -fx-border-color: #E7D2B0;
+    -fx-effect: none;
+}
+
 .choice-box,
 .menu-button {
     -fx-background-radius: 16px;
@@ -518,6 +528,12 @@
 .dark-theme .date-picker,
 .dark-theme .text-area {
     -fx-background-color: #FFFFFF;
+    -fx-border-color: #7D3CFF;
+    -fx-text-fill: #090C12;
+}
+
+.dark-theme .readonly-field {
+    -fx-background-color: #F3F5FB;
     -fx-border-color: #7D3CFF;
     -fx-text-fill: #090C12;
 }

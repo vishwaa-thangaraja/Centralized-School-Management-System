@@ -67,7 +67,7 @@
                 <ComboBox fx:id="classCombo" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                 <Label text="Gender" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                <ComboBox fx:id="genderCombo" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <TextField fx:id="genderField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
                 <Label text="Conduct" GridPane.columnIndex="0" GridPane.rowIndex="6" />
                 <ComboBox fx:id="conductCombo" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />

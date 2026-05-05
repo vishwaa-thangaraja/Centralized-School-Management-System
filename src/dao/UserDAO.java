@@ -967,6 +967,92 @@ public class UserDAO {
         return students;
     }
 
+    public boolean updateStudentClassAndConductForTeacher(
+        int teacherUserId,
+        int studentId,
+        int currentClassId,
+        int newClassId,
+        String conduct,
+        String conductRemarks
+    ) {
+        String scopeQuery = "SELECT COUNT(*) " +
+                            "FROM TEACHERS t " +
+                            "JOIN CLASS_SUBJECT_TEACHER cst ON t.teacher_id = cst.teacher_id " +
+                            "JOIN STUDENT_CLASS sc ON cst.class_id = sc.class_id " +
+                            "WHERE t.user_id = ? AND sc.student_id = ?";
+        String targetClassScopeQuery = "SELECT COUNT(*) " +
+                                       "FROM TEACHERS t " +
+                                       "JOIN CLASS_SUBJECT_TEACHER cst ON t.teacher_id = cst.teacher_id " +
+                                       "WHERE t.user_id = ? AND cst.class_id = ?";
+        String updateStudentQuery = "UPDATE STUDENTS SET conduct = ?, conduct_remarks = ? WHERE student_id = ?";
+        String updateStudentClassQuery = "UPDATE STUDENT_CLASS SET class_id = ? WHERE student_id = ? AND class_id = ?";
+        String insertStudentClassQuery = "INSERT INTO STUDENT_CLASS (student_id, class_id) VALUES (?, ?)";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+                try (PreparedStatement scopeStmt = conn.prepareStatement(scopeQuery)) {
+                    scopeStmt.setInt(1, teacherUserId);
+                    scopeStmt.setInt(2, studentId);
+                    ResultSet scopeRs = scopeStmt.executeQuery();
+                    if (!scopeRs.next() || scopeRs.getInt(1) == 0) {
+                        conn.rollback();
+                        return false;
+                    }
+                }
+
+                try (PreparedStatement targetClassStmt = conn.prepareStatement(targetClassScopeQuery)) {
+                    targetClassStmt.setInt(1, teacherUserId);
+                    targetClassStmt.setInt(2, newClassId);
+                    ResultSet targetClassRs = targetClassStmt.executeQuery();
+                    if (!targetClassRs.next() || targetClassRs.getInt(1) == 0) {
+                        conn.rollback();
+                        return false;
+                    }
+                }
+
+                try (PreparedStatement studentStmt = conn.prepareStatement(updateStudentQuery)) {
+                    studentStmt.setString(1, conduct);
+                    studentStmt.setString(2, conductRemarks == null || conductRemarks.isBlank() ? null : conductRemarks.trim());
+                    studentStmt.setInt(3, studentId);
+                    studentStmt.executeUpdate();
+                }
+
+                if (newClassId != currentClassId) {
+                    if (currentClassId > 0) {
+                        try (PreparedStatement classStmt = conn.prepareStatement(updateStudentClassQuery)) {
+                            classStmt.setInt(1, newClassId);
+                            classStmt.setInt(2, studentId);
+                            classStmt.setInt(3, currentClassId);
+                            int updatedRows = classStmt.executeUpdate();
+                            if (updatedRows == 0) {
+                                conn.rollback();
+                                return false;
+                            }
+                        }
+                    } else {
+                        try (PreparedStatement classStmt = conn.prepareStatement(insertStudentClassQuery)) {
+                            classStmt.setInt(1, studentId);
+                            classStmt.setInt(2, newClassId);
+                            classStmt.executeUpdate();
+                        }
+                    }
+                }
+
+                conn.commit();
+                return true;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public boolean updateStudentDetailsForTeacher(int teacherUserId, Student student, int newClassId) {
         String scopeQuery = "SELECT COUNT(*) " +
                             "FROM TEACHERS t " +

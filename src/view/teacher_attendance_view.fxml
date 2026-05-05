@@ -6,13 +6,16 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <ScrollPane fitToWidth="true" styleClass="main-scroll" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TeacherAttendanceController">
@@ -59,7 +62,7 @@
                 </VBox>
 
                 <VBox styleClass="stat-box" prefHeight="300.0">
-                    <BarChart fx:id="leaveChart" title="Attendance Exceptions" legendVisible="false">
+                    <BarChart fx:id="attendanceChart" title="Attendance Sessions" legendVisible="false">
                         <xAxis>
                             <CategoryAxis label="Type" />
                         </xAxis>
@@ -73,6 +76,26 @@
             <VBox HBox.hgrow="ALWAYS" spacing="15.0">
                 <Label text="Daily Attendance Log" styleClass="section-header" />
                 <Label fx:id="selectedStudentLabel" text="No student selected" style="-fx-font-size: 13px; -fx-text-fill: #34495e;" />
+                <VBox spacing="12.0" styleClass="chart-container">
+                    <HBox alignment="CENTER_LEFT" spacing="12.0">
+                        <Label styleClass="section-header" text="Add or Update Day" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button fx:id="queueAttendanceButton" onAction="#handleQueueAttendanceDay" styleClass="login-button" text="Queue Day" />
+                    </HBox>
+                    <GridPane hgap="12.0" vgap="10.0">
+                        <Label text="Date" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <DatePicker fx:id="attendanceDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="FN" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="addFnCombo" prefWidth="130.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                        <Label text="AN" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="addAnCombo" prefWidth="130.0" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+
+                        <Label text="Remarks" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextField fx:id="addRemarkField" promptText="Regular" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="5" />
+                    </GridPane>
+                </VBox>
                 <HBox spacing="10.0">
                     <Button fx:id="editModeToggleButton" onAction="#toggleEditMode" styleClass="hamburger-btn" text="Enable Edit Mode" />
                     <Button fx:id="saveChangesButton" onAction="#saveChanges" styleClass="login-button" text="Save Changes" />

@@ -32,8 +32,8 @@ public class TeacherStudentManagementController {
     @FXML private TextField emailField;
     @FXML private TextField phoneField;
     @FXML private TextField dobField;
+    @FXML private TextField genderField;
     @FXML private ComboBox<String> classCombo;
-    @FXML private ComboBox<String> genderCombo;
     @FXML private ComboBox<String> conductCombo;
     @FXML private TextArea remarksArea;
     @FXML private Button saveButton;
@@ -49,23 +49,23 @@ public class TeacherStudentManagementController {
         classCol.setCellValueFactory(new PropertyValueFactory<>("classDisplay"));
         conductCol.setCellValueFactory(new PropertyValueFactory<>("conduct"));
 
-        genderCombo.getItems().addAll("Male", "Female", "Other");
         conductCombo.getItems().addAll("Excellent", "Good", "Average", "Poor");
+        configureReadOnlyFields();
 
         studentsTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, selectedStudent) -> {
             populateForm(selectedStudent);
             if (selectedStudent != null) {
-                statusLabel.setText("Editing details for " + selectedStudent.getName() + ".");
+                statusLabel.setText("Viewing " + selectedStudent.getName() + ". Only class, conduct, and remarks can be edited.");
             }
         });
 
         setFormDisabled(true);
-        statusLabel.setText("Select a student from the left to view and edit details.");
+        statusLabel.setText("Select a student from the left to view details. Only class, conduct, and remarks are editable.");
     }
 
     public void initData(User teacher) {
         this.currentTeacher = teacher;
-        teacherInfoLabel.setText("Teacher: " + teacher.getName() + " | You can edit only the students assigned to your sections.");
+        teacherInfoLabel.setText("Teacher: " + teacher.getName() + " | Only class, conduct, and remarks can be updated for students in your scope.");
         loadTeacherClasses();
         loadStudents();
     }
@@ -95,7 +95,7 @@ public class TeacherStudentManagementController {
         if (students.isEmpty()) {
             statusLabel.setText("No students are mapped to your classes yet.");
         } else {
-            statusLabel.setText("Select a student from the left to view and edit details.");
+            statusLabel.setText("Select a student from the left to view details. Only class, conduct, and remarks are editable.");
         }
     }
 
@@ -111,7 +111,7 @@ public class TeacherStudentManagementController {
         phoneField.setText("-".equals(student.getPhone()) ? "" : student.getPhone());
         dobField.setText(student.getDob());
         classCombo.setValue(student.getClassDisplay());
-        genderCombo.setValue("-".equals(student.getGender()) ? null : student.getGender());
+        genderField.setText("-".equals(student.getGender()) ? "" : student.getGender());
         conductCombo.setValue("-".equals(student.getConduct()) ? null : student.getConduct());
         remarksArea.setText("-".equals(student.getConductRemarks()) ? "" : student.getConductRemarks());
     }
@@ -122,8 +122,8 @@ public class TeacherStudentManagementController {
         emailField.clear();
         phoneField.clear();
         dobField.clear();
+        genderField.clear();
         classCombo.setValue(null);
-        genderCombo.setValue(null);
         conductCombo.setValue(null);
         remarksArea.clear();
     }
@@ -133,11 +133,21 @@ public class TeacherStudentManagementController {
         emailField.setDisable(disabled);
         phoneField.setDisable(disabled);
         dobField.setDisable(disabled);
+        genderField.setDisable(disabled);
         classCombo.setDisable(disabled);
-        genderCombo.setDisable(disabled);
         conductCombo.setDisable(disabled);
         remarksArea.setDisable(disabled);
         saveButton.setDisable(disabled);
+    }
+
+    private void configureReadOnlyFields() {
+        for (TextField field : new TextField[]{nameField, emailField, phoneField, dobField, genderField}) {
+            field.setEditable(false);
+            field.setFocusTraversable(false);
+            if (!field.getStyleClass().contains("readonly-field")) {
+                field.getStyleClass().add("readonly-field");
+            }
+        }
     }
 
     @FXML
@@ -154,27 +164,12 @@ public class TeacherStudentManagementController {
             return;
         }
 
-        String name = nameField.getText().trim();
-        String email = emailField.getText().trim();
-        String phone = phoneField.getText().trim();
-        String dob = dobField.getText().trim();
         String classDisplay = classCombo.getValue();
-        String gender = genderCombo.getValue();
         String conduct = conductCombo.getValue();
         String remarks = remarksArea.getText().trim();
 
-        if (name.isEmpty() || email.isEmpty() || dob.isEmpty() || classDisplay == null || gender == null || conduct == null) {
-            statusLabel.setText("Name, email, DOB, class, gender, and conduct are required.");
-            return;
-        }
-
-        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            statusLabel.setText("Enter a valid email address.");
-            return;
-        }
-
-        if (!dob.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
-            statusLabel.setText("DOB must use YYYY-MM-DD format.");
+        if (classDisplay == null || conduct == null) {
+            statusLabel.setText("Class and conduct are required.");
             return;
         }
 
@@ -184,23 +179,25 @@ public class TeacherStudentManagementController {
             return;
         }
 
-        selectedStudent.setName(name);
-        selectedStudent.setEmail(email);
-        selectedStudent.setPhone(phone);
-        selectedStudent.setDob(dob);
-        selectedStudent.setGender(gender);
         selectedStudent.setConduct(conduct);
         selectedStudent.setConductRemarks(remarks);
 
-        boolean updated = userDAO.updateStudentDetailsForTeacher(currentTeacher.getUserId(), selectedStudent, selectedClassId);
+        boolean updated = userDAO.updateStudentClassAndConductForTeacher(
+            currentTeacher.getUserId(),
+            selectedStudent.getStudentId(),
+            selectedStudent.getClassId(),
+            selectedClassId,
+            conduct,
+            remarks
+        );
         if (updated) {
-            statusLabel.setText("Student details updated successfully.");
+            statusLabel.setText("Student class/conduct details updated successfully.");
             loadStudents();
         } else {
-            statusLabel.setText("Update failed. Check duplicate email, class access, or student scope.");
+            statusLabel.setText("Update failed. Check class access or student scope.");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("Student update blocked");
-            alert.setContentText("This teacher can edit only mapped students and can assign only classes already mapped to the teacher.");
+            alert.setContentText("This teacher can edit only class, conduct, and remarks for mapped students, and can assign only classes already mapped to the teacher.");
             alert.show();
         }
     }

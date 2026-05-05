@@ -12,10 +12,13 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -26,6 +29,7 @@ import model.User;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,7 +46,12 @@ public class TeacherAttendanceController {
     @FXML private Label presentDaysLbl;
     @FXML private Label percentageLbl;
     @FXML private Label editStatusLabel;
-    @FXML private BarChart<String, Number> leaveChart;
+    @FXML private BarChart<String, Number> attendanceChart;
+    @FXML private DatePicker attendanceDatePicker;
+    @FXML private ComboBox<String> addFnCombo;
+    @FXML private ComboBox<String> addAnCombo;
+    @FXML private TextField addRemarkField;
+    @FXML private Button queueAttendanceButton;
     @FXML private Button editModeToggleButton;
     @FXML private Button saveChangesButton;
     @FXML private Button cancelButton;
@@ -75,6 +84,7 @@ public class TeacherAttendanceController {
         teacherId = userDAO.getTeacherIdByUserId(currentUser.getUserId());
 
         setupTable();
+        configureAttendanceEntryControls();
         loadStudentsForScope();
     }
 
@@ -84,8 +94,8 @@ public class TeacherAttendanceController {
         anCol.setCellValueFactory(new PropertyValueFactory<>("anStatus"));
         remarkCol.setCellValueFactory(new PropertyValueFactory<>("remark"));
 
-        fnCol.setCellFactory(ComboBoxTableCell.forTableColumn("Present", "Absent"));
-        anCol.setCellFactory(ComboBoxTableCell.forTableColumn("Present", "Absent"));
+        fnCol.setCellFactory(column -> createAttendanceStatusCell());
+        anCol.setCellFactory(column -> createAttendanceStatusCell());
         remarkCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
         fnCol.setOnEditCommit(event -> {
@@ -117,7 +127,7 @@ public class TeacherAttendanceController {
                 editStatusLabel.setText("This row cannot be edited.");
                 return;
             }
-            row.setRemark(event.getNewValue());
+            row.setRemark(displayRemark(event.getNewValue()));
             markRowAsChanged(row);
         });
 
@@ -141,6 +151,40 @@ public class TeacherAttendanceController {
         attendanceTable.setItems(attendanceRows);
     }
 
+    private void configureAttendanceEntryControls() {
+        addFnCombo.getItems().setAll("Present", "Absent");
+        addAnCombo.getItems().setAll("Present", "Absent");
+        resetAttendanceEntryForm();
+        attendanceChart.setTitle("Attendance Sessions");
+        updateEntryControls();
+    }
+
+    private ComboBoxTableCell<AttendanceRecord, String> createAttendanceStatusCell() {
+        return new ComboBoxTableCell<>("Present", "Absent") {
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                applyAttendanceStatusStyle(this, item, empty);
+            }
+        };
+    }
+
+    private void applyAttendanceStatusStyle(TableCell<?, String> cell, String value, boolean empty) {
+        if (empty || value == null) {
+            cell.setStyle("-fx-alignment: CENTER;");
+            return;
+        }
+
+        String textColor = "#2c3e50";
+        if ("Present".equalsIgnoreCase(value)) {
+            textColor = "#1f9d55";
+        } else if ("Absent".equalsIgnoreCase(value)) {
+            textColor = "#dc3545";
+        }
+
+        cell.setStyle("-fx-alignment: CENTER; -fx-font-weight: bold; -fx-text-fill: " + textColor + ";");
+    }
+
     private void loadStudentsForScope() {
         studentDisplayMap.clear();
         studentSelector.getItems().clear();
@@ -159,6 +203,7 @@ public class TeacherAttendanceController {
             editStatusLabel.setText("No students available in teacher scope.");
             setEditMode(false);
             updateEditActionButtons();
+            updateEntryControls();
             clearAttendanceState();
             return;
         }
@@ -178,6 +223,8 @@ public class TeacherAttendanceController {
         selectedStudentInScope = userDAO.validateTeacherScopeForStudent(teacherId, selectedStudent.getStudentId());
         setEditMode(false);
         updateEditActionButtons();
+        updateEntryControls();
+        resetAttendanceEntryForm();
 
         if (!selectedStudentInScope) {
             clearAttendanceState();
@@ -186,7 +233,7 @@ public class TeacherAttendanceController {
         }
 
         loadAttendanceDataForSelectedStudent();
-        editStatusLabel.setText("Read-only mode. Enable edit mode to update FN/AN and remarks.");
+        editStatusLabel.setText("Read-only mode. Enable edit mode to update table rows, or add a new day below.");
     }
 
     private void clearAttendanceState() {
@@ -217,6 +264,7 @@ public class TeacherAttendanceController {
             ));
         }
 
+        sortAttendanceRows();
         recalculateSummaryAndChart();
         attendanceTable.refresh();
     }
@@ -224,7 +272,6 @@ public class TeacherAttendanceController {
     private void recalculateSummaryAndChart() {
         int totalSessions = attendanceRows.size() * 2;
         int sessionsPresent = 0;
-        int leaveSessions = 0;
         int absentSessions = 0;
 
         for (AttendanceRecord record : attendanceRows) {
@@ -237,8 +284,6 @@ public class TeacherAttendanceController {
 
                 if (status.equalsIgnoreCase("Present")) {
                     sessionsPresent++;
-                } else if (status.equalsIgnoreCase("Leave")) {
-                    leaveSessions++;
                 } else if (status.equalsIgnoreCase("Absent")) {
                     absentSessions++;
                 }
@@ -252,11 +297,11 @@ public class TeacherAttendanceController {
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Attendance Sessions");
-        series.getData().add(new XYChart.Data<>("Leave", leaveSessions));
+        series.getData().add(new XYChart.Data<>("Present", sessionsPresent));
         series.getData().add(new XYChart.Data<>("Absent", absentSessions));
 
-        leaveChart.getData().clear();
-        leaveChart.getData().add(series);
+        attendanceChart.getData().clear();
+        attendanceChart.getData().add(series);
     }
 
     private boolean canEditRow(AttendanceRecord row) {
@@ -293,10 +338,19 @@ public class TeacherAttendanceController {
     }
 
     private String normalizeRemark(String remark) {
-        if (remark == null || remark.isBlank()) {
+        if (remark == null) {
             return "";
         }
-        return remark.trim();
+        String trimmed = remark.trim();
+        if (trimmed.isEmpty() || trimmed.equalsIgnoreCase("Regular")) {
+            return "";
+        }
+        return trimmed;
+    }
+
+    private String displayRemark(String remark) {
+        String normalized = normalizeRemark(remark);
+        return normalized.isEmpty() ? "Regular" : normalized;
     }
 
     private boolean isFutureDate(String dateText) {
@@ -320,8 +374,37 @@ public class TeacherAttendanceController {
         boolean canEdit = hasStudent && selectedStudentInScope;
 
         editModeToggleButton.setDisable(!canEdit);
-        saveChangesButton.setDisable(!(canEdit && editModeEnabled && hasPending));
+        saveChangesButton.setDisable(!(canEdit && hasPending));
         cancelButton.setDisable(!(canEdit && hasPending));
+    }
+
+    private void updateEntryControls() {
+        boolean canEdit = selectedStudent != null && selectedStudentInScope;
+        attendanceDatePicker.setDisable(!canEdit);
+        addFnCombo.setDisable(!canEdit);
+        addAnCombo.setDisable(!canEdit);
+        addRemarkField.setDisable(!canEdit);
+        queueAttendanceButton.setDisable(!canEdit);
+    }
+
+    private void resetAttendanceEntryForm() {
+        attendanceDatePicker.setValue(LocalDate.now());
+        addFnCombo.getSelectionModel().select("Present");
+        addAnCombo.getSelectionModel().select("Present");
+        addRemarkField.clear();
+    }
+
+    private void sortAttendanceRows() {
+        FXCollections.sort(attendanceRows, Comparator.comparing(AttendanceRecord::getDate).reversed());
+    }
+
+    private AttendanceRecord findAttendanceRecord(String dateText) {
+        for (AttendanceRecord record : attendanceRows) {
+            if (record.getDate().equals(dateText)) {
+                return record;
+            }
+        }
+        return null;
     }
 
     @FXML
@@ -338,14 +421,69 @@ public class TeacherAttendanceController {
         updateEditActionButtons();
         if (editModeEnabled) {
             editStatusLabel.setText("Edit mode enabled. FN/AN and remarks are now editable.");
+        } else if (!pendingChangesByDate.isEmpty()) {
+            editStatusLabel.setText("Edit mode disabled. Pending attendance changes are still queued for save.");
         } else {
             editStatusLabel.setText("Edit mode disabled.");
         }
     }
 
     @FXML
+    private void handleQueueAttendanceDay() {
+        if (selectedStudent == null) {
+            editStatusLabel.setText("Select a student first.");
+            return;
+        }
+        if (!selectedStudentInScope) {
+            editStatusLabel.setText("This student is outside your teaching scope.");
+            return;
+        }
+
+        LocalDate selectedDate = attendanceDatePicker.getValue();
+        if (selectedDate == null) {
+            editStatusLabel.setText("Choose a date for the attendance entry.");
+            return;
+        }
+        if (selectedDate.isAfter(LocalDate.now())) {
+            editStatusLabel.setText("Future dates cannot be added.");
+            return;
+        }
+
+        String fnStatus = addFnCombo.getValue();
+        String anStatus = addAnCombo.getValue();
+        if (fnStatus == null || anStatus == null) {
+            editStatusLabel.setText("Choose both FN and AN statuses.");
+            return;
+        }
+
+        String dateText = selectedDate.toString();
+        AttendanceRecord record = findAttendanceRecord(dateText);
+        if (record == null) {
+            record = new AttendanceRecord(dateText, fnStatus, anStatus, displayRemark(addRemarkField.getText()));
+            record.setEditable(true);
+            attendanceRows.add(record);
+        } else {
+            record.setFnStatus(fnStatus);
+            record.setAnStatus(anStatus);
+            record.setRemark(displayRemark(addRemarkField.getText()));
+        }
+
+        record.setEditable(true);
+        markRowAsChanged(record);
+        sortAttendanceRows();
+        attendanceTable.refresh();
+        updateEditActionButtons();
+        resetAttendanceEntryForm();
+        if (pendingChangesByDate.containsKey(dateText)) {
+            editStatusLabel.setText("Queued attendance for " + dateText + ". Click Save Changes to persist it.");
+        } else {
+            editStatusLabel.setText("No new attendance changes detected for " + dateText + ".");
+        }
+    }
+
+    @FXML
     private void saveChanges() {
-        if (!editModeEnabled || pendingChangesByDate.isEmpty() || selectedStudent == null) {
+        if (pendingChangesByDate.isEmpty() || selectedStudent == null) {
             editStatusLabel.setText("No attendance changes to save.");
             return;
         }
@@ -386,6 +524,7 @@ public class TeacherAttendanceController {
         loadAttendanceDataForSelectedStudent();
         setEditMode(false);
         updateEditActionButtons();
+        resetAttendanceEntryForm();
         editStatusLabel.setText("Attendance changes saved successfully.");
     }
 

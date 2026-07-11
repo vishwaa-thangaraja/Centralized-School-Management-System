@@ -1,12 +1,13 @@
 package controller;
 
 import dao.UserDAO;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -20,8 +21,9 @@ import javafx.scene.layout.VBox;
 import model.CommunicationMessage;
 import model.CounsellorInboxRecord;
 import model.User;
+import javafx.util.Duration;
 
-public class CounsellorChatController {
+public class CounsellorChatController implements LiveRefreshController {
 
     @FXML private Label counsellorContextLabel;
     @FXML private Label selectedParticipantLabel;
@@ -40,6 +42,9 @@ public class CounsellorChatController {
     private final UserDAO userDAO = new UserDAO();
     private User currentCounsellor;
     private CounsellorInboxRecord selectedThread;
+    private Timeline liveRefreshTimeline;
+    private boolean suppressSelectionListener = false;
+    private static final int LIVE_REFRESH_SECONDS = 2;
 
     @FXML
     public void initialize() {
@@ -65,6 +70,9 @@ public class CounsellorChatController {
 
         participantTable.setItems(FXCollections.observableArrayList());
         participantTable.getSelectionModel().selectedItemProperty().addListener((obs, oldThread, newThread) -> {
+            if (suppressSelectionListener) {
+                return;
+            }
             selectedThread = newThread;
             loadChatHistory();
         });
@@ -76,6 +84,7 @@ public class CounsellorChatController {
         messageInput.clear();
         counsellorContextLabel.setText("Counsellor: " + counsellorUser.getName());
         loadDirectory();
+        startLiveRefresh();
     }
 
     private void loadDirectory() {
@@ -100,6 +109,53 @@ public class CounsellorChatController {
 
         if (CounsellorDashboardController.getInstance() != null) {
             CounsellorDashboardController.getInstance().refreshDashboard();
+        }
+    }
+
+    private void refreshDirectoryPreservingSelection() {
+        if (currentCounsellor == null) {
+            return;
+        }
+
+        int previousTargetId = selectedThread != null ? selectedThread.getTargetUserId() : -1;
+        int previousStudentId = selectedThread != null ? selectedThread.getStudentId() : -1;
+        ObservableList<CounsellorInboxRecord> participants = userDAO.getCounsellorInboxForCounsellor(currentCounsellor.getUserId());
+
+        suppressSelectionListener = true;
+        participantTable.setItems(participants);
+        participantTable.getSelectionModel().clearSelection();
+        selectedThread = null;
+        for (CounsellorInboxRecord participant : participants) {
+            if (participant.getTargetUserId() == previousTargetId && participant.getStudentId() == previousStudentId) {
+                selectedThread = participant;
+                participantTable.getSelectionModel().select(participant);
+                break;
+            }
+        }
+        suppressSelectionListener = false;
+
+        if (selectedThread != null) {
+            loadChatHistory();
+        } else {
+            participantTable.refresh();
+        }
+        if (CounsellorDashboardController.getInstance() != null) {
+            CounsellorDashboardController.getInstance().refreshDashboard();
+        }
+    }
+
+    private void startLiveRefresh() {
+        stopLiveRefresh();
+        liveRefreshTimeline = new Timeline(new KeyFrame(Duration.seconds(LIVE_REFRESH_SECONDS), event -> refreshDirectoryPreservingSelection()));
+        liveRefreshTimeline.setCycleCount(Timeline.INDEFINITE);
+        liveRefreshTimeline.play();
+    }
+
+    @Override
+    public void stopLiveRefresh() {
+        if (liveRefreshTimeline != null) {
+            liveRefreshTimeline.stop();
+            liveRefreshTimeline = null;
         }
     }
 
@@ -210,11 +266,8 @@ public class CounsellorChatController {
             statusLabel.setText("Select a participant first.");
             return;
         }
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Clear Chat");
-        confirm.setHeaderText("Delete full conversation?");
-        confirm.setContentText("This will permanently delete all messages for this participant and student context.");
-        if (confirm.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.OK) {
+        if (DialogSupport.confirm(messageInput, "Clear Chat", "Delete full conversation?\n\nThis will permanently delete all messages for this participant and student context.")
+                .orElse(ButtonType.CANCEL) != ButtonType.OK) {
             return;
         }
 
@@ -236,6 +289,7 @@ public class CounsellorChatController {
 
     @FXML
     private void backToDashboard() {
+        stopLiveRefresh();
         if (CounsellorDashboardController.getInstance() != null) {
             CounsellorDashboardController.getInstance().scrollToTop();
         }

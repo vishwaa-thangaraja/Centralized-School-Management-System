@@ -1,0 +1,32 @@
+flowchart TB
+  UI["JavaFX Presentation Layer<br/>FXML / CSS"]
+  Controller["Controller Layer<br/>Action handling"]
+  Services["Application Services<br/>SHA-256, SMTP/OTP, PDF Service"]
+  DAO["Data Access Layer<br/>JDBC / DAO"]
+  DB[("Oracle Database")]
+
+  Admin["Administrative Module<br/>Infrastructure Management<br/>Identity & Access Management<br/>Academic Mapping Engine<br/>Security Auditing<br/>Communication Management<br/>Data Management<br/>System Reports"]
+  Faculty["Faculty / Teacher Module<br/>Attendance Registry<br/>Assignment Lifecycle<br/>Performance Evaluation<br/>Lesson Planning<br/>Parent-Teacher Connect<br/>Class Communication<br/>Resource Management<br/>Teacher Reports"]
+  Student["Student Module<br/>Profile Management<br/>Attendance & Timetable<br/>Academic Progress<br/>Assignments<br/>Resource Access<br/>Notifications"]
+  Parent["Parent Module<br/>Ward Switching<br/>Real-time Alerts<br/>Attendance Tracker<br/>Academic Overview<br/>Fee Overview<br/>Communication"]
+  Counsellor["Counsellor Module<br/>Student Counselling<br/>Wellness Tracking<br/>Appointment Management<br/>Reports & Insights"]
+  Connect["Connect Module<br/>Chat Module<br/>Group Discussions<br/>File Sharing<br/>Meeting & Webinar"]
+
+  UI --> Controller
+  Controller --> Services
+  Services --> DAO
+  DAO --> DB
+
+  Controller --> Admin
+  Controller --> Faculty
+  Controller --> Student
+  Services --> Parent
+  Services --> Counsellor
+  Services --> Connect
+
+  Admin -.-> Services
+  Faculty -.-> Services
+  Student -.-> DAO
+  Parent -.-> Services
+  Counsellor -.-> Services
+  Connect -.-> Services

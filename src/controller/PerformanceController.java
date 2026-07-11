@@ -11,7 +11,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -108,15 +107,11 @@ public class PerformanceController {
                 document.add(table);
                 document.close();
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("PDF Report generated successfully!");
-                alert.show();
+                DialogSupport.info(performanceTable, "PDF Generated", "PDF Report generated successfully!");
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("PDF Error: " + e.getMessage());
-                alert.show();
+                DialogSupport.error(performanceTable, "PDF Error", e.getMessage());
             }
         }
     }

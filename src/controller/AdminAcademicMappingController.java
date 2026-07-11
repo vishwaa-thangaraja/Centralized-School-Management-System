@@ -2,7 +2,6 @@ package controller;
 
 import dao.UserDAO;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -198,11 +197,7 @@ public class AdminAcademicMappingController {
         }
 
         String selectedUser = value(deleteUserCombo);
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Delete User");
-        confirm.setHeaderText("Delete selected user?");
-        confirm.setContentText(selectedUser);
-        Optional<ButtonType> response = confirm.showAndWait();
+        Optional<ButtonType> response = DialogSupport.confirm(deleteUserCombo, "Delete User", "Delete selected user?\n\n" + selectedUser);
         if (response.isEmpty() || response.get() != ButtonType.OK) {
             return;
         }

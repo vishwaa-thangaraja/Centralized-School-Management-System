@@ -1,0 +1,20 @@
+flowchart LR
+  Main["main<br/>Application Launcher"]
+  View["view<br/>FXML Screens<br/>Dashboard UI"]
+  Controller["controller<br/>Login, Admin<br/>Teacher, Student"]
+  Service["service<br/>Auth, OTP<br/>File + Theme"]
+  DAO["dao<br/>UserDAO<br/>JDBC Access"]
+  Resources["resources<br/>CSS, Images<br/>PDF Folders"]
+  Model["model<br/>User, Role<br/>Records"]
+  Database["database<br/>Oracle Schema<br/>setup.sql"]
+
+  Main -. "<<use>>" .-> View
+  View -->|"<<merge>>"| Controller
+  Controller -. "<<use>>" .-> Service
+  Controller -. "<<access>>" .-> DAO
+  Controller -. "<<use>>" .-> Resources
+  Service -. "<<use>>" .-> DAO
+  Service -. "<<import>>" .-> Model
+  DAO -. "<<import>>" .-> Model
+  DAO -. "<<access>>" .-> Database
+  DAO -. "<<access>>" .-> Resources

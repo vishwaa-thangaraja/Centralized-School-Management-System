@@ -67,7 +67,10 @@ public class TeacherDashboardController {
     private final ExamService examService = new ExamService();
     private final List<ExamRecord> upcomingExamNotifications = new ArrayList<>();
     private Timeline upcomingExamTimeline;
+    private Timeline notificationTimeline;
     private int upcomingExamIndex = 0;
+    private Object activeSubviewController;
+    private static final int NOTIFICATION_REFRESH_SECONDS = 2;
 
     public TeacherDashboardController() {
         instance = this;
@@ -95,6 +98,7 @@ public class TeacherDashboardController {
         ProfileImageSupport.configureSchoolProfileButton(schoolProfileButton, user);
         refreshDashboard();
         refreshTeacherChatNotification();
+        startNotificationRefresh();
     }
 
     public void refreshDashboard() {
@@ -124,6 +128,7 @@ public class TeacherDashboardController {
 
     private void loadView(String fxmlPath) {
         try {
+            stopActiveSubviewRefresh();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent newContent = loader.load();
 
@@ -141,6 +146,7 @@ public class TeacherDashboardController {
             } else if (controller instanceof TeacherConnectController) {
                 ((TeacherConnectController) controller).initData(currentUser);
             }
+            activeSubviewController = controller;
 
             mainContentScroll.setContent(newContent);
 
@@ -198,8 +204,30 @@ public class TeacherDashboardController {
         teacherConnectInboxBadgeLabel.setManaged(unreadCount > 0);
     }
 
+    private void startNotificationRefresh() {
+        stopNotificationRefresh();
+        notificationTimeline = new Timeline(new KeyFrame(Duration.seconds(NOTIFICATION_REFRESH_SECONDS), event -> refreshTeacherChatNotification()));
+        notificationTimeline.setCycleCount(Timeline.INDEFINITE);
+        notificationTimeline.play();
+    }
+
+    private void stopNotificationRefresh() {
+        if (notificationTimeline != null) {
+            notificationTimeline.stop();
+            notificationTimeline = null;
+        }
+    }
+
+    private void stopActiveSubviewRefresh() {
+        if (activeSubviewController instanceof LiveRefreshController) {
+            ((LiveRefreshController) activeSubviewController).stopLiveRefresh();
+        }
+    }
+
     @FXML
     public void scrollToTop() {
+        stopActiveSubviewRefresh();
+        activeSubviewController = null;
         mainContentScroll.setContent(dashboardContent);
         mainContentScroll.setVvalue(0);
         if (currentUser != null) {
@@ -304,12 +332,15 @@ public class TeacherDashboardController {
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
+            stopNotificationRefresh();
+            stopActiveSubviewRefresh();
             AuthService.clearCurrentUser();
             Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             SchoolSettingsService.applyStageTitle(stage);
             stage.setScene(new Scene(root));
             stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
         } catch (Exception e) {
             e.printStackTrace();
         }

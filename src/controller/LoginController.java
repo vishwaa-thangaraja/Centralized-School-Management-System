@@ -4,14 +4,18 @@ import dao.UserDAO;
 import model.User;
 import service.AuthService;
 import service.SchoolSettingsService;
+import javafx.animation.PauseTransition;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import javafx.util.Duration;
 import java.io.IOException;
 
 public class LoginController {
@@ -20,12 +24,18 @@ public class LoginController {
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
     @FXML private Label loginTitleLabel;
+    @FXML private Button loginButton;
+    @FXML private StackPane loadingOverlay;
 
     private UserDAO userDAO = new UserDAO();
+    private final LoadingScreen loadingScreen = new LoadingScreen();
 
     @FXML
     public void initialize() {
         loginTitleLabel.setText(SchoolSettingsService.getLoginTitle());
+        loadingOverlay.setVisible(false);
+        loginButton.setDefaultButton(true);
+        passwordField.setOnAction(event -> loginButton.fire());
     }
 
     @FXML
@@ -38,33 +48,52 @@ public class LoginController {
             return;
         }
 
-        String hashedPassword = AuthService.hashPassword(password);
-        User user = userDAO.validateUser(email, hashedPassword);
-
-        if (user != null) {
-            AuthService.setCurrentUser(user);
-
-            try {
-                if (user.getRoleName().equalsIgnoreCase("Student")) {
-                    switchToDashboard(event, "/view/student_dashboard.fxml", user);
-                } else if (user.getRoleName().equalsIgnoreCase("Teacher")) {
-                    switchToDashboard(event, "/view/teacher_dashboard.fxml", user);
-                } else if (user.getRoleName().equalsIgnoreCase("Parent")) {
-                    switchToDashboard(event, "/view/parent_dashboard.fxml", user);
-                } else if (user.getRoleName().equalsIgnoreCase("Counsellor")) {
-                    switchToDashboard(event, "/view/counsellor_dashboard.fxml", user);
-                } else if (user.getRoleName().equalsIgnoreCase("Admin")) {
-                    switchToDashboard(event, "/view/admin_dashboard.fxml", user);
-                } else {
-                    errorLabel.setText("This role does not have a dashboard yet.");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                errorLabel.setText("Error loading dashboard.");
+        setLoading(true);
+        Task<User> loginTask = new Task<>() {
+            @Override
+            protected User call() {
+                String hashedPassword = AuthService.hashPassword(password);
+                return userDAO.validateUser(email, hashedPassword);
             }
-        } else {
-            errorLabel.setText("Invalid email or password.");
-        }
+        };
+
+        loginTask.setOnSucceeded(workerState -> {
+            User user = loginTask.getValue();
+            if (user == null) {
+                setLoading(false);
+                errorLabel.setText("Invalid email or password.");
+                return;
+            }
+
+            String dashboardPath = dashboardPathFor(user);
+            if (dashboardPath == null) {
+                setLoading(false);
+                errorLabel.setText("This role does not have a dashboard yet.");
+                return;
+            }
+            AuthService.setCurrentUser(user);
+            PauseTransition renderLoadingScreen = new PauseTransition(Duration.seconds(2));
+            renderLoadingScreen.setOnFinished(delayEvent -> {
+                try {
+                    switchToDashboard(event, dashboardPath, user);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    setLoading(false);
+                    errorLabel.setText("Error loading dashboard.");
+                }
+            });
+            renderLoadingScreen.play();
+        });
+
+        loginTask.setOnFailed(workerState -> {
+            loginTask.getException().printStackTrace();
+            setLoading(false);
+            errorLabel.setText("Unable to login. Please try again.");
+        });
+
+        Thread loginThread = new Thread(loginTask, "csms-login");
+        loginThread.setDaemon(true);
+        loginThread.start();
     }
 
     @FXML
@@ -99,6 +128,42 @@ public class LoginController {
         SchoolSettingsService.applyStageTitle(stage);
         stage.setScene(new Scene(root));
         stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
         stage.show();
+        loadingScreen.close();
+    }
+
+    private String dashboardPathFor(User user) {
+        if (user.getRoleName().equalsIgnoreCase("Student")) {
+            return "/view/student_dashboard.fxml";
+        }
+        if (user.getRoleName().equalsIgnoreCase("Teacher")) {
+            return "/view/teacher_dashboard.fxml";
+        }
+        if (user.getRoleName().equalsIgnoreCase("Parent")) {
+            return "/view/parent_dashboard.fxml";
+        }
+        if (user.getRoleName().equalsIgnoreCase("Counsellor")) {
+            return "/view/counsellor_dashboard.fxml";
+        }
+        if (user.getRoleName().equalsIgnoreCase("Admin")) {
+            return "/view/admin_dashboard.fxml";
+        }
+        return null;
+    }
+
+    private void setLoading(boolean loading) {
+        loadingOverlay.setVisible(loading);
+        loginButton.setDisable(loading);
+        emailField.setDisable(loading);
+        passwordField.setDisable(loading);
+        if (loading) {
+            loadingScreen.show(loginButton.getScene() == null ? null : loginButton.getScene().getWindow());
+        } else {
+            loadingScreen.close();
+        }
+        if (loading) {
+            errorLabel.setText("");
+        }
     }
 }

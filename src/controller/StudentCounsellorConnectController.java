@@ -1,12 +1,13 @@
 package controller;
 
 import dao.UserDAO;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -20,8 +21,9 @@ import javafx.scene.layout.VBox;
 import model.CommunicationMessage;
 import model.CounsellorContactRecord;
 import model.User;
+import javafx.util.Duration;
 
-public class StudentCounsellorConnectController {
+public class StudentCounsellorConnectController implements LiveRefreshController {
 
     @FXML private Label studentContextLabel;
     @FXML private Label selectedCounsellorLabel;
@@ -40,6 +42,9 @@ public class StudentCounsellorConnectController {
     private User currentStudentUser;
     private int currentStudentId = -1;
     private CounsellorContactRecord selectedCounsellor;
+    private Timeline liveRefreshTimeline;
+    private boolean suppressSelectionListener = false;
+    private static final int LIVE_REFRESH_SECONDS = 2;
 
     @FXML
     public void initialize() {
@@ -62,6 +67,9 @@ public class StudentCounsellorConnectController {
         });
         counsellorTable.setItems(FXCollections.observableArrayList());
         counsellorTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (suppressSelectionListener) {
+                return;
+            }
             selectedCounsellor = newVal;
             loadChatHistory();
         });
@@ -74,6 +82,7 @@ public class StudentCounsellorConnectController {
         messageInput.clear();
         studentContextLabel.setText("Student: " + studentUser.getName());
         loadCounsellorDirectory();
+        startLiveRefresh();
     }
 
     private void loadCounsellorDirectory() {
@@ -94,6 +103,52 @@ public class StudentCounsellorConnectController {
         counsellorInfoLabel.setText("Email: - | Phone: -");
         chatMessagesBox.getChildren().clear();
         statusLabel.setText(contacts.isEmpty() ? "No counsellors available." : "Select counsellor to chat.");
+    }
+
+    private void refreshCounsellorDirectoryPreservingSelection() {
+        if (currentStudentUser == null || currentStudentId <= 0) {
+            return;
+        }
+
+        int previousCounsellorId = selectedCounsellor != null ? selectedCounsellor.getCounsellorUserId() : -1;
+        ObservableList<CounsellorContactRecord> contacts = userDAO.getCounsellorContactsForStudent(currentStudentUser.getUserId(), currentStudentId);
+
+        suppressSelectionListener = true;
+        counsellorTable.setItems(contacts);
+        counsellorTable.getSelectionModel().clearSelection();
+        selectedCounsellor = null;
+        for (CounsellorContactRecord counsellor : contacts) {
+            if (counsellor.getCounsellorUserId() == previousCounsellorId) {
+                selectedCounsellor = counsellor;
+                counsellorTable.getSelectionModel().select(counsellor);
+                break;
+            }
+        }
+        suppressSelectionListener = false;
+
+        if (selectedCounsellor != null) {
+            loadChatHistory();
+        } else {
+            counsellorTable.refresh();
+        }
+        if (StudentDashboardController.getInstance() != null) {
+            StudentDashboardController.getInstance().refreshMessageNotifications();
+        }
+    }
+
+    private void startLiveRefresh() {
+        stopLiveRefresh();
+        liveRefreshTimeline = new Timeline(new KeyFrame(Duration.seconds(LIVE_REFRESH_SECONDS), event -> refreshCounsellorDirectoryPreservingSelection()));
+        liveRefreshTimeline.setCycleCount(Timeline.INDEFINITE);
+        liveRefreshTimeline.play();
+    }
+
+    @Override
+    public void stopLiveRefresh() {
+        if (liveRefreshTimeline != null) {
+            liveRefreshTimeline.stop();
+            liveRefreshTimeline = null;
+        }
     }
 
     private void loadChatHistory() {
@@ -120,7 +175,7 @@ public class StudentCounsellorConnectController {
         selectedCounsellor.setUnreadCount(0);
         counsellorTable.refresh();
         if (StudentDashboardController.getInstance() != null) {
-            StudentDashboardController.getInstance().refreshDashboardStats();
+            StudentDashboardController.getInstance().refreshMessageNotifications();
         }
 
         if (messages.isEmpty()) {
@@ -185,7 +240,7 @@ public class StudentCounsellorConnectController {
         messageInput.clear();
         loadChatHistory();
         if (StudentDashboardController.getInstance() != null) {
-            StudentDashboardController.getInstance().refreshDashboardStats();
+            StudentDashboardController.getInstance().refreshMessageNotifications();
         }
         statusLabel.setText("Message sent successfully.");
     }
@@ -196,11 +251,8 @@ public class StudentCounsellorConnectController {
             statusLabel.setText("Select counsellor first.");
             return;
         }
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Clear Chat");
-        confirm.setHeaderText("Delete full conversation?");
-        confirm.setContentText("This will permanently delete all counsellor chat messages for your profile.");
-        if (confirm.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.OK) {
+        if (DialogSupport.confirm(messageInput, "Clear Chat", "Delete full conversation?\n\nThis will permanently delete all counsellor chat messages for your profile.")
+                .orElse(ButtonType.CANCEL) != ButtonType.OK) {
             return;
         }
         boolean cleared = userDAO.clearChatHistoryForStudentCounsellor(
@@ -215,13 +267,14 @@ public class StudentCounsellorConnectController {
         messageInput.clear();
         loadCounsellorDirectory();
         if (StudentDashboardController.getInstance() != null) {
-            StudentDashboardController.getInstance().refreshDashboardStats();
+            StudentDashboardController.getInstance().refreshMessageNotifications();
         }
         statusLabel.setText("Chat cleared successfully.");
     }
 
     @FXML
     private void backToDashboard() {
+        stopLiveRefresh();
         if (StudentDashboardController.getInstance() != null) {
             StudentDashboardController.getInstance().scrollToTop();
         }

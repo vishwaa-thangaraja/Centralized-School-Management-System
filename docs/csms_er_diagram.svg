@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1600" viewBox="0 0 2560 1600">
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="rgba(24, 39, 75, 0.14)" />
+    </filter>
+    <linearGradient id="bgGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#eef2ff" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="2560" height="1600" fill="url(#bgGrad)" />
+  <text x="32" y="40" font-size="28" font-weight="800" fill="#1f2937">CSMS Project ER Diagram</text>
+  <text x="32" y="60" font-size="13" fill="#556274">Oracle schema from database/csms_full_setup_with_data.sql | 22 tables | PK = Primary Key, FK = Foreign Key, UQ = Unique</text>
+  <rect x="2042" y="24" width="486" height="52" rx="14" fill="white" stroke="#c8d1de" stroke-width="1.2" />
+  <text x="2062" y="47" font-size="13" fill="#556274">Includes: identity, academics, exams, assignments,</text>
+  <text x="2062" y="64" font-size="13" fill="#556274">attendance, counselling, messaging, branding and audit tables</text>
+
+  
+    <rect x="24" y="88" width="620" height="1488" rx="24" fill="white" opacity="0.55" stroke="#2563eb" stroke-width="1.4" stroke-dasharray="8 8" />
+    <text x="42" y="76" font-size="18" font-weight="700" fill="#2563eb">Identity, Roles &amp; Settings</text>
+  
+
+    <rect x="668" y="88" width="760" height="520" rx="24" fill="white" opacity="0.55" stroke="#0f766e" stroke-width="1.4" stroke-dasharray="8 8" />
+    <text x="686" y="76" font-size="18" font-weight="700" fill="#0f766e">Academic Structure &amp; Mapping</text>
+  
+
+    <rect x="668" y="632" width="1058" height="944" rx="24" fill="white" opacity="0.55" stroke="#b45309" stroke-width="1.4" stroke-dasharray="8 8" />
+    <text x="686" y="620" font-size="18" font-weight="700" fill="#b45309">Exams, Assignments &amp; Tracking</text>
+  
+
+    <rect x="1750" y="88" width="786" height="1488" rx="24" fill="white" opacity="0.55" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="8 8" />
+    <text x="1768" y="76" font-size="18" font-weight="700" fill="#7c3aed">Counselling &amp; Communication</text>
+  
+  <g id="relations">
+    <polyline points="172,210 328,286" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="172" cy="210" r="3.2" fill="#8c97a8" />
+    <circle cx="328" cy="286" r="3.2" fill="#8c97a8" />
+    <text x="171.36" y="206.56" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="324.64" y="273.44" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="217.22" y="234.52" width="71.80000000000001" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="253.12" y="249.52" text-anchor="middle" font-size="12" fill="#556274">role_id</text>
+  
+
+    <polyline points="328,496 185,564" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="328" cy="496" r="3.2" fill="#8c97a8" />
+    <circle cx="185" cy="564" r="3.2" fill="#8c97a8" />
+    <text x="309.42" y="492.08" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="199.58" y="551.92" font-size="12" font-weight="700" fill="#5b6677">0..1</text>
+    <rect x="217.73999999999998" y="516.36" width="71.80000000000001" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="253.64" y="531.36" text-anchor="middle" font-size="12" fill="#556274">user_id</text>
+  
+
+    <polyline points="328,496 481,564" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="328" cy="496" r="3.2" fill="#8c97a8" />
+    <circle cx="481" cy="564" r="3.2" fill="#8c97a8" />
+    <text x="327.18" y="492.08" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="477.82" y="551.92" font-size="12" font-weight="700" fill="#5b6677">0..1</text>
+    <rect x="371.65999999999997" y="516.36" width="71.80000000000001" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="407.56" y="531.36" text-anchor="middle" font-size="12" fill="#556274">user_id</text>
+  
+
+    <polyline points="148,391 116,520 116,746 185,762" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="148" cy="391" r="3.2" fill="#8c97a8" />
+    <circle cx="185" cy="762" r="3.2" fill="#8c97a8" />
+    <text x="131.79201411234982" y="408.0259431095898" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="165.88202616083046" y="748.1755422981636" font-size="12" font-weight="700" fill="#5b6677">0..1</text>
+    <rect x="80.1" y="595.5553307898364" width="71.80000000000001" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="116" y="610.5553307898364" text-anchor="middle" font-size="12" fill="#556274">user_id</text>
+  
+
+    <polyline points="508,391 564,520 564,746 481,762" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="508" cy="391" r="3.2" fill="#8c97a8" />
+    <circle cx="481" cy="762" r="3.2" fill="#8c97a8" />
+    <text x="508.7792495533374" y="407.83077129250955" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="513.5801655831451" y="748.8761126586709" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="528.1" y="598.9718663439426" width="71.80000000000001" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="564" y="613.9718663439426" text-anchor="middle" font-size="12" fill="#556274">user_id</text>
+  
+
+    <polyline points="322,625 620,626 620,375 834,374" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="322" cy="625" r="3.2" fill="#8c97a8" />
+    <circle cx="834" cy="374" r="3.2" fill="#8c97a8" />
+    <text x="357.77998309916944" y="617.1536241043597" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="794.2202589627483" y="366.21392402353854" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="573" y="512.2395904202215" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="620" y="527.2395904202215" text-anchor="middle" font-size="12" fill="#556274">teacher_id</text>
+  
+
+    <polyline points="618,647 852,628 852,519 1030,507" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="618" cy="647" r="3.2" fill="#8c97a8" />
+    <circle cx="1030" cy="507" r="3.2" fill="#8c97a8" />
+    <text x="639.227677041038" y="636.4644193855568" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1004.7405066367216" y="501.1073815750525" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="805" y="576.2395495182716" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="852" y="591.2395495182716" text-anchor="middle" font-size="12" fill="#556274">student_id</text>
+  
+
+    <polyline points="508,391 610,392 610,523 712,518" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="508" cy="391" r="3.2" fill="#8c97a8" />
+    <circle cx="712" cy="518" r="3.2" fill="#8c97a8" />
+    <text x="518.1066763676569" y="383.1971242781143" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="697.9164724567134" y="510.9844866442787" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="566.7" y="449.26133436963653" width="86.60000000000001" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="610" y="464.26133436963653" text-anchor="middle" font-size="12" fill="#556274">parent_id</text>
+  
+
+    <polyline points="618,647 646,630 850,630 851,568" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="618" cy="647" r="3.2" fill="#8c97a8" />
+    <circle cx="851" cy="568" r="3.2" fill="#8c97a8" />
+    <text x="623.322822322905" y="629.6968578753791" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="856.7109104299016" y="577.923553346105" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="721.6009874956964" y="615" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="768.6009874956964" y="630" text-anchor="middle" font-size="12" fill="#556274">student_id</text>
+  
+
+    <polyline points="851,260 1010,324" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="851" cy="260" r="3.2" fill="#8c97a8" />
+    <circle cx="1010" cy="324" r="3.2" fill="#8c97a8" />
+    <text x="850.54" y="255.83999999999997" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1006.46" y="312.15999999999997" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="894.08" y="278.28" width="79.2" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="933.6800000000001" y="293.28" text-anchor="middle" font-size="12" fill="#556274">class_id</text>
+  
+
+    <polyline points="1169,216 1010,324" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="1169" cy="216" r="3.2" fill="#8c97a8" />
+    <circle cx="1010" cy="324" r="3.2" fill="#8c97a8" />
+    <text x="1149.46" y="214.48" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1025.54" y="309.52" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1039.32" y="257.16" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1086.32" y="272.16" text-anchor="middle" font-size="12" fill="#556274">subject_id</text>
+  
+
+    <polyline points="851,260 914,458 1148,458 1169,468" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="851" cy="260" r="3.2" fill="#8c97a8" />
+    <circle cx="1169" cy="468" r="3.2" fill="#8c97a8" />
+    <text x="849.4601195788061" y="278.5889472476765" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1149.356974206208" y="450" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="908.4399467550822" y="443" width="79.2" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="948.0399467550823" y="458" text-anchor="middle" font-size="12" fill="#556274">class_id</text>
+  
+
+    <polyline points="851,260 810,616 810,670 867,686" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="851" cy="260" r="3.2" fill="#8c97a8" />
+    <circle cx="867" cy="686" r="3.2" fill="#8c97a8" />
+    <text x="837.762891000186" y="280.10758058375103" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="845.7594688774076" y="670.3535351234829" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="783.3450553349452" y="488.59903172584205" width="79.2" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="822.9450553349452" y="503.59903172584205" text-anchor="middle" font-size="12" fill="#556274">class_id</text>
+  
+
+    <polyline points="1030,177 1168,250 1168,670 866,670 867,686" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="1030" cy="177" r="3.2" fill="#8c97a8" />
+    <circle cx="867" cy="686" r="3.2" fill="#8c97a8" />
+    <text x="1067.422681668312" y="194.08591131729548" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="909.6177663127764" y="662" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1121" y="543.8393327046192" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1168" y="558.8393327046192" text-anchor="middle" font-size="12" fill="#556274">subject_id</text>
+  
+
+    <polyline points="322,625 652,626 652,808 700,791" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="322" cy="625" r="3.2" fill="#8c97a8" />
+    <circle cx="700" cy="791" r="3.2" fill="#8c97a8" />
+    <text x="345.77522632829096" y="617.1023491706918" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="674.1624059498603" y="794.2758145594245" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="527.0186281785213" y="610.8870261459955" width="175.4" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="614.7186281785214" y="625.8870261459955" text-anchor="middle" font-size="12" fill="#556274">created_by_teacher_id</text>
+  
+
+    <polyline points="851,260 850,616 1186,616 1186,670 1252,686" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="851" cy="260" r="3.2" fill="#8c97a8" />
+    <circle cx="1252" cy="686" r="3.2" fill="#8c97a8" />
+    <text x="840.8628241740159" y="300.8345940503237" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1210.5399073720544" y="666.4945229992859" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="877.6334136844338" y="601" width="79.2" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="917.2334136844338" y="616" text-anchor="middle" font-size="12" fill="#556274">class_id</text>
+  
+
+    <polyline points="1169,216 1168,616 1252,616 1252,670 1252,686" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="1169" cy="216" r="3.2" fill="#8c97a8" />
+    <circle cx="1252" cy="686" r="3.2" fill="#8c97a8" />
+    <text x="1158.9169000721872" y="241.23997112513536" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1258" y="644.7599250001172" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1121.279800625622" y="489.0797497511731" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1168.279800625622" y="504.0797497511731" text-anchor="middle" font-size="12" fill="#556274">subject_id</text>
+  
+
+    <polyline points="322,625 636,606 636,874 1074,791" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="322" cy="625" r="3.2" fill="#8c97a8" />
+    <circle cx="1074" cy="791" r="3.2" fill="#8c97a8" />
+    <text x="373.5894976200137" y="613.2732469592985" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1019.3767255712957" y="794.4879720949372" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="589" y="811.1776223768123" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="636" y="826.1776223768123" text-anchor="middle" font-size="12" fill="#556274">teacher_id</text>
+  
+
+    <polyline points="851,260 872,616 1618,616 1618,670 1624,686" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="851" cy="260" r="3.2" fill="#8c97a8" />
+    <circle cx="1624" cy="686" r="3.2" fill="#8c97a8" />
+    <text x="845.1469222878666" y="322.300206403834" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1624" y="608.6655963924396" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1086.10871870507" y="601" width="79.2" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1125.70871870507" y="616" text-anchor="middle" font-size="12" fill="#556274">class_id</text>
+  
+
+    <polyline points="1169,216 1206,616 1648,616 1648,670 1624,686" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="1169" cy="216" r="3.2" fill="#8c97a8" />
+    <circle cx="1624" cy="686" r="3.2" fill="#8c97a8" />
+    <text x="1164.1205041872304" y="263.356802024112" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1654" y="635.2512892851289" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1239.0994428550491" y="601" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1286.0994428550491" y="616" text-anchor="middle" font-size="12" fill="#556274">subject_id</text>
+  
+
+    <polyline points="867,896 915,1058" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="867" cy="896" r="3.2" fill="#8c97a8" />
+    <circle cx="915" cy="1058" r="3.2" fill="#8c97a8" />
+    <text x="859.88" y="897.72" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="918.12" y="1040.28" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="863.46" y="965.24" width="57" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="891.96" y="980.24" text-anchor="middle" font-size="12" fill="#556274">qp_id</text>
+  
+
+    <polyline points="481,730 482,980 760,980 776,1119" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="481" cy="730" r="3.2" fill="#8c97a8" />
+    <circle cx="776" cy="1119" r="3.2" fill="#8c97a8" />
+    <text x="471.16029947753475" y="762.0748693836879" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="777.4172886628312" y="1071.187695258346" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="532.3163131797912" y="965" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="579.3163131797912" y="980" text-anchor="middle" font-size="12" fill="#556274">student_id</text>
+  
+
+    <polyline points="1624,852 1624,1006 1236,1006 1237,1058" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="1624" cy="852" r="3.2" fill="#8c97a8" />
+    <circle cx="1237" cy="1058" r="3.2" fill="#8c97a8" />
+    <text x="1614" y="879.640576869747" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1242.3147309931967" y="1014.3660116462293" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1411.0150004621928" y="991" width="116.2" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1469.1150004621927" y="1006" text-anchor="middle" font-size="12" fill="#556274">assignment_id</text>
+  
+
+    <polyline points="481,730 526,1120 1080,1120 1094,1130" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="481" cy="730" r="3.2" fill="#8c97a8" />
+    <circle cx="1094" cy="1130" r="3.2" fill="#8c97a8" />
+    <text x="477.62842941266564" y="779.4463882431024" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1045.3771173110958" y="1112" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="587.5843847501698" y="1105" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="634.5843847501698" y="1120" text-anchor="middle" font-size="12" fill="#556274">student_id</text>
+  
+
+    <polyline points="508,391 632,430 632,1180 1420,1154" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="508" cy="391" r="3.2" fill="#8c97a8" />
+    <circle cx="1420" cy="1154" r="3.2" fill="#8c97a8" />
+    <text x="593.4932803494896" y="413.03417688411366" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1325.949409272352" y="1149.3011616229935" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="596.1" y="1152.5885237201428" width="71.80000000000001" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="632" y="1167.5885237201428" text-anchor="middle" font-size="12" fill="#556274">user_id</text>
+  
+
+    <polyline points="990,199 1370,210 1370,1022 1518,1022 1591,1038" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="990" cy="199" r="3.2" fill="#8c97a8" />
+    <circle cx="1591" cy="1038" r="3.2" fill="#8c97a8" />
+    <text x="1064.8579761536625" y="193.45641509918497" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1513.839335480906" y="1014" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1330.4" y="550.5846808843119" width="79.2" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1370" y="565.5846808843119" text-anchor="middle" font-size="12" fill="#556274">class_id</text>
+  
+
+    <polyline points="508,391 650,352 650,930 1680,930 1680,1022 1591,1038" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="508" cy="391" r="3.2" fill="#8c97a8" />
+    <circle cx="1591" cy="1038" r="3.2" fill="#8c97a8" />
+    <text x="610.1096684903445" y="352.2093164005392" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1686" y="988.1656634016265" font-size="12" font-weight="700" fill="#5b6677">0..N</text>
+    <rect x="881.6379455698275" y="915" width="101.4" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="932.3379455698275" y="930" text-anchor="middle" font-size="12" fill="#556274">approved_by</text>
+  
+
+    <polyline points="618,647 680,626 680,346 1872,346 1888,232" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="618" cy="647" r="3.2" fill="#8c97a8" />
+    <circle cx="1888" cy="232" r="3.2" fill="#8c97a8" />
+    <text x="670" y="584.3052768254839" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1880.2186333442687" y="322.1922374220848" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1146.880254883436" y="331" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1193.880254883436" y="346" text-anchor="middle" font-size="12" fill="#556274">student_id</text>
+  
+
+    <polyline points="508,391 632,330 632,228 1872,228 1888,232" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="508" cy="391" r="3.2" fill="#8c97a8" />
+    <circle cx="1888" cy="232" r="3.2" fill="#8c97a8" />
+    <text x="578.5787581164201" y="343.3604496362772" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1804.6913634183893" y="220" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1111.9839498298206" y="213" width="116.2" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1170.0839498298205" y="228" text-anchor="middle" font-size="12" fill="#556274">counsellor_id</text>
+  
+
+    <polyline points="508,391 632,392 632,546 1832,546 1848,513" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="508" cy="391" r="3.2" fill="#8c97a8" />
+    <circle cx="1848" cy="513" r="3.2" fill="#8c97a8" />
+    <text x="588.8777412966107" y="383.7328850104565" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1783.793545211727" y="538" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1046.5286702013252" y="531" width="190.20000000000002" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1141.6286702013251" y="546" text-anchor="middle" font-size="12" fill="#556274">sender_id / receiver_id</text>
+  
+
+    <polyline points="618,647 680,670 680,616 1832,616 1848,513" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="618" cy="647" r="3.2" fill="#8c97a8" />
+    <circle cx="1848" cy="513" r="3.2" fill="#8c97a8" />
+    <text x="670" y="645.5468240783516" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1841.323783032973" y="586.6031467252355" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1228.580603586826" y="601" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1275.580603586826" y="616" text-anchor="middle" font-size="12" fill="#556274">student_id</text>
+  
+
+    <polyline points="508,391 650,454 650,802 1794,802 1810,768" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="508" cy="391" r="3.2" fill="#8c97a8" />
+    <circle cx="1810" cy="768" r="3.2" fill="#8c97a8" />
+    <text x="590.4090287079977" y="423.9983718915764" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1736.481113361944" y="794" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="931.4127877027684" y="787" width="182.8" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1022.8127877027683" y="802" text-anchor="middle" font-size="12" fill="#556274">viewer_id / partner_id</text>
+  
+
+    <polyline points="618,647 680,694 680,900 1794,900 1810,768" fill="none" stroke="#8c97a8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="618" cy="647" r="3.2" fill="#8c97a8" />
+    <circle cx="1810" cy="768" r="3.2" fill="#8c97a8" />
+    <text x="670" y="700.0450030919361" font-size="12" font-weight="700" fill="#5b6677">1</text>
+    <text x="1804.9480414449024" y="851.1786580795551" font-size="12" font-weight="700" fill="#5b6677">N</text>
+    <rect x="1145.1979102065507" y="885" width="94" height="20" rx="10" fill="white" opacity="0.94" />
+    <text x="1192.1979102065507" y="900" text-anchor="middle" font-size="12" fill="#556274">student_id</text>
+  </g>
+  <g id="tables">
+    <g filter="url(#shadow)">
+      <rect x="48" y="132" width="248" height="78" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="48" y="132" width="248" height="34" rx="12" fill="#2563eb" />
+      <rect x="48" y="148" width="248" height="18" fill="#2563eb" />
+    </g>
+    <text x="62" y="154" font-size="16" font-weight="700" fill="white">ROLES</text>
+    
+        <line x1="48" y1="166" x2="296" y2="166" stroke="#edf1f6" stroke-width="1" />
+        <text x="62" y="181" font-size="13" fill="#1f2937">PK role_id</text>
+      
+        <line x1="48" y1="188" x2="296" y2="188" stroke="#edf1f6" stroke-width="1" />
+        <text x="62" y="203" font-size="13" fill="#1f2937">role_name UQ</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="322" y="132" width="292" height="78" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="322" y="132" width="292" height="34" rx="12" fill="#2563eb" />
+      <rect x="322" y="148" width="292" height="18" fill="#2563eb" />
+    </g>
+    <text x="336" y="154" font-size="16" font-weight="700" fill="white">APP_SETTINGS</text>
+    
+        <line x1="322" y1="166" x2="614" y2="166" stroke="#edf1f6" stroke-width="1" />
+        <text x="336" y="181" font-size="13" fill="#1f2937">PK setting_key</text>
+      
+        <line x1="322" y1="188" x2="614" y2="188" stroke="#edf1f6" stroke-width="1" />
+        <text x="336" y="203" font-size="13" fill="#1f2937">setting_value</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="148" y="286" width="360" height="210" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="148" y="286" width="360" height="34" rx="12" fill="#2563eb" />
+      <rect x="148" y="302" width="360" height="18" fill="#2563eb" />
+    </g>
+    <text x="162" y="308" font-size="16" font-weight="700" fill="white">USERS</text>
+    
+        <line x1="148" y1="320" x2="508" y2="320" stroke="#edf1f6" stroke-width="1" />
+        <text x="162" y="335" font-size="13" fill="#1f2937">PK user_id</text>
+      
+        <line x1="148" y1="342" x2="508" y2="342" stroke="#edf1f6" stroke-width="1" />
+        <text x="162" y="357" font-size="13" fill="#1f2937">name</text>
+      
+        <line x1="148" y1="364" x2="508" y2="364" stroke="#edf1f6" stroke-width="1" />
+        <text x="162" y="379" font-size="13" fill="#1f2937">email UQ</text>
+      
+        <line x1="148" y1="386" x2="508" y2="386" stroke="#edf1f6" stroke-width="1" />
+        <text x="162" y="401" font-size="13" fill="#1f2937">password_hash</text>
+      
+        <line x1="148" y1="408" x2="508" y2="408" stroke="#edf1f6" stroke-width="1" />
+        <text x="162" y="423" font-size="13" fill="#1f2937">FK role_id</text>
+      
+        <line x1="148" y1="430" x2="508" y2="430" stroke="#edf1f6" stroke-width="1" />
+        <text x="162" y="445" font-size="13" fill="#1f2937">phone</text>
+      
+        <line x1="148" y1="452" x2="508" y2="452" stroke="#edf1f6" stroke-width="1" />
+        <text x="162" y="467" font-size="13" fill="#1f2937">created_at</text>
+      
+        <line x1="148" y1="474" x2="508" y2="474" stroke="#edf1f6" stroke-width="1" />
+        <text x="162" y="489" font-size="13" fill="#1f2937">is_active</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="48" y="564" width="274" height="122" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="48" y="564" width="274" height="34" rx="12" fill="#2563eb" />
+      <rect x="48" y="580" width="274" height="18" fill="#2563eb" />
+    </g>
+    <text x="62" y="586" font-size="16" font-weight="700" fill="white">TEACHERS</text>
+    
+        <line x1="48" y1="598" x2="322" y2="598" stroke="#edf1f6" stroke-width="1" />
+        <text x="62" y="613" font-size="13" fill="#1f2937">PK teacher_id</text>
+      
+        <line x1="48" y1="620" x2="322" y2="620" stroke="#edf1f6" stroke-width="1" />
+        <text x="62" y="635" font-size="13" fill="#1f2937">FK user_id UQ</text>
+      
+        <line x1="48" y1="642" x2="322" y2="642" stroke="#edf1f6" stroke-width="1" />
+        <text x="62" y="657" font-size="13" fill="#1f2937">qualification</text>
+      
+        <line x1="48" y1="664" x2="322" y2="664" stroke="#edf1f6" stroke-width="1" />
+        <text x="62" y="679" font-size="13" fill="#1f2937">experience</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="344" y="564" width="274" height="166" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="344" y="564" width="274" height="34" rx="12" fill="#2563eb" />
+      <rect x="344" y="580" width="274" height="18" fill="#2563eb" />
+    </g>
+    <text x="358" y="586" font-size="16" font-weight="700" fill="white">STUDENTS</text>
+    
+        <line x1="344" y1="598" x2="618" y2="598" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="613" font-size="13" fill="#1f2937">PK student_id</text>
+      
+        <line x1="344" y1="620" x2="618" y2="620" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="635" font-size="13" fill="#1f2937">FK user_id UQ</text>
+      
+        <line x1="344" y1="642" x2="618" y2="642" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="657" font-size="13" fill="#1f2937">dob</text>
+      
+        <line x1="344" y1="664" x2="618" y2="664" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="679" font-size="13" fill="#1f2937">gender</text>
+      
+        <line x1="344" y1="686" x2="618" y2="686" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="701" font-size="13" fill="#1f2937">conduct</text>
+      
+        <line x1="344" y1="708" x2="618" y2="708" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="723" font-size="13" fill="#1f2937">conduct_remarks</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="48" y="762" width="274" height="122" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="48" y="762" width="274" height="34" rx="12" fill="#2563eb" />
+      <rect x="48" y="778" width="274" height="18" fill="#2563eb" />
+    </g>
+    <text x="62" y="784" font-size="16" font-weight="700" fill="white">USER_PROFILE_IMAGES</text>
+    
+        <line x1="48" y1="796" x2="322" y2="796" stroke="#edf1f6" stroke-width="1" />
+        <text x="62" y="811" font-size="13" fill="#1f2937">PK/FK user_id</text>
+      
+        <line x1="48" y1="818" x2="322" y2="818" stroke="#edf1f6" stroke-width="1" />
+        <text x="62" y="833" font-size="13" fill="#1f2937">image_data</text>
+      
+        <line x1="48" y1="840" x2="322" y2="840" stroke="#edf1f6" stroke-width="1" />
+        <text x="62" y="855" font-size="13" fill="#1f2937">mime_type</text>
+      
+        <line x1="48" y1="862" x2="322" y2="862" stroke="#edf1f6" stroke-width="1" />
+        <text x="62" y="877" font-size="13" fill="#1f2937">updated_at</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="344" y="762" width="274" height="144" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="344" y="762" width="274" height="34" rx="12" fill="#2563eb" />
+      <rect x="344" y="778" width="274" height="18" fill="#2563eb" />
+    </g>
+    <text x="358" y="784" font-size="16" font-weight="700" fill="white">LOGIN_AUDIT</text>
+    
+        <line x1="344" y1="796" x2="618" y2="796" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="811" font-size="13" fill="#1f2937">PK log_id</text>
+      
+        <line x1="344" y1="818" x2="618" y2="818" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="833" font-size="13" fill="#1f2937">FK user_id</text>
+      
+        <line x1="344" y1="840" x2="618" y2="840" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="855" font-size="13" fill="#1f2937">login_time</text>
+      
+        <line x1="344" y1="862" x2="618" y2="862" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="877" font-size="13" fill="#1f2937">logout_time</text>
+      
+        <line x1="344" y1="884" x2="618" y2="884" stroke="#edf1f6" stroke-width="1" />
+        <text x="358" y="899" font-size="13" fill="#1f2937">ip_address</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="182" y="980" width="300" height="122" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="182" y="980" width="300" height="34" rx="12" fill="#2563eb" />
+      <rect x="182" y="996" width="300" height="18" fill="#2563eb" />
+    </g>
+    <text x="196" y="1002" font-size="16" font-weight="700" fill="white">SCHOOL_PROFILE_IMAGES</text>
+    
+        <line x1="182" y1="1014" x2="482" y2="1014" stroke="#edf1f6" stroke-width="1" />
+        <text x="196" y="1029" font-size="13" fill="#1f2937">PK image_id</text>
+      
+        <line x1="182" y1="1036" x2="482" y2="1036" stroke="#edf1f6" stroke-width="1" />
+        <text x="196" y="1051" font-size="13" fill="#1f2937">image_data</text>
+      
+        <line x1="182" y1="1058" x2="482" y2="1058" stroke="#edf1f6" stroke-width="1" />
+        <text x="196" y="1073" font-size="13" fill="#1f2937">mime_type</text>
+      
+        <line x1="182" y1="1080" x2="482" y2="1080" stroke="#edf1f6" stroke-width="1" />
+        <text x="196" y="1095" font-size="13" fill="#1f2937">updated_at</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="712" y="138" width="278" height="122" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="712" y="138" width="278" height="34" rx="12" fill="#0f766e" />
+      <rect x="712" y="154" width="278" height="18" fill="#0f766e" />
+    </g>
+    <text x="726" y="160" font-size="16" font-weight="700" fill="white">CLASSES</text>
+    
+        <line x1="712" y1="172" x2="990" y2="172" stroke="#edf1f6" stroke-width="1" />
+        <text x="726" y="187" font-size="13" fill="#1f2937">PK class_id</text>
+      
+        <line x1="712" y1="194" x2="990" y2="194" stroke="#edf1f6" stroke-width="1" />
+        <text x="726" y="209" font-size="13" fill="#1f2937">class_name</text>
+      
+        <line x1="712" y1="216" x2="990" y2="216" stroke="#edf1f6" stroke-width="1" />
+        <text x="726" y="231" font-size="13" fill="#1f2937">section</text>
+      
+        <line x1="712" y1="238" x2="990" y2="238" stroke="#edf1f6" stroke-width="1" />
+        <text x="726" y="253" font-size="13" fill="#1f2937">academic_year</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="1030" y="138" width="278" height="78" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="1030" y="138" width="278" height="34" rx="12" fill="#0f766e" />
+      <rect x="1030" y="154" width="278" height="18" fill="#0f766e" />
+    </g>
+    <text x="1044" y="160" font-size="16" font-weight="700" fill="white">SUBJECTS</text>
+    
+        <line x1="1030" y1="172" x2="1308" y2="172" stroke="#edf1f6" stroke-width="1" />
+        <text x="1044" y="187" font-size="13" fill="#1f2937">PK subject_id</text>
+      
+        <line x1="1030" y1="194" x2="1308" y2="194" stroke="#edf1f6" stroke-width="1" />
+        <text x="1044" y="209" font-size="13" fill="#1f2937">subject_name UQ</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="834" y="324" width="352" height="100" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="834" y="324" width="352" height="34" rx="12" fill="#0f766e" />
+      <rect x="834" y="340" width="352" height="18" fill="#0f766e" />
+    </g>
+    <text x="848" y="346" font-size="16" font-weight="700" fill="white">CLASS_SUBJECT_TEACHER</text>
+    
+        <line x1="834" y1="358" x2="1186" y2="358" stroke="#edf1f6" stroke-width="1" />
+        <text x="848" y="373" font-size="13" fill="#1f2937">PK/FK class_id</text>
+      
+        <line x1="834" y1="380" x2="1186" y2="380" stroke="#edf1f6" stroke-width="1" />
+        <text x="848" y="395" font-size="13" fill="#1f2937">PK/FK subject_id</text>
+      
+        <line x1="834" y1="402" x2="1186" y2="402" stroke="#edf1f6" stroke-width="1" />
+        <text x="848" y="417" font-size="13" fill="#1f2937">PK/FK teacher_id</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="712" y="468" width="278" height="100" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="712" y="468" width="278" height="34" rx="12" fill="#0f766e" />
+      <rect x="712" y="484" width="278" height="18" fill="#0f766e" />
+    </g>
+    <text x="726" y="490" font-size="16" font-weight="700" fill="white">PARENT_STUDENT</text>
+    
+        <line x1="712" y1="502" x2="990" y2="502" stroke="#edf1f6" stroke-width="1" />
+        <text x="726" y="517" font-size="13" fill="#1f2937">PK/FK parent_id</text>
+      
+        <line x1="712" y1="524" x2="990" y2="524" stroke="#edf1f6" stroke-width="1" />
+        <text x="726" y="539" font-size="13" fill="#1f2937">PK/FK student_id</text>
+      
+        <line x1="712" y1="546" x2="990" y2="546" stroke="#edf1f6" stroke-width="1" />
+        <text x="726" y="561" font-size="13" fill="#1f2937">relation</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="1030" y="468" width="278" height="78" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="1030" y="468" width="278" height="34" rx="12" fill="#0f766e" />
+      <rect x="1030" y="484" width="278" height="18" fill="#0f766e" />
+    </g>
+    <text x="1044" y="490" font-size="16" font-weight="700" fill="white">STUDENT_CLASS</text>
+    
+        <line x1="1030" y1="502" x2="1308" y2="502" stroke="#edf1f6" stroke-width="1" />
+        <text x="1044" y="517" font-size="13" fill="#1f2937">PK/FK student_id</text>
+      
+        <line x1="1030" y1="524" x2="1308" y2="524" stroke="#edf1f6" stroke-width="1" />
+        <text x="1044" y="539" font-size="13" fill="#1f2937">PK/FK class_id</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="700" y="686" width="334" height="210" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="700" y="686" width="334" height="34" rx="12" fill="#b45309" />
+      <rect x="700" y="702" width="334" height="18" fill="#b45309" />
+    </g>
+    <text x="714" y="708" font-size="16" font-weight="700" fill="white">QUESTION_PAPERS</text>
+    
+        <line x1="700" y1="720" x2="1034" y2="720" stroke="#edf1f6" stroke-width="1" />
+        <text x="714" y="735" font-size="13" fill="#1f2937">PK qp_id</text>
+      
+        <line x1="700" y1="742" x2="1034" y2="742" stroke="#edf1f6" stroke-width="1" />
+        <text x="714" y="757" font-size="13" fill="#1f2937">FK class_id</text>
+      
+        <line x1="700" y1="764" x2="1034" y2="764" stroke="#edf1f6" stroke-width="1" />
+        <text x="714" y="779" font-size="13" fill="#1f2937">FK subject_id</text>
+      
+        <line x1="700" y1="786" x2="1034" y2="786" stroke="#edf1f6" stroke-width="1" />
+        <text x="714" y="801" font-size="13" fill="#1f2937">exam_type</text>
+      
+        <line x1="700" y1="808" x2="1034" y2="808" stroke="#edf1f6" stroke-width="1" />
+        <text x="714" y="823" font-size="13" fill="#1f2937">exam_date</text>
+      
+        <line x1="700" y1="830" x2="1034" y2="830" stroke="#edf1f6" stroke-width="1" />
+        <text x="714" y="845" font-size="13" fill="#1f2937">max_marks</text>
+      
+        <line x1="700" y1="852" x2="1034" y2="852" stroke="#edf1f6" stroke-width="1" />
+        <text x="714" y="867" font-size="13" fill="#1f2937">exam_description</text>
+      
+        <line x1="700" y1="874" x2="1034" y2="874" stroke="#edf1f6" stroke-width="1" />
+        <text x="714" y="889" font-size="13" fill="#1f2937">FK created_by_teacher_id</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="1074" y="686" width="356" height="210" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="1074" y="686" width="356" height="34" rx="12" fill="#b45309" />
+      <rect x="1074" y="702" width="356" height="18" fill="#b45309" />
+    </g>
+    <text x="1088" y="708" font-size="16" font-weight="700" fill="white">QUESTION_BANK</text>
+    
+        <line x1="1074" y1="720" x2="1430" y2="720" stroke="#edf1f6" stroke-width="1" />
+        <text x="1088" y="735" font-size="13" fill="#1f2937">PK question_id</text>
+      
+        <line x1="1074" y1="742" x2="1430" y2="742" stroke="#edf1f6" stroke-width="1" />
+        <text x="1088" y="757" font-size="13" fill="#1f2937">FK class_id</text>
+      
+        <line x1="1074" y1="764" x2="1430" y2="764" stroke="#edf1f6" stroke-width="1" />
+        <text x="1088" y="779" font-size="13" fill="#1f2937">FK subject_id</text>
+      
+        <line x1="1074" y1="786" x2="1430" y2="786" stroke="#edf1f6" stroke-width="1" />
+        <text x="1088" y="801" font-size="13" fill="#1f2937">FK teacher_id</text>
+      
+        <line x1="1074" y1="808" x2="1430" y2="808" stroke="#edf1f6" stroke-width="1" />
+        <text x="1088" y="823" font-size="13" fill="#1f2937">title</text>
+      
+        <line x1="1074" y1="830" x2="1430" y2="830" stroke="#edf1f6" stroke-width="1" />
+        <text x="1088" y="845" font-size="13" fill="#1f2937">academic_year</text>
+      
+        <line x1="1074" y1="852" x2="1430" y2="852" stroke="#edf1f6" stroke-width="1" />
+        <text x="1088" y="867" font-size="13" fill="#1f2937">original_file_name</text>
+      
+        <line x1="1074" y1="874" x2="1430" y2="874" stroke="#edf1f6" stroke-width="1" />
+        <text x="1088" y="889" font-size="13" fill="#1f2937">uploaded_at</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="1470" y="686" width="308" height="166" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="1470" y="686" width="308" height="34" rx="12" fill="#b45309" />
+      <rect x="1470" y="702" width="308" height="18" fill="#b45309" />
+    </g>
+    <text x="1484" y="708" font-size="16" font-weight="700" fill="white">ASSIGNMENTS</text>
+    
+        <line x1="1470" y1="720" x2="1778" y2="720" stroke="#edf1f6" stroke-width="1" />
+        <text x="1484" y="735" font-size="13" fill="#1f2937">PK assignment_id</text>
+      
+        <line x1="1470" y1="742" x2="1778" y2="742" stroke="#edf1f6" stroke-width="1" />
+        <text x="1484" y="757" font-size="13" fill="#1f2937">FK class_id</text>
+      
+        <line x1="1470" y1="764" x2="1778" y2="764" stroke="#edf1f6" stroke-width="1" />
+        <text x="1484" y="779" font-size="13" fill="#1f2937">FK subject_id</text>
+      
+        <line x1="1470" y1="786" x2="1778" y2="786" stroke="#edf1f6" stroke-width="1" />
+        <text x="1484" y="801" font-size="13" fill="#1f2937">title</text>
+      
+        <line x1="1470" y1="808" x2="1778" y2="808" stroke="#edf1f6" stroke-width="1" />
+        <text x="1484" y="823" font-size="13" fill="#1f2937">description</text>
+      
+        <line x1="1470" y1="830" x2="1778" y2="830" stroke="#edf1f6" stroke-width="1" />
+        <text x="1484" y="845" font-size="13" fill="#1f2937">due_date</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="776" y="1058" width="278" height="122" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="776" y="1058" width="278" height="34" rx="12" fill="#b45309" />
+      <rect x="776" y="1074" width="278" height="18" fill="#b45309" />
+    </g>
+    <text x="790" y="1080" font-size="16" font-weight="700" fill="white">MARKS</text>
+    
+        <line x1="776" y1="1092" x2="1054" y2="1092" stroke="#edf1f6" stroke-width="1" />
+        <text x="790" y="1107" font-size="13" fill="#1f2937">PK mark_id</text>
+      
+        <line x1="776" y1="1114" x2="1054" y2="1114" stroke="#edf1f6" stroke-width="1" />
+        <text x="790" y="1129" font-size="13" fill="#1f2937">FK student_id</text>
+      
+        <line x1="776" y1="1136" x2="1054" y2="1136" stroke="#edf1f6" stroke-width="1" />
+        <text x="790" y="1151" font-size="13" fill="#1f2937">FK qp_id</text>
+      
+        <line x1="776" y1="1158" x2="1054" y2="1158" stroke="#edf1f6" stroke-width="1" />
+        <text x="790" y="1173" font-size="13" fill="#1f2937">marks_obtained</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="1094" y="1058" width="286" height="144" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="1094" y="1058" width="286" height="34" rx="12" fill="#b45309" />
+      <rect x="1094" y="1074" width="286" height="18" fill="#b45309" />
+    </g>
+    <text x="1108" y="1080" font-size="16" font-weight="700" fill="white">SUBMISSIONS</text>
+    
+        <line x1="1094" y1="1092" x2="1380" y2="1092" stroke="#edf1f6" stroke-width="1" />
+        <text x="1108" y="1107" font-size="13" fill="#1f2937">PK submission_id</text>
+      
+        <line x1="1094" y1="1114" x2="1380" y2="1114" stroke="#edf1f6" stroke-width="1" />
+        <text x="1108" y="1129" font-size="13" fill="#1f2937">FK assignment_id</text>
+      
+        <line x1="1094" y1="1136" x2="1380" y2="1136" stroke="#edf1f6" stroke-width="1" />
+        <text x="1108" y="1151" font-size="13" fill="#1f2937">FK student_id</text>
+      
+        <line x1="1094" y1="1158" x2="1380" y2="1158" stroke="#edf1f6" stroke-width="1" />
+        <text x="1108" y="1173" font-size="13" fill="#1f2937">submitted_on</text>
+      
+        <line x1="1094" y1="1180" x2="1380" y2="1180" stroke="#edf1f6" stroke-width="1" />
+        <text x="1108" y="1195" font-size="13" fill="#1f2937">marks</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="1420" y="1038" width="342" height="232" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="1420" y="1038" width="342" height="34" rx="12" fill="#b45309" />
+      <rect x="1420" y="1054" width="342" height="18" fill="#b45309" />
+    </g>
+    <text x="1434" y="1060" font-size="16" font-weight="700" fill="white">ATTENDANCE</text>
+    
+        <line x1="1420" y1="1072" x2="1762" y2="1072" stroke="#edf1f6" stroke-width="1" />
+        <text x="1434" y="1087" font-size="13" fill="#1f2937">PK attendance_id</text>
+      
+        <line x1="1420" y1="1094" x2="1762" y2="1094" stroke="#edf1f6" stroke-width="1" />
+        <text x="1434" y="1109" font-size="13" fill="#1f2937">FK user_id</text>
+      
+        <line x1="1420" y1="1116" x2="1762" y2="1116" stroke="#edf1f6" stroke-width="1" />
+        <text x="1434" y="1131" font-size="13" fill="#1f2937">FK class_id</text>
+      
+        <line x1="1420" y1="1138" x2="1762" y2="1138" stroke="#edf1f6" stroke-width="1" />
+        <text x="1434" y="1153" font-size="13" fill="#1f2937">attendance_date</text>
+      
+        <line x1="1420" y1="1160" x2="1762" y2="1160" stroke="#edf1f6" stroke-width="1" />
+        <text x="1434" y="1175" font-size="13" fill="#1f2937">session_type</text>
+      
+        <line x1="1420" y1="1182" x2="1762" y2="1182" stroke="#edf1f6" stroke-width="1" />
+        <text x="1434" y="1197" font-size="13" fill="#1f2937">status</text>
+      
+        <line x1="1420" y1="1204" x2="1762" y2="1204" stroke="#edf1f6" stroke-width="1" />
+        <text x="1434" y="1219" font-size="13" fill="#1f2937">leave_reason</text>
+      
+        <line x1="1420" y1="1226" x2="1762" y2="1226" stroke="#edf1f6" stroke-width="1" />
+        <text x="1434" y="1241" font-size="13" fill="#1f2937">approval_status</text>
+      
+        <line x1="1420" y1="1248" x2="1762" y2="1248" stroke="#edf1f6" stroke-width="1" />
+        <text x="1434" y="1263" font-size="13" fill="#1f2937">FK approved_by</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="1888" y="138" width="378" height="188" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="1888" y="138" width="378" height="34" rx="12" fill="#7c3aed" />
+      <rect x="1888" y="154" width="378" height="18" fill="#7c3aed" />
+    </g>
+    <text x="1902" y="160" font-size="16" font-weight="700" fill="white">COUNSELLING</text>
+    
+        <line x1="1888" y1="172" x2="2266" y2="172" stroke="#edf1f6" stroke-width="1" />
+        <text x="1902" y="187" font-size="13" fill="#1f2937">PK session_id</text>
+      
+        <line x1="1888" y1="194" x2="2266" y2="194" stroke="#edf1f6" stroke-width="1" />
+        <text x="1902" y="209" font-size="13" fill="#1f2937">FK student_id</text>
+      
+        <line x1="1888" y1="216" x2="2266" y2="216" stroke="#edf1f6" stroke-width="1" />
+        <text x="1902" y="231" font-size="13" fill="#1f2937">FK counsellor_id</text>
+      
+        <line x1="1888" y1="238" x2="2266" y2="238" stroke="#edf1f6" stroke-width="1" />
+        <text x="1902" y="253" font-size="13" fill="#1f2937">session_date</text>
+      
+        <line x1="1888" y1="260" x2="2266" y2="260" stroke="#edf1f6" stroke-width="1" />
+        <text x="1902" y="275" font-size="13" fill="#1f2937">notes</text>
+      
+        <line x1="1888" y1="282" x2="2266" y2="282" stroke="#edf1f6" stroke-width="1" />
+        <text x="1902" y="297" font-size="13" fill="#1f2937">status</text>
+      
+        <line x1="1888" y1="304" x2="2266" y2="304" stroke="#edf1f6" stroke-width="1" />
+        <text x="1902" y="319" font-size="13" fill="#1f2937">category</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="1848" y="430" width="460" height="166" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="1848" y="430" width="460" height="34" rx="12" fill="#7c3aed" />
+      <rect x="1848" y="446" width="460" height="18" fill="#7c3aed" />
+    </g>
+    <text x="1862" y="452" font-size="16" font-weight="700" fill="white">COMMUNICATION</text>
+    
+        <line x1="1848" y1="464" x2="2308" y2="464" stroke="#edf1f6" stroke-width="1" />
+        <text x="1862" y="479" font-size="13" fill="#1f2937">PK message_id</text>
+      
+        <line x1="1848" y1="486" x2="2308" y2="486" stroke="#edf1f6" stroke-width="1" />
+        <text x="1862" y="501" font-size="13" fill="#1f2937">FK sender_id</text>
+      
+        <line x1="1848" y1="508" x2="2308" y2="508" stroke="#edf1f6" stroke-width="1" />
+        <text x="1862" y="523" font-size="13" fill="#1f2937">FK receiver_id</text>
+      
+        <line x1="1848" y1="530" x2="2308" y2="530" stroke="#edf1f6" stroke-width="1" />
+        <text x="1862" y="545" font-size="13" fill="#1f2937">FK student_id</text>
+      
+        <line x1="1848" y1="552" x2="2308" y2="552" stroke="#edf1f6" stroke-width="1" />
+        <text x="1862" y="567" font-size="13" fill="#1f2937">message_text</text>
+      
+        <line x1="1848" y1="574" x2="2308" y2="574" stroke="#edf1f6" stroke-width="1" />
+        <text x="1862" y="589" font-size="13" fill="#1f2937">sent_at</text>
+      
+  
+
+    <g filter="url(#shadow)">
+      <rect x="1810" y="696" width="516" height="144" rx="12" fill="#ffffff" stroke="#c8d1de" stroke-width="1.3" />
+      <rect x="1810" y="696" width="516" height="34" rx="12" fill="#7c3aed" />
+      <rect x="1810" y="712" width="516" height="18" fill="#7c3aed" />
+    </g>
+    <text x="1824" y="718" font-size="16" font-weight="700" fill="white">COMMUNICATION_READ_STATE</text>
+    
+        <line x1="1810" y1="730" x2="2326" y2="730" stroke="#edf1f6" stroke-width="1" />
+        <text x="1824" y="745" font-size="13" fill="#1f2937">PK/FK viewer_id</text>
+      
+        <line x1="1810" y1="752" x2="2326" y2="752" stroke="#edf1f6" stroke-width="1" />
+        <text x="1824" y="767" font-size="13" fill="#1f2937">PK/FK partner_id</text>
+      
+        <line x1="1810" y1="774" x2="2326" y2="774" stroke="#edf1f6" stroke-width="1" />
+        <text x="1824" y="789" font-size="13" fill="#1f2937">PK/FK student_id</text>
+      
+        <line x1="1810" y1="796" x2="2326" y2="796" stroke="#edf1f6" stroke-width="1" />
+        <text x="1824" y="811" font-size="13" fill="#1f2937">last_seen_message_id</text>
+      
+        <line x1="1810" y1="818" x2="2326" y2="818" stroke="#edf1f6" stroke-width="1" />
+        <text x="1824" y="833" font-size="13" fill="#1f2937">last_seen_at</text>
+      
+  </g>
+</svg>

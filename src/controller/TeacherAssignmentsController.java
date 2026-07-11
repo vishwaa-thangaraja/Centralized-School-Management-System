@@ -4,7 +4,6 @@ import dao.UserDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -387,17 +386,11 @@ public class TeacherAssignmentsController {
     }
 
     private void showInfo(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(title);
-        alert.setContentText(message);
-        alert.show();
+        DialogSupport.info(assignmentsTable, title, message);
     }
 
     private void showError(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(title);
-        alert.setContentText(message);
-        alert.show();
+        DialogSupport.error(assignmentsTable, title, message);
     }
 
     @FXML

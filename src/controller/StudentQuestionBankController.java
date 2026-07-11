@@ -3,7 +3,6 @@ package controller;
 import dao.QuestionBankDAO;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -160,16 +159,10 @@ public class StudentQuestionBankController {
     }
 
     private void showInfo(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(title);
-        alert.setContentText(message);
-        alert.show();
+        DialogSupport.info(questionTable, title, message);
     }
 
     private void showError(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(title);
-        alert.setContentText(message);
-        alert.show();
+        DialogSupport.error(questionTable, title, message);
     }
 }

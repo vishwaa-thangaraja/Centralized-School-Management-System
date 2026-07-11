@@ -72,7 +72,10 @@ public class StudentDashboardController {
     private final ExamService examService = new ExamService();
     private final List<ExamRecord> upcomingExamNotifications = new ArrayList<>();
     private Timeline upcomingExamTimeline;
+    private Timeline notificationTimeline;
     private int upcomingExamIndex = 0;
+    private Object activeSubviewController;
+    private static final int NOTIFICATION_REFRESH_SECONDS = 2;
 
     public StudentDashboardController() {
         instance = this;
@@ -99,6 +102,7 @@ public class StudentDashboardController {
         ProfileImageSupport.configureUserProfileButton(profilePictureButton, user);
         ProfileImageSupport.configureSchoolProfileButton(schoolProfileButton, user);
         refreshDashboardStats();
+        startNotificationRefresh();
     }
 
     public void refreshDashboardStats() {
@@ -140,16 +144,60 @@ public class StudentDashboardController {
 
         if (att < 75) {
             insightMessage.setText("Critical: Your attendance is low (" + String.format("%.1f%%", att) + ")");
-            insightCard.setStyle("-fx-border-color: #e74c3c; -fx-background-color: #ffffff; -fx-border-width: 0 0 0 5px;");
+            insightCard.setStyle("-fx-border-color: #B4233A; -fx-border-width: 0 0 0 5px;");
         } else {
             insightMessage.setText("You are in good academic standing.");
-            insightCard.setStyle("-fx-border-color: #2ecc71; -fx-background-color: #ffffff; -fx-border-width: 0 0 0 5px;");
+            insightCard.setStyle("-fx-border-color: #2F6EA5; -fx-border-width: 0 0 0 5px;");
         }
         refreshUpcomingExamNotifications(studentId);
     }
 
+    public void refreshMessageNotifications() {
+        if (currentUser == null || counsellorBadgeLabel == null) {
+            return;
+        }
+        int studentId = -1;
+        try {
+            studentId = Integer.parseInt(studentIdLabel.getText());
+        } catch (NumberFormatException ignored) {
+            Map<String, String> profile = new UserDAO().getStudentProfile(currentUser.getUserId());
+            try {
+                studentId = Integer.parseInt(profile.getOrDefault("student_id", "-1"));
+            } catch (NumberFormatException ignoredAgain) {
+                studentId = -1;
+            }
+        }
+        int counsellorUnread = studentId > 0
+            ? new UserDAO().getStudentCounsellorUnreadMessageCount(currentUser.getUserId(), studentId)
+            : 0;
+        counsellorBadgeLabel.setText(String.valueOf(counsellorUnread));
+        counsellorBadgeLabel.setVisible(counsellorUnread > 0);
+        counsellorBadgeLabel.setManaged(counsellorUnread > 0);
+    }
+
+    private void startNotificationRefresh() {
+        stopNotificationRefresh();
+        notificationTimeline = new Timeline(new KeyFrame(Duration.seconds(NOTIFICATION_REFRESH_SECONDS), event -> refreshMessageNotifications()));
+        notificationTimeline.setCycleCount(Timeline.INDEFINITE);
+        notificationTimeline.play();
+    }
+
+    private void stopNotificationRefresh() {
+        if (notificationTimeline != null) {
+            notificationTimeline.stop();
+            notificationTimeline = null;
+        }
+    }
+
+    private void stopActiveSubviewRefresh() {
+        if (activeSubviewController instanceof LiveRefreshController) {
+            ((LiveRefreshController) activeSubviewController).stopLiveRefresh();
+        }
+    }
+
     private void loadView(String fxmlPath) {
         try {
+            stopActiveSubviewRefresh();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent newContent = loader.load();
 
@@ -165,6 +213,7 @@ public class StudentDashboardController {
             } else if (controller instanceof CounsellingRequestController) {
                 ((CounsellingRequestController) controller).initForStudent(currentUser);
             }
+            activeSubviewController = controller;
 
             mainContentScroll.setContent(newContent);
 
@@ -284,6 +333,8 @@ public class StudentDashboardController {
 
     @FXML
     public void scrollToTop() {
+        stopActiveSubviewRefresh();
+        activeSubviewController = null;
         mainContentScroll.setContent(dashboardContent);
         mainContentScroll.setVvalue(0);
         if (currentUser != null) {
@@ -309,12 +360,15 @@ public class StudentDashboardController {
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
+            stopNotificationRefresh();
+            stopActiveSubviewRefresh();
             AuthService.clearCurrentUser();
             Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             SchoolSettingsService.applyStageTitle(stage);
             stage.setScene(new Scene(root));
             stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
         } catch (Exception e) {
             e.printStackTrace();
         }

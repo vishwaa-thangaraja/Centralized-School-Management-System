@@ -10,7 +10,6 @@ import dao.UserDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -234,17 +233,11 @@ public class TeacherStudentPerformanceController {
     }
 
     private void showInfo(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(title);
-        alert.setContentText(message);
-        alert.show();
+        DialogSupport.info(studentsTable, title, message);
     }
 
     private void showError(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(title);
-        alert.setContentText(message);
-        alert.show();
+        DialogSupport.error(studentsTable, title, message);
     }
 
     @FXML

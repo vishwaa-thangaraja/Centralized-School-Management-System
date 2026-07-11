@@ -4,17 +4,25 @@ import dao.LoginAuditDAO;
 import java.net.InetAddress;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import model.User;
 
 public class AuthService {
     // This variable will hold the logged-in user's data (the "Session")
     private static User currentUser;
+    private static final ExecutorService AUDIT_EXECUTOR = Executors.newSingleThreadExecutor(runnable -> {
+        Thread thread = new Thread(runnable, "csms-audit");
+        thread.setDaemon(true);
+        return thread;
+    });
 
     // Method to set the user after successful login
     public static void setCurrentUser(User user) {
         currentUser = user;
         if (user != null) {
-            new LoginAuditDAO().logSuccessfulLogin(user.getUserId(), getLocalIpAddress());
+            int userId = user.getUserId();
+            AUDIT_EXECUTOR.submit(() -> new LoginAuditDAO().logSuccessfulLogin(userId, getLocalIpAddress()));
         }
     }
 
@@ -25,7 +33,8 @@ public class AuthService {
 
     public static void clearCurrentUser() {
         if (currentUser != null) {
-            new LoginAuditDAO().logLogout(currentUser.getUserId());
+            int userId = currentUser.getUserId();
+            AUDIT_EXECUTOR.submit(() -> new LoginAuditDAO().logLogout(userId));
         }
         currentUser = null;
     }

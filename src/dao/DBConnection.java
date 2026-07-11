@@ -9,13 +9,16 @@ public class DBConnection {
     private static final String USER = getConfig("CSMS_DB_USER", "CSMS");
     private static final String PASS = getConfig("CSMS_DB_PASSWORD", "");
 
-    public static Connection getConnection() throws SQLException {
+    static {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
             System.err.println("Oracle JDBC Driver not found!");
             e.printStackTrace();
         }
+    }
+
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASS);
     }
 

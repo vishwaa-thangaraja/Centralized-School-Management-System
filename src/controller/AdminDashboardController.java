@@ -188,6 +188,7 @@ public class AdminDashboardController {
             SchoolSettingsService.applyStageTitle(stage);
             stage.setScene(new Scene(root));
             stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
         } catch (Exception e) {
             e.printStackTrace();
         }

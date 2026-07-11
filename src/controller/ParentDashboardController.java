@@ -7,6 +7,8 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.UnitValue;
 import dao.UserDAO;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -94,6 +96,8 @@ public class ParentDashboardController {
     private ObservableList<AcademicAlertRecord> currentAlerts;
     private ObservableList<AttendanceRecord> currentAttendanceHistory;
     private final UserDAO userDAO = new UserDAO();
+    private Timeline notificationTimeline;
+    private static final int NOTIFICATION_REFRESH_SECONDS = 2;
 
     public ParentDashboardController() {
         instance = this;
@@ -162,6 +166,7 @@ public class ParentDashboardController {
         loadParentWards();
         refreshTeacherConnectNotification();
         refreshCounsellorConnectNotification();
+        startNotificationRefresh();
     }
 
     private void loadParentWards() {
@@ -247,6 +252,7 @@ public class ParentDashboardController {
 
     private void loadView(String fxmlPath) {
         try {
+            stopActiveSubviewRefresh();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent newContent = loader.load();
 
@@ -321,6 +327,31 @@ public class ParentDashboardController {
         counsellorConnectBadgeLabel.setManaged(unreadCount > 0);
     }
 
+    private void refreshMessageNotifications() {
+        refreshTeacherConnectNotification();
+        refreshCounsellorConnectNotification();
+    }
+
+    private void startNotificationRefresh() {
+        stopNotificationRefresh();
+        notificationTimeline = new Timeline(new KeyFrame(Duration.seconds(NOTIFICATION_REFRESH_SECONDS), event -> refreshMessageNotifications()));
+        notificationTimeline.setCycleCount(Timeline.INDEFINITE);
+        notificationTimeline.play();
+    }
+
+    private void stopNotificationRefresh() {
+        if (notificationTimeline != null) {
+            notificationTimeline.stop();
+            notificationTimeline = null;
+        }
+    }
+
+    private void stopActiveSubviewRefresh() {
+        if (activeSubviewController instanceof LiveRefreshController) {
+            ((LiveRefreshController) activeSubviewController).stopLiveRefresh();
+        }
+    }
+
     @FXML
     private void handleDownloadPerformancePdf() {
         if (currentParent == null || selectedWard == null) {
@@ -391,6 +422,7 @@ public class ParentDashboardController {
 
     @FXML
     public void scrollToTop() {
+        stopActiveSubviewRefresh();
         activeSubviewController = null;
         mainContentScroll.setContent(dashboardContent);
         mainContentScroll.setVvalue(0);
@@ -440,12 +472,15 @@ public class ParentDashboardController {
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
+            stopNotificationRefresh();
+            stopActiveSubviewRefresh();
             AuthService.clearCurrentUser();
             Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             SchoolSettingsService.applyStageTitle(stage);
             stage.setScene(new Scene(root));
             stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
         } catch (Exception e) {
             e.printStackTrace();
         }

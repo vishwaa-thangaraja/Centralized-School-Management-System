@@ -3,7 +3,6 @@ package controller;
 import dao.ProfileImageDAO;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -25,7 +24,7 @@ import java.util.Locale;
 
 public final class ProfileImageSupport {
     private static final int MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-    private static final double HEADER_AVATAR_SIZE = 42.0;
+    private static final double HEADER_AVATAR_SIZE = 58.0;
     private static final ProfileImageDAO profileImageDAO = new ProfileImageDAO();
 
     private ProfileImageSupport() {
@@ -106,7 +105,7 @@ public final class ProfileImageSupport {
                 if (profileImageDAO.removeUserProfileImage(user.getUserId())) {
                     refreshUserProfileButton(button, user);
                 } else {
-                    showAlert("Profile Picture", "Unable to remove the profile picture.");
+            showAlert(button, "Profile Picture", "Unable to remove the profile picture.");
                 }
             });
             menu.getItems().addAll(updateItem, removeItem);
@@ -131,7 +130,7 @@ public final class ProfileImageSupport {
                 if (profileImageDAO.removeSchoolProfileImage(user.getUserId())) {
                     refreshSchoolProfileButton(button);
                 } else {
-                    showAlert("School Profile Picture", "Unable to remove the school profile picture.");
+                    showAlert(button, "School Profile Picture", "Unable to remove the school profile picture.");
                 }
             });
             menu.getItems().addAll(updateItem, removeItem);
@@ -148,7 +147,7 @@ public final class ProfileImageSupport {
         if (profileImageDAO.saveUserProfileImage(user.getUserId(), selection.data, selection.mimeType)) {
             refreshUserProfileButton(button, user);
         } else {
-            showAlert("Profile Picture", "Unable to save the selected profile picture.");
+            showAlert(button, "Profile Picture", "Unable to save the selected profile picture.");
         }
     }
 
@@ -160,7 +159,7 @@ public final class ProfileImageSupport {
         if (profileImageDAO.saveSchoolProfileImage(user.getUserId(), selection.data, selection.mimeType)) {
             refreshSchoolProfileButton(button);
         } else {
-            showAlert("School Profile Picture", "Unable to save the selected school profile picture.");
+            showAlert(button, "School Profile Picture", "Unable to save the selected school profile picture.");
         }
     }
 
@@ -175,19 +174,19 @@ public final class ProfileImageSupport {
             return null;
         }
         if (selectedFile.length() > MAX_IMAGE_BYTES) {
-            showAlert("Profile Picture", "Please choose an image smaller than 5 MB.");
+            DialogSupport.info(owner, "Profile Picture", "Please choose an image smaller than 5 MB.");
             return null;
         }
         try {
             byte[] data = Files.readAllBytes(selectedFile.toPath());
             if (!isLoadableImage(data)) {
-                showAlert("Profile Picture", "Please choose a valid image file.");
+                DialogSupport.info(owner, "Profile Picture", "Please choose a valid image file.");
                 return null;
             }
             return new ImageSelection(data, detectMimeType(selectedFile));
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Profile Picture", "Unable to read the selected image.");
+            DialogSupport.info(owner, "Profile Picture", "Unable to read the selected image.");
             return null;
         }
     }
@@ -265,12 +264,8 @@ public final class ProfileImageSupport {
         return fallbackText.trim().substring(0, 1).toUpperCase(Locale.ROOT);
     }
 
-    private static void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(title);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private static void showAlert(Button owner, String title, String message) {
+        DialogSupport.info(owner, title, message);
     }
 
     private static class ImageSelection {

@@ -8,11 +8,12 @@ import javafx.stage.Stage;
 import service.AuthService;
 import service.SchoolSettingsService;
 
-public class Main extends Application {
-
+public class Main extends Application 
+{
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        // Path adjusted to your 'view' folder relative to this class
+    public void start(Stage primaryStage) throws Exception
+    {
+        // Path adjusted to 'view' folder relative to this class
         Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
         
         SchoolSettingsService.applyStageTitle(primaryStage);
@@ -20,15 +21,15 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
 
-        // Desktop full screen mode
         primaryStage.setFullScreen(true);
-        primaryStage.setFullScreenExitHint(""); 
+        primaryStage.setFullScreenExitHint("");
         primaryStage.setOnCloseRequest(event -> AuthService.clearCurrentUser());
 
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         launch(args);
     }
 }

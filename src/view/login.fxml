@@ -5,13 +5,14 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="720.0" prefWidth="1280.0" styleClass="login-root" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<StackPane fx:id="rootPane" prefHeight="720.0" prefWidth="1280.0" styleClass="login-root" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
     <HBox alignment="CENTER" maxHeight="620.0" maxWidth="1120.0" spacing="0.0" styleClass="login-shell">
         <VBox fx:id="imagePanel" alignment="CENTER_LEFT" prefWidth="560.0" spacing="28.0" styleClass="image-section" HBox.hgrow="ALWAYS">
             <padding>
@@ -56,4 +57,12 @@
             <Label fx:id="errorLabel" styleClass="error-text" text="" wrapText="true" />
         </VBox>
     </HBox>
+
+    <StackPane fx:id="loadingOverlay" visible="false" styleClass="loading-overlay">
+        <VBox alignment="CENTER" spacing="18.0" styleClass="loading-panel">
+            <ProgressIndicator fx:id="loadingSpinner" prefHeight="58.0" prefWidth="58.0" />
+            <Label styleClass="loading-title" text="Opening your portal" />
+            <Label styleClass="loading-subtitle" text="Preparing your school workspace..." />
+        </VBox>
+    </StackPane>
 </StackPane>

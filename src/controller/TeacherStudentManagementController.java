@@ -3,7 +3,6 @@ package controller;
 import dao.UserDAO;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -195,10 +194,7 @@ public class TeacherStudentManagementController {
             loadStudents();
         } else {
             statusLabel.setText("Update failed. Check class access or student scope.");
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Student update blocked");
-            alert.setContentText("This teacher can edit only class, conduct, and remarks for mapped students, and can assign only classes already mapped to the teacher.");
-            alert.show();
+            DialogSupport.warning(studentsTable, "Student update blocked", "This teacher can edit only class, conduct, and remarks for mapped students, and can assign only classes already mapped to the teacher.");
         }
     }
 

@@ -4,7 +4,6 @@ import dao.LoginAuditDAO;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -121,11 +120,7 @@ public class AdminLogsController {
     }
 
     private boolean confirm(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(title);
-        alert.setContentText(message);
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = DialogSupport.confirm(auditTable, title, message);
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 }

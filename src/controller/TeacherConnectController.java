@@ -1,6 +1,8 @@
 package controller;
 
 import dao.UserDAO;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +14,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -20,8 +21,9 @@ import javafx.scene.layout.VBox;
 import model.CommunicationMessage;
 import model.ParentChatThreadRecord;
 import model.User;
+import javafx.util.Duration;
 
-public class TeacherConnectController {
+public class TeacherConnectController implements LiveRefreshController {
 
     @FXML private Label teacherContextLabel;
     @FXML private Label selectedParentLabel;
@@ -40,6 +42,8 @@ public class TeacherConnectController {
     private User currentTeacher;
     private ParentChatThreadRecord selectedThread;
     private boolean suppressSelectionListener = false;
+    private Timeline liveRefreshTimeline;
+    private static final int LIVE_REFRESH_SECONDS = 2;
 
     @FXML
     public void initialize() {
@@ -79,6 +83,7 @@ public class TeacherConnectController {
         teacherContextLabel.setText("Teacher: " + teacherUser.getName());
         refreshSidebarNotification();
         loadInboxThreads();
+        startLiveRefresh();
     }
 
     private void loadInboxThreads() {
@@ -114,6 +119,51 @@ public class TeacherConnectController {
             selectedParentLabel.setText("Select parent conversation");
             chatMessagesBox.getChildren().clear();
             statusLabel.setText("No parent threads available yet.");
+        }
+    }
+
+    private void refreshInboxThreadsPreservingSelection() {
+        if (currentTeacher == null) {
+            return;
+        }
+
+        int previousParentId = selectedThread != null ? selectedThread.getParentUserId() : -1;
+        int previousStudentId = selectedThread != null ? selectedThread.getStudentId() : -1;
+        ObservableList<ParentChatThreadRecord> threads = userDAO.getTeacherParentInboxThreads(currentTeacher.getUserId());
+
+        suppressSelectionListener = true;
+        parentThreadTable.setItems(threads);
+        parentThreadTable.getSelectionModel().clearSelection();
+        selectedThread = null;
+        for (ParentChatThreadRecord thread : threads) {
+            if (thread.getParentUserId() == previousParentId && thread.getStudentId() == previousStudentId) {
+                selectedThread = thread;
+                parentThreadTable.getSelectionModel().select(thread);
+                break;
+            }
+        }
+        suppressSelectionListener = false;
+
+        if (selectedThread != null) {
+            loadChatHistory();
+        } else {
+            parentThreadTable.refresh();
+        }
+        refreshSidebarNotification();
+    }
+
+    private void startLiveRefresh() {
+        stopLiveRefresh();
+        liveRefreshTimeline = new Timeline(new KeyFrame(Duration.seconds(LIVE_REFRESH_SECONDS), event -> refreshInboxThreadsPreservingSelection()));
+        liveRefreshTimeline.setCycleCount(Timeline.INDEFINITE);
+        liveRefreshTimeline.play();
+    }
+
+    @Override
+    public void stopLiveRefresh() {
+        if (liveRefreshTimeline != null) {
+            liveRefreshTimeline.stop();
+            liveRefreshTimeline = null;
         }
     }
 
@@ -231,11 +281,8 @@ public class TeacherConnectController {
             return;
         }
 
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Clear Chat");
-        confirm.setHeaderText("Delete entire conversation?");
-        confirm.setContentText("This will permanently delete all messages with this parent for the selected ward.");
-        if (confirm.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.OK) {
+        if (DialogSupport.confirm(messageInput, "Clear Chat", "Delete entire conversation?\n\nThis will permanently delete all messages with this parent for the selected ward.")
+                .orElse(ButtonType.CANCEL) != ButtonType.OK) {
             return;
         }
 
@@ -266,6 +313,7 @@ public class TeacherConnectController {
 
     @FXML
     private void backToDashboard() {
+        stopLiveRefresh();
         if (TeacherDashboardController.getInstance() != null) {
             TeacherDashboardController.getInstance().scrollToTop();
         }

@@ -1,6 +1,8 @@
 package controller;
 
 import dao.UserDAO;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +51,9 @@ public class CounsellorDashboardController {
     private static final double SIDEBAR_WIDTH = 300;
     private User currentUser;
     private final UserDAO userDAO = new UserDAO();
+    private Timeline notificationTimeline;
+    private Object activeSubviewController;
+    private static final int NOTIFICATION_REFRESH_SECONDS = 2;
 
     public CounsellorDashboardController() {
         instance = this;
@@ -77,6 +82,7 @@ public class CounsellorDashboardController {
         profileNameLabel.setText(user.getName());
         profileEmailLabel.setText(user.getEmail());
         refreshDashboard();
+        startNotificationRefresh();
     }
 
     public void refreshDashboard() {
@@ -96,6 +102,7 @@ public class CounsellorDashboardController {
 
     private void loadView(String fxmlPath) {
         try {
+            stopActiveSubviewRefresh();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent newContent = loader.load();
 
@@ -105,6 +112,7 @@ public class CounsellorDashboardController {
             } else if (controller instanceof CounsellorRequestsController) {
                 ((CounsellorRequestsController) controller).initData(currentUser);
             }
+            activeSubviewController = controller;
 
             mainContentScroll.setContent(newContent);
             if (isSidebarOpen) {
@@ -112,6 +120,26 @@ public class CounsellorDashboardController {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void startNotificationRefresh() {
+        stopNotificationRefresh();
+        notificationTimeline = new Timeline(new KeyFrame(Duration.seconds(NOTIFICATION_REFRESH_SECONDS), event -> refreshDashboard()));
+        notificationTimeline.setCycleCount(Timeline.INDEFINITE);
+        notificationTimeline.play();
+    }
+
+    private void stopNotificationRefresh() {
+        if (notificationTimeline != null) {
+            notificationTimeline.stop();
+            notificationTimeline = null;
+        }
+    }
+
+    private void stopActiveSubviewRefresh() {
+        if (activeSubviewController instanceof LiveRefreshController) {
+            ((LiveRefreshController) activeSubviewController).stopLiveRefresh();
         }
     }
 
@@ -127,6 +155,8 @@ public class CounsellorDashboardController {
 
     @FXML
     public void scrollToTop() {
+        stopActiveSubviewRefresh();
+        activeSubviewController = null;
         mainContentScroll.setContent(dashboardContent);
         mainContentScroll.setVvalue(0);
         if (currentUser != null) {
@@ -172,12 +202,15 @@ public class CounsellorDashboardController {
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
+            stopNotificationRefresh();
+            stopActiveSubviewRefresh();
             AuthService.clearCurrentUser();
             Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             SchoolSettingsService.applyStageTitle(stage);
             stage.setScene(new Scene(root));
             stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
         } catch (Exception e) {
             e.printStackTrace();
         }

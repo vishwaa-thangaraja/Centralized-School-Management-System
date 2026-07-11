@@ -28,30 +28,30 @@
         <HBox spacing="30.0">
             <VBox spacing="20.0" prefWidth="400.0">
                 <VBox styleClass="stat-box" spacing="12.0">
-                    <Label text="Student Information" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #2c3e50;" />
+                    <Label text="Student Information" styleClass="section-header" />
                     <GridPane vgap="10.0" hgap="15.0">
-                        <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-text-fill: #7f8c8d;" />
-                        <Label fx:id="nameLbl" text="Loading..." GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
+                        <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="profile-label" />
+                        <Label fx:id="nameLbl" text="Loading..." GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="profile-value" />
 
-                        <Label text="Student ID:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-text-fill: #7f8c8d;" />
-                        <Label fx:id="idLbl" text="Loading..." GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
+                        <Label text="Student ID:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="profile-label" />
+                        <Label fx:id="idLbl" text="Loading..." GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="profile-value" />
 
-                        <Label text="Standard:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-text-fill: #7f8c8d;" />
-                        <Label fx:id="stdLbl" text="10th" GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-font-weight: bold;" />
+                        <Label text="Standard:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="profile-label" />
+                        <Label fx:id="stdLbl" text="10th" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="profile-value" />
                     </GridPane>
                 </VBox>
 
-                <VBox styleClass="stat-box" spacing="15.0" style="-fx-border-color: #3498db; -fx-border-width: 0 0 0 5px;">
-                    <Label text="Attendance Summary" style="-fx-font-weight: bold;" />
+                <VBox styleClass="profile-card" spacing="15.0">
+                    <Label text="Attendance Summary" styleClass="section-header" />
                     <GridPane vgap="10.0" hgap="20.0">
-                        <Label text="Total Days:" style="-fx-text-fill: #7f8c8d;" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                        <Label fx:id="totalDaysLbl" text="0" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                        <Label text="Total Days:" styleClass="profile-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <Label fx:id="totalDaysLbl" text="0" styleClass="profile-value" GridPane.rowIndex="0" GridPane.columnIndex="1" />
 
-                        <Label text="Days Present:" style="-fx-text-fill: #7f8c8d;" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                        <Label fx:id="presentDaysLbl" text="0" style="-fx-font-weight: bold; -fx-text-fill: #2ecc71;" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                        <Label text="Days Present:" styleClass="profile-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                        <Label fx:id="presentDaysLbl" text="0" styleClass="profile-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
                     </GridPane>
                     <Separator />
-                    <Label fx:id="percentageLbl" text="0.00%" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #3498db;" />
+                    <Label fx:id="percentageLbl" text="0.00%" styleClass="admin-card-count" />
                 </VBox>
 
                 <VBox styleClass="stat-box" prefHeight="300.0">

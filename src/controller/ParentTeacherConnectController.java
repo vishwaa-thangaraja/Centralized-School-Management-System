@@ -1,6 +1,8 @@
 package controller;
 
 import dao.UserDAO;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +14,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -21,8 +22,9 @@ import model.CommunicationMessage;
 import model.Student;
 import model.TeacherContactRecord;
 import model.User;
+import javafx.util.Duration;
 
-public class ParentTeacherConnectController implements ParentWardContextAware {
+public class ParentTeacherConnectController implements ParentWardContextAware, LiveRefreshController {
 
     @FXML private Label wardContextLabel;
     @FXML private Label selectedTeacherLabel;
@@ -40,6 +42,9 @@ public class ParentTeacherConnectController implements ParentWardContextAware {
     private User currentParent;
     private Student selectedWard;
     private TeacherContactRecord selectedTeacher;
+    private Timeline liveRefreshTimeline;
+    private boolean suppressSelectionListener = false;
+    private static final int LIVE_REFRESH_SECONDS = 2;
 
     @FXML
     public void initialize() {
@@ -63,6 +68,9 @@ public class ParentTeacherConnectController implements ParentWardContextAware {
         teacherTable.setItems(FXCollections.observableArrayList());
 
         teacherTable.getSelectionModel().selectedItemProperty().addListener((obs, oldTeacher, newTeacher) -> {
+            if (suppressSelectionListener) {
+                return;
+            }
             selectedTeacher = newTeacher;
             loadChatHistory();
         });
@@ -75,6 +83,7 @@ public class ParentTeacherConnectController implements ParentWardContextAware {
         this.selectedTeacher = null;
         messageInput.clear();
         loadTeacherDirectory();
+        startLiveRefresh();
     }
 
     private void loadTeacherDirectory() {
@@ -106,6 +115,59 @@ public class ParentTeacherConnectController implements ParentWardContextAware {
         statusLabel.setText(teachers.isEmpty()
             ? "No teachers mapped for this ward's class."
             : "Select a teacher to view discussion history.");
+    }
+
+    private void refreshTeacherDirectoryPreservingSelection() {
+        if (currentParent == null || selectedWard == null) {
+            return;
+        }
+
+        int previousTeacherId = selectedTeacher != null ? selectedTeacher.getTeacherUserId() : -1;
+        ObservableList<TeacherContactRecord> teachers = userDAO.getWardTeachersForParent(currentParent.getUserId(), selectedWard.getStudentId());
+        for (TeacherContactRecord teacher : teachers) {
+            teacher.setUnreadCount(userDAO.getParentUnreadCountForTeacher(
+                currentParent.getUserId(),
+                teacher.getTeacherUserId(),
+                selectedWard.getStudentId()
+            ));
+        }
+
+        suppressSelectionListener = true;
+        teacherTable.setItems(teachers);
+        teacherTable.getSelectionModel().clearSelection();
+        selectedTeacher = null;
+        for (TeacherContactRecord teacher : teachers) {
+            if (teacher.getTeacherUserId() == previousTeacherId) {
+                selectedTeacher = teacher;
+                teacherTable.getSelectionModel().select(teacher);
+                break;
+            }
+        }
+        suppressSelectionListener = false;
+
+        if (selectedTeacher != null) {
+            loadChatHistory();
+        } else {
+            teacherTable.refresh();
+        }
+        if (ParentDashboardController.getInstance() != null) {
+            ParentDashboardController.getInstance().refreshTeacherConnectNotification();
+        }
+    }
+
+    private void startLiveRefresh() {
+        stopLiveRefresh();
+        liveRefreshTimeline = new Timeline(new KeyFrame(Duration.seconds(LIVE_REFRESH_SECONDS), event -> refreshTeacherDirectoryPreservingSelection()));
+        liveRefreshTimeline.setCycleCount(Timeline.INDEFINITE);
+        liveRefreshTimeline.play();
+    }
+
+    @Override
+    public void stopLiveRefresh() {
+        if (liveRefreshTimeline != null) {
+            liveRefreshTimeline.stop();
+            liveRefreshTimeline = null;
+        }
     }
 
     private void loadChatHistory() {
@@ -221,11 +283,8 @@ public class ParentTeacherConnectController implements ParentWardContextAware {
             return;
         }
 
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Clear Chat");
-        confirm.setHeaderText("Delete entire conversation?");
-        confirm.setContentText("This will permanently delete all messages with this teacher for the selected ward.");
-        if (confirm.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.OK) {
+        if (DialogSupport.confirm(messageInput, "Clear Chat", "Delete entire conversation?\n\nThis will permanently delete all messages with this teacher for the selected ward.")
+                .orElse(ButtonType.CANCEL) != ButtonType.OK) {
             return;
         }
 
@@ -251,6 +310,7 @@ public class ParentTeacherConnectController implements ParentWardContextAware {
 
     @FXML
     private void backToDashboard() {
+        stopLiveRefresh();
         if (ParentDashboardController.getInstance() != null) {
             ParentDashboardController.getInstance().scrollToTop();
         }

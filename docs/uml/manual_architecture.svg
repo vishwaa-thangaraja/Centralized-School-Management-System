@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="980" viewBox="0 0 1500 980">
+<defs>
+  <marker id="arrowLine" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#111111"/>
+  </marker>
+  <marker id="arrowReq" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#111111"/>
+  </marker>
+  <marker id="arrowSecure" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#111111"/>
+  </marker>
+  <style>
+    .title { font: 700 30px Arial, Helvetica, sans-serif; fill: #111111; }
+    .caption { font: 400 14px Arial, Helvetica, sans-serif; fill: #333333; }
+    .head { font: 700 17px Arial, Helvetica, sans-serif; fill: #111111; }
+    .sub { font: 400 14px Arial, Helvetica, sans-serif; fill: #333333; }
+    .item { font: 400 13px Arial, Helvetica, sans-serif; fill: #111111; }
+    .legend { font: 400 13px Arial, Helvetica, sans-serif; fill: #111111; }
+  </style>
+</defs>
+<rect width="1500" height="980" fill="#ffffff"/>
+<text x="750" y="46" class="title" text-anchor="middle">Centralized School Management System - Unified Architecture</text>
+<text x="750" y="72" class="caption" text-anchor="middle">Component view showing module access, service flow, and database integration</text>
+
+
+  <g>
+    <rect x="70" y="160" width="315" height="205" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <rect x="70" y="160" width="315" height="40" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <line x1="70" y1="200" x2="385" y2="200" stroke="#111111" stroke-width="1.4"/>
+    <rect x="70" y="160" width="6" height="205" rx="3" fill="#111111"/>
+    <text x="90" y="186" class="head">Administrative Module</text>
+    <text x="90" y="218" class="sub">System governance</text>
+    <text x="98" y="236" class="item">Infrastructure Management</text>
+<text x="98" y="257" class="item">Identity &amp; Access Management</text>
+<text x="98" y="278" class="item">Academic Mapping Engine</text>
+<text x="98" y="299" class="item">Security Auditing</text>
+<text x="98" y="320" class="item">Communication Management</text>
+<text x="98" y="341" class="item">Data Management</text>
+<text x="98" y="362" class="item">System Reports</text>
+  </g>
+
+
+  <g>
+    <rect x="70" y="410" width="315" height="230" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <rect x="70" y="410" width="315" height="40" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <line x1="70" y1="450" x2="385" y2="450" stroke="#111111" stroke-width="1.4"/>
+    <rect x="70" y="410" width="6" height="230" rx="3" fill="#111111"/>
+    <text x="90" y="436" class="head">Faculty / Teacher Module</text>
+    <text x="90" y="468" class="sub">Teaching operations</text>
+    <text x="98" y="486" class="item">Attendance Registry</text>
+<text x="98" y="507" class="item">Assignment Lifecycle</text>
+<text x="98" y="528" class="item">Performance Evaluation</text>
+<text x="98" y="549" class="item">Lesson Planning</text>
+<text x="98" y="570" class="item">Parent-Teacher Connect</text>
+<text x="98" y="591" class="item">Class Communication</text>
+<text x="98" y="612" class="item">Resource Management</text>
+<text x="98" y="633" class="item">Teacher Reports</text>
+  </g>
+
+
+  <g>
+    <rect x="560" y="105" width="380" height="82" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.7"/>
+    <rect x="560" y="105" width="6" height="82" rx="3" fill="#111111"/>
+    <text x="750" y="134" class="head" text-anchor="middle">JavaFX Presentation Layer</text>
+    <text x="750" y="159" class="sub" text-anchor="middle">FXML / CSS</text>
+  </g>
+
+  <g>
+    <rect x="595" y="245" width="310" height="82" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.7"/>
+    <rect x="595" y="245" width="6" height="82" rx="3" fill="#111111"/>
+    <text x="750" y="274" class="head" text-anchor="middle">Controller Layer</text>
+    <text x="750" y="299" class="sub" text-anchor="middle">Action handling</text>
+  </g>
+
+  <g>
+    <rect x="595" y="385" width="310" height="104" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.7"/>
+    <rect x="595" y="385" width="6" height="104" rx="3" fill="#111111"/>
+    <text x="750" y="414" class="head" text-anchor="middle">Application Services</text>
+    <text x="750" y="439" class="sub" text-anchor="middle">SHA-256, SMTP / OTP, PDF</text>
+<text x="750" y="456" class="sub" text-anchor="middle">Service</text>
+  </g>
+
+  <g>
+    <rect x="595" y="550" width="310" height="82" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.7"/>
+    <rect x="595" y="550" width="6" height="82" rx="3" fill="#111111"/>
+    <text x="750" y="579" class="head" text-anchor="middle">Data Access Layer</text>
+    <text x="750" y="604" class="sub" text-anchor="middle">JDBC / DAO</text>
+  </g>
+
+  <g>
+    <path d="M 650 728
+      C 650 704, 850 704, 850 728
+      L 850 824
+      C 850 848, 650 848, 650 824
+      Z" fill="#ffffff" stroke="#111111" stroke-width="1.7"/>
+    <ellipse cx="750" cy="728" rx="100" ry="22" fill="#ffffff" stroke="#111111" stroke-width="1.7"/>
+    <path d="M 650 764 C 650 788, 850 788, 850 764" fill="none" stroke="#111111" stroke-width="1.3"/>
+    <path d="M 650 800 C 650 824, 850 824, 850 800" fill="none" stroke="#111111" stroke-width="1.3"/>
+    <text x="750" y="771" class="head" text-anchor="middle">Oracle</text>
+    <text x="750" y="796" class="sub" text-anchor="middle">Database</text>
+  </g>
+
+
+  <g>
+    <rect x="1115" y="135" width="315" height="185" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <rect x="1115" y="135" width="315" height="40" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <line x1="1115" y1="175" x2="1430" y2="175" stroke="#111111" stroke-width="1.4"/>
+    <rect x="1115" y="135" width="6" height="185" rx="3" fill="#111111"/>
+    <text x="1135" y="161" class="head">Student Module</text>
+    <text x="1135" y="193" class="sub">Student self-service</text>
+    <text x="1143" y="211" class="item">Profile Management</text>
+<text x="1143" y="232" class="item">Attendance &amp; Timetable</text>
+<text x="1143" y="253" class="item">Academic Progress</text>
+<text x="1143" y="274" class="item">Assignments</text>
+<text x="1143" y="295" class="item">Resource Access</text>
+<text x="1143" y="316" class="item">Notifications</text>
+  </g>
+
+
+  <g>
+    <rect x="1115" y="350" width="315" height="185" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <rect x="1115" y="350" width="315" height="40" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <line x1="1115" y1="390" x2="1430" y2="390" stroke="#111111" stroke-width="1.4"/>
+    <rect x="1115" y="350" width="6" height="185" rx="3" fill="#111111"/>
+    <text x="1135" y="376" class="head">Parent Module</text>
+    <text x="1135" y="408" class="sub">Ward monitoring</text>
+    <text x="1143" y="426" class="item">Ward Switching</text>
+<text x="1143" y="447" class="item">Real-time Alerts</text>
+<text x="1143" y="468" class="item">Attendance Tracker</text>
+<text x="1143" y="489" class="item">Academic Overview</text>
+<text x="1143" y="510" class="item">Fee Overview</text>
+<text x="1143" y="531" class="item">Communication</text>
+  </g>
+
+
+  <g>
+    <rect x="1115" y="565" width="315" height="150" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <rect x="1115" y="565" width="315" height="40" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <line x1="1115" y1="605" x2="1430" y2="605" stroke="#111111" stroke-width="1.4"/>
+    <rect x="1115" y="565" width="6" height="150" rx="3" fill="#111111"/>
+    <text x="1135" y="591" class="head">Counsellor Module</text>
+    <text x="1135" y="623" class="sub">Student support</text>
+    <text x="1143" y="641" class="item">Student Counselling</text>
+<text x="1143" y="662" class="item">Wellness Tracking</text>
+<text x="1143" y="683" class="item">Appointment Management</text>
+<text x="1143" y="704" class="item">Reports &amp; Insights</text>
+  </g>
+
+
+  <g>
+    <rect x="1115" y="745" width="315" height="150" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <rect x="1115" y="745" width="315" height="40" rx="4" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+    <line x1="1115" y1="785" x2="1430" y2="785" stroke="#111111" stroke-width="1.4"/>
+    <rect x="1115" y="745" width="6" height="150" rx="3" fill="#111111"/>
+    <text x="1135" y="771" class="head">Connect Module</text>
+    <text x="1135" y="803" class="sub">Collaboration</text>
+    <text x="1143" y="821" class="item">Chat Module</text>
+<text x="1143" y="842" class="item">Group Discussions</text>
+<text x="1143" y="863" class="item">File Sharing</text>
+<text x="1143" y="884" class="item">Meeting &amp; Webinar</text>
+  </g>
+
+<polyline points="750,187 750,245" fill="none" stroke="#111111" stroke-width="2.2"  marker-end="url(#arrowReq)"/>
+<polyline points="750,327 750,385" fill="none" stroke="#111111" stroke-width="2.2"  marker-end="url(#arrowSecure)"/>
+<polyline points="750,489 750,550" fill="none" stroke="#111111" stroke-width="2.2"  marker-end="url(#arrowReq)"/>
+<polyline points="750,632 750,710" fill="none" stroke="#111111" stroke-width="2.2"  marker-end="url(#arrowReq)"/>
+
+<polyline points="595,286 435,286 435,263 385,263" fill="none" stroke="#111111" stroke-width="2.2"  marker-end="url(#arrowSecure)"/>
+<polyline points="595,286 435,286 435,525 385,525" fill="none" stroke="#111111" stroke-width="2.2"  marker-end="url(#arrowSecure)"/>
+<polyline points="905,286 1030,286 1030,228 1115,228" fill="none" stroke="#111111" stroke-width="2.2"  marker-end="url(#arrowSecure)"/>
+<polyline points="905,437 1028,437 1028,442 1115,442" fill="none" stroke="#111111" stroke-width="2.2"  marker-end="url(#arrowSecure)"/>
+<polyline points="905,437 1028,437 1028,640 1115,640" fill="none" stroke="#111111" stroke-width="2.2"  marker-end="url(#arrowSecure)"/>
+<polyline points="905,437 1028,437 1028,820 1115,820" fill="none" stroke="#111111" stroke-width="2.2"  marker-end="url(#arrowSecure)"/>
+
+<polyline points="385,263 505,263 505,437 595,437" fill="none" stroke="#111111" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#arrowLine)"/>
+<polyline points="385,525 505,525 505,437 595,437" fill="none" stroke="#111111" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#arrowLine)"/>
+<polyline points="1115,228 1000,228 1000,592 905,592" fill="none" stroke="#111111" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#arrowLine)"/>
+<polyline points="1115,442 1000,442 1000,437 905,437" fill="none" stroke="#111111" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#arrowLine)"/>
+<polyline points="1115,640 1000,640 1000,437 905,437" fill="none" stroke="#111111" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#arrowLine)"/>
+<polyline points="1115,820 1000,820 1000,437 905,437" fill="none" stroke="#111111" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#arrowLine)"/>
+
+
+  <g>
+    <line x1="350" y1="930" x2="422" y2="930" stroke="#111111" stroke-width="2.4" />
+    <path d="M 422 925 L 432 930 L 422 935 z" fill="#111111"/>
+    <text x="450" y="935" class="legend">Request / response flow</text>
+  </g>
+
+  <g>
+    <line x1="620" y1="930" x2="692" y2="930" stroke="#111111" stroke-width="2.4" />
+    <path d="M 692 925 L 702 930 L 692 935 z" fill="#111111"/>
+    <text x="720" y="935" class="legend">Secure service flow</text>
+  </g>
+
+  <g>
+    <line x1="895" y1="930" x2="967" y2="930" stroke="#111111" stroke-width="2.4" stroke-dasharray="7 6"/>
+    <path d="M 967 925 L 977 930 L 967 935 z" fill="#111111"/>
+    <text x="995" y="935" class="legend">Data dependency</text>
+  </g>
+</svg>

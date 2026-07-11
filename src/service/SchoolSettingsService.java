@@ -8,83 +8,91 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class SchoolSettingsService {
+public final class SchoolSettingsService 
+{
     private static final String DEFAULT_SCHOOL_NAME = "CSMS";
     private static Map<String, String> cachedSettings;
 
-    private SchoolSettingsService() {
-    }
+    private SchoolSettingsService() {}
 
-    public static synchronized void refresh() {
+    public static synchronized void refresh() 
+    {
         cachedSettings = new AppSettingsDAO().getSettings();
     }
 
-    public static synchronized Map<String, String> getSettings() {
-        if (cachedSettings == null) {
+    public static synchronized Map<String, String> getSettings() 
+    {
+        if (cachedSettings == null)
             refresh();
-        }
         return new LinkedHashMap<>(cachedSettings);
     }
 
-    public static String getSchoolName() {
+    public static String getSchoolName() 
+    {
         String value = getSettings().getOrDefault("SCHOOL_NAME", DEFAULT_SCHOOL_NAME);
         return value == null || value.isBlank() ? DEFAULT_SCHOOL_NAME : value.trim();
     }
 
-    public static String getSchoolAddress() {
+    public static String getSchoolAddress() 
+    {
         return normalize(getSettings().get("SCHOOL_ADDRESS"));
     }
 
-    public static String getSchoolPhone() {
+    public static String getSchoolPhone() 
+    {
         return normalize(getSettings().get("SCHOOL_PHONE"));
     }
 
-    public static String getSchoolEmail() {
+    public static String getSchoolEmail() 
+    {
         return normalize(getSettings().get("SCHOOL_EMAIL"));
     }
 
-    public static String getThemeName() {
+    public static String getThemeName() 
+    {
         String theme = normalize(getSettings().get("THEME"));
         return "Dark".equalsIgnoreCase(theme) ? "Dark" : "Light";
     }
 
-    public static String getPortalTitle(String roleName) {
+    public static String getPortalTitle(String roleName) 
+    {
         String role = roleName == null || roleName.isBlank() ? "" : " " + roleName.trim().toUpperCase() + " PORTAL";
         return getSchoolName() + role;
     }
 
-    public static String getLoginTitle() {
+    public static String getLoginTitle() 
+    {
         return getSchoolName() + " Login";
     }
 
-    public static String getWindowTitle() {
+    public static String getWindowTitle() 
+    {
         return getSchoolName() + " - School Management System";
     }
 
-    public static void applyStageTitle(Stage stage) {
-        if (stage != null) {
+    public static void applyStageTitle(Stage stage) 
+    {
+        if (stage != null) 
             stage.setTitle(getWindowTitle());
-        }
     }
 
-    public static List<String> getContactLines() {
+    public static List<String> getContactLines() 
+    {
         List<String> lines = new ArrayList<>();
         String address = getSchoolAddress();
         String phone = getSchoolPhone();
         String email = getSchoolEmail();
-        if (!address.isEmpty()) {
+        if (!address.isEmpty()) 
             lines.add(address);
-        }
-        if (!phone.isEmpty()) {
+        if (!phone.isEmpty()) 
             lines.add("Phone: " + phone);
-        }
-        if (!email.isEmpty()) {
+        if (!email.isEmpty())
             lines.add("Email: " + email);
-        }
         return lines;
     }
 
-    private static String normalize(String value) {
+    private static String normalize(String value) 
+    {
         return value == null ? "" : value.trim();
     }
 }

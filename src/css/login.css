@@ -1,118 +1,149 @@
 .login-root {
-    -fx-font-family: "Segoe UI", sans-serif;
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #2D3544 0%, #161B24 100%);
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-background-color: #F7F4EF;
 }
 
 .login-shell {
-    -fx-background-color: #141920;
-    -fx-background-radius: 42px;
-    -fx-border-color: #343D4C;
-    -fx-border-radius: 42px;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 4px;
+    -fx-border-color: #E2D8CC;
     -fx-border-width: 1px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.46), 34, 0.26, 0, 16);
+    -fx-border-radius: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(38, 31, 27, 0.18), 28, 0.22, 0, 12);
 }
 
 .image-section {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #171D26 0%, #202733 100%);
-    -fx-background-radius: 42px 0 0 42px;
+    -fx-background-color: #2F6EA5;
+    -fx-background-radius: 4px 0 0 4px;
 }
 
 .login-section {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #FFFFFF 0%, #F7F8FF 100%);
-    -fx-background-radius: 0 42px 42px 0;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 0 4px 4px 0;
 }
 
 .brand-icon {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #7D3CFF 0%, #B484FF 100%);
-    -fx-background-radius: 18px;
-    -fx-padding: 12px 13px 12px 13px;
-    -fx-text-fill: white;
-    -fx-font-size: 18px;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 3px;
+    -fx-padding: 10px 12px 10px 12px;
+    -fx-text-fill: #2F6EA5;
+    -fx-font-size: 17px;
     -fx-font-weight: bold;
 }
 
 .brand-wordmark {
+    -fx-font-family: "Georgia", "Segoe UI", serif;
     -fx-text-fill: #FFFFFF;
     -fx-font-size: 42px;
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(gaussian, rgba(125, 60, 255, 0.55), 8, 0.30, 0, 2);
 }
 
 .hero-title {
+    -fx-font-family: "Georgia", "Segoe UI", serif;
     -fx-text-fill: #FFFFFF;
-    -fx-font-size: 38px;
+    -fx-font-size: 40px;
     -fx-font-weight: bold;
+    -fx-line-spacing: 2px;
 }
 
 .hero-subtitle {
-    -fx-text-fill: #CDD4E3;
+    -fx-text-fill: #DDEAF5;
     -fx-font-size: 16px;
     -fx-line-spacing: 5px;
 }
 
 .hero-pill {
-    -fx-background-color: rgba(125, 60, 255, 0.24);
-    -fx-background-radius: 16px;
-    -fx-border-color: rgba(180, 132, 255, 0.56);
-    -fx-border-radius: 16px;
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-radius: 3px;
+    -fx-border-color: rgba(255, 255, 255, 0.34);
+    -fx-border-radius: 3px;
     -fx-padding: 8px 12px 8px 12px;
-    -fx-text-fill: #F5F7FF;
+    -fx-text-fill: #FFFFFF;
     -fx-font-weight: bold;
 }
 
 .eyebrow-text {
-    -fx-text-fill: #7D3CFF;
+    -fx-text-fill: #2F6EA5;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
 }
 
 .header-text {
-    -fx-font-size: 34px;
+    -fx-font-family: "Georgia", "Segoe UI", serif;
+    -fx-font-size: 36px;
     -fx-font-weight: bold;
-    -fx-text-fill: #090C12;
+    -fx-text-fill: #191A1E;
 }
 
 .subtext {
     -fx-font-size: 14px;
-    -fx-text-fill: #566070;
+    -fx-text-fill: #5A606B;
 }
 
 .input-field {
     -fx-background-color: #FFFFFF;
-    -fx-border-color: #CDD4E3;
-    -fx-border-radius: 18px;
-    -fx-background-radius: 18px;
+    -fx-border-color: #CFC5BA;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
     -fx-padding: 13px 15px 13px 15px;
     -fx-font-size: 14px;
 }
 
 .input-field:focused {
-    -fx-border-color: #7D3CFF;
-    -fx-border-width: 2px;
-    -fx-effect: dropshadow(gaussian, rgba(125, 60, 255, 0.25), 14, 0.22, 0, 4);
+    -fx-border-color: #2F6EA5;
+    -fx-border-width: 1.5px;
+    -fx-effect: dropshadow(gaussian, rgba(47, 110, 165, 0.18), 12, 0.18, 0, 4);
 }
 
 .login-button {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #7D3CFF 0%, #22E0BA 100%);
-    -fx-text-fill: white;
+    -fx-background-color: #2F6EA5;
+    -fx-text-fill: #FFFFFF;
     -fx-font-size: 15px;
     -fx-font-weight: bold;
-    -fx-background-radius: 18px;
+    -fx-background-radius: 3px;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(34, 224, 186, 0.24), 16, 0.22, 0, 7);
 }
 
 .login-button:hover {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #9B5CFF 0%, #36F2CE 100%);
+    -fx-background-color: #255D8D;
 }
 
 .forgot-link {
-    -fx-text-fill: #7D3CFF;
+    -fx-text-fill: #2F6EA5;
     -fx-underline: false;
     -fx-font-weight: bold;
 }
 
 .error-text {
-    -fx-text-fill: #FF5A70;
+    -fx-text-fill: #B4233A;
     -fx-font-weight: bold;
+}
+
+.loading-overlay {
+    -fx-background-color: rgba(12, 27, 42, 0.88);
+}
+
+.loading-panel {
+    -fx-background-color: rgba(255, 255, 255, 0.96);
+    -fx-background-radius: 4px;
+    -fx-border-color: #D4DEE8;
+    -fx-border-radius: 4px;
+    -fx-padding: 42px 54px 42px 54px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.28), 28, 0.20, 0, 12);
+}
+
+.loading-title {
+    -fx-font-family: "Georgia", "Segoe UI", serif;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #142C44;
+}
+
+.loading-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #526171;
+}
+
+.progress-indicator {
+    -fx-progress-color: #2F6EA5;
 }
